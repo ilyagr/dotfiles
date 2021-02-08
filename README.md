@@ -4,7 +4,7 @@ To run
 ```bash
 sudo apt install stow tmux
 mkdir -p ~/stow && cd ~/stow
-git clone <something>
+git clone https://github.com/ilyagr/dotfiles.git
 stow dotfiles
 ```
 
