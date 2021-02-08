@@ -1,5 +1,4 @@
-To run
-
+### To run
 
 ```bash
 sudo apt install stow tmux
@@ -10,3 +9,6 @@ stow dotfiles
 ```
 
 Note: `README.md` is in the default `.stow-local-ignore`.
+
+### VS Code extensions
+- Simple: `mhutchie.git-graph`
