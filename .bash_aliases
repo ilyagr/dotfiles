@@ -1,2 +1,2 @@
 # Run from default .bashrc on Debian
-. ~/config_scripts/bash_config.sh
+. ~/config_scripts/bash_config.bash
