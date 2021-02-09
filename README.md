@@ -1,7 +1,7 @@
 ### To run
 
 ```bash
-sudo apt install stow tmux
+sudo apt install stow tmux fish
 mkdir -p ~/stow && cd ~/stow
 echo --defer=.gitconfig > ~/stow/.stowrc
 git clone https://github.com/ilyagr/dotfiles.git
