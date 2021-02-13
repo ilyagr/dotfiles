@@ -1,5 +1,5 @@
 [user]
-	email = ilyagr@gmail.com
+	email = ilyagr@users.noreply.github.com
 	name = Ilya Grigoriev
 [credential]
 	helper = cache --timeout=10000
