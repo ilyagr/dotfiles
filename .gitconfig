@@ -1,5 +1,9 @@
-[user]
-	email = ilyagr@users.noreply.github.com
-	name = Ilya Grigoriev
-[credential]
-	helper = cache --timeout=10000
+[alias]
+s = status
+lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+# [pull]
+#         rebase = true
+
+[include]
+path = ~/.gitconfig.site
