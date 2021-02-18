@@ -1,9 +1,21 @@
 [alias]
-s = status
-lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    s = status --short --branch
+    d = diff --stat
+    cln = clean -i :/
+    adda = add :/
+    lst = ls-files --with-tree
+
+    amend = commit --amend --no-edit
+    amenda = amend --all
+
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit --date=relative
+    # With author:
+    # lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  watch = "!watch -t --color -x bash -c 'set -o pipefail; git -c color.ui=always status --short | head -n 3 && echo; git lg --color --all -n 30'"
+  # awk 'BEGIN {cutoff = 4} NR < cutoff { print $0 } NR == cutoff {print $0 " ...\n"}'  # Cut off long file with mark. Maybe also END && NR > 0 {print "\n"}
 
 # [pull]
 #         rebase = true
 
 [include]
-path = ~/.gitconfig.site
+    path = ~/.gitconfig.site
