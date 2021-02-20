@@ -3,31 +3,33 @@
 ```bash
 sudo apt install stow tmux fish
 mkdir -p ~/stow && cd ~/stow
-echo --defer=.gitconfig > ~/stow/.stowrc
 git clone https://github.com/ilyagr/dotfiles.git
-stow dotfiles
 
-# Maybe
-sudo apt install powerline fonts-powerline  # For fonts
+# https://backports.debian.org/Instructions/
+sudo apt install -t buster-backports git gitk gitgui tmux fish
+
+stow dotfiles   # `README.md` is in the default `.stow-local-ignore`.
 ```
 
-### Probably need backports for git, etc
-https://backports.debian.org/Instructions/
+Maybe `sudo apt install powerline fonts-powerline  # For fonts`
 
-`sudo apt install -t buster-backports git gitk gitgui tmux fish`
+### Good config to borrow from
+https://github.com/rbutoi/dotfiles/
 
-**Note:** `README.md` is in the default `.stow-local-ignore`.
+### TODO
+- Spacemacs & function.
+- `:Space` in vim. Make a Spacevim installer?
+  - Vim: look at ^E and ^Y while autocompleting. 
+    Add to [auto-completion config docs](https://spacevim.org/layers/autocomplete/) or elsewhere?
+- Set up forks? 
+- Change fish's `la`
 
 ### VS Code extensions
 - Simple: `mhutchie.git-graph`
 
+### Snaps 
 
-### TODO
-Vim trailing whitespace, tabs
+Flatpak should be better on Crostini!
 
-### Snaps
-sudo apt install libsquashfuse0 squashfuse fuse snapd
-Flatpak should be better on Crostini
+`sudo apt install libsquashfuse0 squashfuse fuse snapd`
 
-### Good config to borrow from
-https://github.com/rbutoi/dotfiles/
