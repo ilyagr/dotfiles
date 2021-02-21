@@ -1,5 +1,9 @@
 export EDITOR=vim
 
+if [ -d "$HOME/.local/bin" ] ; then
+    [[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # Run fish
 WHICH_FISH="$(which fish)"
 if [[ "$-" =~ i && -x "${WHICH_FISH}" && "${SHELL}" != "${WHICH_FISH}" ]]; then
