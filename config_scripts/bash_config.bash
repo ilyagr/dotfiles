@@ -1,8 +1,14 @@
 export EDITOR=vim
 
-if [ -d "$HOME/.local/bin" ] ; then
-    [[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$HOME/.local/bin:$PATH"
-fi
+add_to_PATH() {
+  for dir in "$@"; do
+    # Three magic lines below
+    if [ -d "$dir" ] && [[ ":$PATH:" != *":$dir:"* ]]; then
+      export PATH="$dir:$PATH"
+    fi
+  done
+}
+add_to_PATH ~/.local/bin /snap/bin
 
 # Run fish
 WHICH_FISH="$(which fish)"
