@@ -15,6 +15,9 @@ set wildmenu
 "set wildmode=list:longest   " make cmdline tab completion similar to bash
 set wildmode=list:longest,full " better
 
+set pastetoggle=<F2>
+" Another suggestion is :r! cat
+
 " ==== My own little Spacemacs ====
 " Perhaps change `set timeout`?
 noremap <Space>wd <C-W>c

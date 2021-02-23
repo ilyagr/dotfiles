@@ -1,0 +1,13 @@
+#!/bin/bash
+cd ~/stow
+for dir in ~/stow/*; do
+    echo === Pulling $dir ===
+    git -C "$dir" pull --ff-only --autostash
+    git -C "$dir" s
+    # From `git help pull`:
+    # When no <refspec>s appear on the command line, the refs to fetch are read
+    # from remote.<repository>.fetch variables instead (see the section
+    # "CONFIGURED REMOTE-TRACKING BRANCHES" in git-fetch(1)).
+done
+
+~/config_scripts/restow
