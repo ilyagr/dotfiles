@@ -4,6 +4,7 @@
     cln = clean -i :/
     adda = add :/
     lst = ls-files --with-tree
+    ri = rebase --interactive HEAD~8
 
     amend = commit --amend --no-edit
     amenda = amend --all
@@ -19,3 +20,5 @@
 
 [include]
     path = ~/.gitconfig.site
+[credential]
+	helper = cache --timeout 72000
