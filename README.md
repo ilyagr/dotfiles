@@ -4,11 +4,11 @@
 sudo apt install stow tmux fish
 mkdir -p ~/stow && cd ~/stow
 git clone https://github.com/ilyagr/dotfiles.git
+stow dotfiles   # `README.md` is in the default `.stow-local-ignore`.
 
 # https://backports.debian.org/Instructions/
-sudo apt install -t buster-backports git gitk gitgui tmux fish
-
-stow dotfiles   # `README.md` is in the default `.stow-local-ignore`.
+sudo apt install -t buster-backports git gitk gitgui tmux fish fd-find
+ln -s $(which fdfind) ~/.local/bin/fd
 ```
 
 Maybe `sudo apt install powerline fonts-powerline  # For fonts`
@@ -17,12 +17,14 @@ Maybe `sudo apt install powerline fonts-powerline  # For fonts`
 https://github.com/rbutoi/dotfiles/
 
 ### TODO
-- Spacemacs & function.
+- Spacemacs & alias for it.
 - `:Space` in vim. Make a Spacevim installer?
   - Vim: look at ^E and ^Y while autocompleting. 
     Add to [auto-completion config docs](https://spacevim.org/layers/autocomplete/) or elsewhere?
 - Set up forks? 
 - Change fish's `la`
+- [`git sparse-checkout`](https://git-scm.com/docs/git-sparse-checkout)
+- [zoxide](https://github.com/ajeetdsouza/zoxide)
 
 ### VS Code extensions
 - Simple: `mhutchie.git-graph`
