@@ -13,6 +13,11 @@ ln -s $(which fdfind) ~/.local/bin/fd
 
 Maybe `sudo apt install powerline fonts-powerline  # For fonts`
 
+### Finding stragglers
+```
+find ~/config_scripts/ ~/.config/fish -type f -printf "%P\n"
+```
+
 ### Good config to borrow from
 https://github.com/rbutoi/dotfiles/
 
