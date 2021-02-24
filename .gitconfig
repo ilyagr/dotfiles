@@ -25,10 +25,10 @@
 # [pull]
 #         rebase = true
 
-[include]
-    path = ~/.gitconfig.site
 [credential]
 	helper = cache --timeout 72000
+[init]
+	defaultBranch = main
 
 # === .hgrc merge config ===
 # vimdiff_4.executable = vimdiff
@@ -37,3 +37,6 @@
 # vimdiff_3.executable = vimdiff
 # vimdiff_3.args = -f -M $local $base $other -c "wincmd J" -c "setl modifiable write"
 # vimdiff_3.premerge = keep
+
+[include]
+    path = ~/.gitconfig.site
