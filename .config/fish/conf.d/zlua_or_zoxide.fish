@@ -7,18 +7,18 @@ if  which lua > /dev/null && test -r $zlua_path
     alias zb='z -b'      # quickly cd to the parent directory
 
     function zi --wraps='z -i' --description 'alias zi=z -i and some smarts'
-        if test (count $argv) = 0
-            z -i .  
-        else
+        if set -q argv[1]
             z -i $argv
+        else
+            z -i .  
         end
     end
 
     function zf --wraps='z -I' --description 'alias zf=z -I and some smarts'
-        if test (count $argv) = 0
-            z -I .  
-        else
+        if set -q argv[1]
             z -I $argv
+        else
+            z -I .  
         end
     end
 
