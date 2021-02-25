@@ -1,6 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR EDITOR:\x1d
+SETUVAR --export FZF_TMUX:1
 SETUVAR __fish_initialized:3100
 SETUVAR fish_color_autosuggestion:969896
 SETUVAR fish_color_cancel:\x2dr
