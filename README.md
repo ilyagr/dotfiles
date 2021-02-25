@@ -7,8 +7,8 @@ git clone https://github.com/ilyagr/dotfiles.git
 stow dotfiles   # `README.md` is in the default `.stow-local-ignore`.
 
 # https://backports.debian.org/Instructions/
-sudo apt install -t buster-backports git gitk gitgui tmux fish fd-find
-ln -s $(which fdfind) ~/.local/bin/fd
+sudo apt install -t buster-backports git gitk gitgui tmux fish ripgrep
+bash ~/config_scripts/installers/ripgerp_dot_ignore.bash
 ```
 
 Maybe `sudo apt install powerline fonts-powerline  # For fonts`
