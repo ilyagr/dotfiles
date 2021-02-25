@@ -23,18 +23,17 @@ https://github.com/rbutoi/dotfiles/
 
 ### TODO
 - Spacemacs & alias for it.
-- `:Space` in vim. Make a Spacevim installer?
-  - Vim: look at ^E and ^Y while autocompleting. 
+  - `:Space` in vim.
+  - Command for interactive `s/\v\s+$//`. Perhaps command-line alias to run on all buffers?
+  - Vim: look at ^E and ^Y while autocompleting.
     Add to [auto-completion config docs](https://spacevim.org/layers/autocomplete/) or elsewhere?
-- Set up forks? 
-- Change fish's `la`
 - [`git sparse-checkout`](https://git-scm.com/docs/git-sparse-checkout)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 
 ### VS Code extensions
 - Simple: `mhutchie.git-graph`
 
-### Snaps 
+### Snaps
 
 Flatpak should be better on Crostini!
 

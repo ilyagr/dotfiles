@@ -1,2 +1,3 @@
 https://github.com/will133/vim-dirdiff
 https://github.com/dag/vim-fish.git
+https://github.com/jreybert/vimagit

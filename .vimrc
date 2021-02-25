@@ -48,7 +48,7 @@ noremap <leader>l :set list!<CR>
 " highlight SpecialKey guibg=green ctermbg=red
 
 " ==== This starts SpaceVim if it's installed =====
-call SourceIfExists("~/.vim/vimrc")
+call SourceIfExists("~/.local/app/SpaceVim/vimrc")
 
 set wrap
 
