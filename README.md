@@ -28,7 +28,7 @@ https://github.com/rbutoi/dotfiles/
   - Vim: look at ^E and ^Y while autocompleting.
     Add to [auto-completion config docs](https://spacevim.org/layers/autocomplete/) or elsewhere?
 - [`git sparse-checkout`](https://git-scm.com/docs/git-sparse-checkout)
-- [zoxide](https://github.com/ajeetdsouza/zoxide)
+- [`z.lua`](https://github.com/skywind3000/z.lua) instead of zoxide?
 
 ### VS Code extensions
 - Simple: `mhutchie.git-graph`
