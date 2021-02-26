@@ -4,6 +4,13 @@
   (menu-bar-mode -1))
 (xterm-mouse-mode t)
 
+;; Symbolic link to Git-controlled source file; follow link?
+(setq vc-follow-symlinks t)
+
+;; Helm
+(require 'helm-config)
+(helm-mode 1)
+
 ;; Evil
 (setq evil-want-C-w-in-emacs-state t)
 (setq evil-want-minibuffer t)
@@ -16,13 +23,16 @@
 ;; Magit
 (global-set-key (kbd "C-c g")
                 'magit-file-dispatch)    ;; Also C-x g and C-x M-g
-(add-hook 'after-save-hook
-          'magit-after-save-refresh-status t)
+(with-eval-after-load 'magit-mode
+  (add-hook 'after-save-hook 'magit-after-save-refresh-status t))
+;; There is magit-file-watcher, not recommended
 
 (let ((site-settings "~/.emacs.site.el"))
  (when (file-exists-p site-settings)
    (load-file site-settings))
 )
+
+
 ;;; .emacs ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

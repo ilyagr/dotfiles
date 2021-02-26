@@ -1,0 +1,28 @@
+! To config immediately:
+! xrdb -merge ~/.Xresources
+
+! Xterm config. Launch as `uxterm`. Ctrl-RightClick for menu
+! uxterm -fa 'Monospace' -fs 15
+
+xterm*utf8Fonts*faceName: Monospace
+xterm*utf8Fonts*faceSize: 16
+! Allow Emacs to detect that 256 colors are available in xterm.
+XTerm.termName: xterm-256color
+! Make the 'Alt' work as 'Meta' in Emacs in xterm.
+XTerm*metaSendsEscape: true
+! Allow Emacs to add 'killed' text to the system clipboard from xterm.
+XTerm*allowWindowOps: true
+! Disable OSC codes that read the system clipboard for security reasons.
+XTerm*disallowedWindowOps: GetSelection
+! Make Ctrl-Shift-v paste from the system clipboard.
+XTerm*VT100*translations: #override \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+! Apply the same settings as above if xterm is launched via the uxterm wrapper.
+! Leading wildcards like *XTerm should work, but for some reason do not.
+UXTerm.termName: xterm-256color
+UXTerm*metaSendsEscape: true
+UXTerm*allowWindowOps: true
+UXTerm*disallowedWindowOps: GetSelection
+UXTerm*VT100*translations: #override \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
