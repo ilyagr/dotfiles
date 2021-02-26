@@ -22,8 +22,9 @@
   # awk 'BEGIN {cutoff = 4} NR < cutoff { print $0 } NR == cutoff {print $0 " ...\n"}'
   # Maybe also END && NR > 0 {print "\n"}
 
-# [pull]
-#         rebase = true
+[pull]
+# rebase = true
+ff = only
 
 [credential]
 	helper = cache --timeout 72000
