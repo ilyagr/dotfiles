@@ -1,3 +1,4 @@
 https://github.com/will133/vim-dirdiff
 https://github.com/dag/vim-fish.git
-https://github.com/jreybert/vimagit
+https://github.com/jreybert/vimagit  
+# Or just use fugitive https://github.com/tpope/vim-fugitive and gitgutter https://github.com/airblade/vim-gitgutter? https://github.com/rbong/vim-flog?
