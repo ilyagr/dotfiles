@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -43,7 +43,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      helm
-     
+     html
      ;; lsp
      ;; c-c++
 
@@ -509,6 +509,9 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; Do I need this??
+  (setq evil-want-C-w-in-emacs-state t)
+  (setq evil-want-minibuffer t)
   )
 
 (defun dotspacemacs/user-load ()
@@ -524,6 +527,20 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (spacemacs/set-leader-keys "gfm" 'magit-file-dispatch)
+  (spacemacs/set-leader-keys "gR" 'magit-refresh-all)
+  (global-set-key (kbd "C-c f") 'magit-file-dispatch)
+  (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
+  (magit-wip-mode)  ;; Experiment!  Use M-x magit-wip-logw
+
+  ;; (global-set-key (kbd "M-o") 'ace-window) ;; Or C-x o
+  ;; https://github.com/syl20bnr/spacemacs/issues/4243
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
+    )
+  (with-eval-after-load 'helm
+    (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
+    )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
