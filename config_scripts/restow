@@ -1,5 +1,5 @@
 #!/bin/bash
 cd ~/stow
-stow -R * $@
+stow -v -R * $@
 # To find stragglers, do something like
 # find ~/config_scripts/ ~/.config/fish -type f -printf %P\n
