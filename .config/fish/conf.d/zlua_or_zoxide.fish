@@ -1,6 +1,9 @@
 set zlua_path ~/.local/app/z.lua
 if  which lua > /dev/null && test -r $zlua_path
     lua $zlua_path --init fish once fzf | source
+
+    # It uses `builtin cd by default, which messes up `cdh`.
+    set -gx _ZL_CD cd
     alias zz='z -c'      # restrict matches to subdirs of $PWD
     # alias zi='z -i'      # cd with interactive selection
     # alias zf='z -I'      # use fzf to select in multiple matches
@@ -10,7 +13,7 @@ if  which lua > /dev/null && test -r $zlua_path
         if set -q argv[1]
             z -i $argv
         else
-            z -i .  
+            z -i .
         end
     end
 
@@ -18,7 +21,7 @@ if  which lua > /dev/null && test -r $zlua_path
         if set -q argv[1]
             z -I $argv
         else
-            z -I .  
+            z -I .
         end
     end
 
