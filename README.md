@@ -8,6 +8,7 @@ stow dotfiles   # `README.md` is in the default `.stow-local-ignore`.
 
 # https://backports.debian.org/Instructions/
 sudo apt install -t buster-backports git gitk gitgui tmux fish ripgrep stow
+# Maybe also baobab, file-roller and p7zip-full
 bash ~/config_scripts/installers/ripgerp_dot_ignore.bash
 ```
 
@@ -23,7 +24,7 @@ https://github.com/rbutoi/dotfiles/
 
 ### TODO
 - Spacemacs & alias for it.
-  - `:Space` in vim.
+  - `:Space` in vim. [`:Space` in emacs](https://github.com/syl20bnr/spacemacs#modify-spacemacs-start-directory-variable).
   - Command for interactive `s/\v\s+$//`. Perhaps command-line alias to run on all buffers?
   - Vim: look at ^E and ^Y while autocompleting.
     Add to [auto-completion config docs](https://spacevim.org/layers/autocomplete/) or elsewhere?
