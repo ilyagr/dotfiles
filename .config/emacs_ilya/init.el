@@ -1,4 +1,5 @@
 ;;; .Emacs --- Emacs initialization file -*- lexical-binding: t; -*-
+;;; Settings unnecessary when running Spacemacs or Doom emacs go here
 (require 'package)
 (package-initialize)
 (add-to-list
@@ -7,15 +8,11 @@
  '("melpa" . "https://melpa.org/packages/")
  t)
 
+(load-file "~/.config/emacs_ilya/config.el")
+
 (when (not (display-graphic-p))
   (menu-bar-mode -1))
 (xterm-mouse-mode t)
-
-;; Enable Emacs-tmux to write to the system clipboard through OSC 52 codes.
-(setq xterm-tmux-extra-capabilities '(modifyOtherKeys setSelection))
-
-;; Symbolic link to Git-controlled source file; follow link?
-(setq vc-follow-symlinks t)
 
 (eval-when-compile (require 'use-package))
 
@@ -24,15 +21,6 @@
 (use-package evil
   ;; :ensure t
   :init
-  (setq evil-want-C-w-in-emacs-state t)
-  (setq evil-want-minibuffer t)
-  (setq-default evil-symbol-word-search t)  ;; Make * and # include - and _ into words.
-  (setq evil-want-fine-undo t)
-  (setq evil-move-cursor-back nil)          ;; Defaults to t
-  ;; Needed for evil-collection
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  ;; END evil-collection
   :config
   (evil-mode 1))
 
@@ -47,15 +35,6 @@
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)  ;; Default is execute-extended-command
 
-;; Ace-window
-(global-set-key (kbd "M-o") 'ace-window) ;; Or C-x o
-
-;; Magit
-(global-set-key (kbd "C-c g")
-                'magit-file-dispatch)    ;; Also C-x g and C-x M-g
-(with-eval-after-load 'magit-mode
-  (add-hook 'after-save-hook 'magit-after-save-refresh-status t))
-;; There is magit-file-watcher, not recommended
 
 (let ((site-settings "~/.emacs.site.el"))
   (when (file-exists-p site-settings)

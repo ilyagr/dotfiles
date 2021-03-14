@@ -514,21 +514,12 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; Do I need this??
-  (setq evil-want-C-w-in-emacs-state t)
-  (setq evil-want-minibuffer t)
-  ;; Symbolic link to Git-controlled source file; follow link?
-  (setq vc-follow-symlinks t)
+  (setq ilya/do-not-run-user-config-yet 't)
+  (load-file "~/.config/emacs_ilya/config.el")
 
   ;;  ;; https://github.com/syl20bnr/spacemacs/issues/14439
   ;; (defun smartparens-mode () ())  
   (defun smartparens-mode () (debug)) 
-  ;; (defadvice add-hook (before check-for-smartparens activate)
-    ;; (when (and (eq hook 'emacs-lisp-mode-hook)
-               ;; (eq function 'smartparens-mode))
-      ;; (debug)))
-  ;; (debug-on-variable-change 'emacs-lisp-mode-hook)
-  ;;(debug-on-variable-change 'multi-line-emacs-lisp-mode-hook)
   )
 
 (defun dotspacemacs/user-load ()
@@ -544,43 +535,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; Does no good
-  ;; (defadvice add-hook (before check-for-smartparens activate)
-  ;;   (when (and (eq hook 'emacs-lisp-mode-hook)
-  ;;              (eq function 'smartparens-mode))
-  ;;     (debug)))
-
   (spacemacs/set-leader-keys "gR" 'magit-refresh-all)
-  (global-set-key (kbd "C-c f") 'magit-file-dispatch)
-  (setq magit-save-repository-buffers 'dontask)
-  (put 'magit-diff-edit-hunk-commit 'disabled nil)
-  (magit-wip-mode)  ;; Experiment!  Use M-x magit-wip-log
-
-  (with-eval-after-load 'magit-mode
-    ;; There is magit-file-watcher, not recommended
-    (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
-    ;; Magit doesn't work with git's credentials-cache helper for some reason.
-    ;; This seems to help. Or was it a coincidence?
-    (add-hook 'magit-process-find-password-functions
-               'magit-process-password-auth-source t))
-  (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
-  (magit-wip-mode)  ;; Experiment!  Use M-x magit-wip-logw
-
-  ;; (global-set-key (kbd "M-o") 'ace-window) ;; Or C-x o
-  ;; https://github.com/syl20bnr/spacemacs/issues/4243
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
-    )
-  (with-eval-after-load 'helm
-    (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
-    )
-
-  ;; Org-mode
-  ;; This is an org-mode default that Spacemacs changes to "~/org/notes.org". Perhaps that's better?
-  (setq org-default-notes-file "~/.notes")
+  (ilya/user-config)
 
   ;; (require 'smartparens)  ;; https://github.com/syl20bnr/spacemacs/issues/14439
-  ;; (defun smartparens-mode () ()) ;; Does more harm than good
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
