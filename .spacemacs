@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(shell-scripts
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -40,7 +40,7 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      auto-completion
      ;; better-defaults  ;; Emacs style only
-     emacs-lisp
+     ;; emacs-lisp  ;; Causes https://github.com/syl20bnr/spacemacs/issues/14439
      git
      helm
      html
@@ -50,6 +50,11 @@ This function should only modify configuration layer settings."
      markdown
      multiple-cursors
      org
+
+     shell-scripts
+     python
+
+     ;; spacemacs-editing  ;; Trying to fix smartparens-mode error
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -367,7 +372,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil unicode symbols are displayed in the mode line.
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols 'display-graphic-p
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
@@ -512,6 +517,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Do I need this??
   (setq evil-want-C-w-in-emacs-state t)
   (setq evil-want-minibuffer t)
+  ;; Symbolic link to Git-controlled source file; follow link?
+  (setq vc-follow-symlinks t)
+
+  ;;  ;; https://github.com/syl20bnr/spacemacs/issues/14439
+  ;; (defun smartparens-mode () ())  
+  (defun smartparens-mode () (debug)) 
+  ;; (defadvice add-hook (before check-for-smartparens activate)
+    ;; (when (and (eq hook 'emacs-lisp-mode-hook)
+               ;; (eq function 'smartparens-mode))
+      ;; (debug)))
+  ;; (debug-on-variable-change 'emacs-lisp-mode-hook)
+  ;;(debug-on-variable-change 'multi-line-emacs-lisp-mode-hook)
   )
 
 (defun dotspacemacs/user-load ()
@@ -527,14 +544,26 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; Symbolic link to Git-controlled source file; follow link?
-  (setq vc-follow-symlinks t)
+  ;; Does no good
+  ;; (defadvice add-hook (before check-for-smartparens activate)
+  ;;   (when (and (eq hook 'emacs-lisp-mode-hook)
+  ;;              (eq function 'smartparens-mode))
+  ;;     (debug)))
 
   (spacemacs/set-leader-keys "gR" 'magit-refresh-all)
   (global-set-key (kbd "C-c f") 'magit-file-dispatch)
-  ;; There is magit-file-watcher, not recommended
-  (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (setq magit-save-repository-buffers 'dontask)
+  (put 'magit-diff-edit-hunk-commit 'disabled nil)
+  (magit-wip-mode)  ;; Experiment!  Use M-x magit-wip-log
+
+  (with-eval-after-load 'magit-mode
+    ;; There is magit-file-watcher, not recommended
+    (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
+    ;; Magit doesn't work with git's credentials-cache helper for some reason.
+    ;; This seems to help. Or was it a coincidence?
+    (add-hook 'magit-process-find-password-functions
+               'magit-process-password-auth-source t))
+  (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (magit-wip-mode)  ;; Experiment!  Use M-x magit-wip-logw
 
   ;; (global-set-key (kbd "M-o") 'ace-window) ;; Or C-x o
@@ -545,6 +574,13 @@ before packages are loaded."
   (with-eval-after-load 'helm
     (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
     )
+
+  ;; Org-mode
+  ;; This is an org-mode default that Spacemacs changes to "~/org/notes.org". Perhaps that's better?
+  (setq org-default-notes-file "~/.notes")
+
+  ;; (require 'smartparens)  ;; https://github.com/syl20bnr/spacemacs/issues/14439
+  ;; (defun smartparens-mode () ()) ;; Does more harm than good
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -561,7 +597,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(lsp-ui lsp-treemacs lsp-origami origami helm-rtags helm-lsp google-c-style flycheck-ycmd flycheck-rtags flycheck-pos-tip pos-tip disaster cpp-auto-include company-ycmd ycmd request-deferred deferred company-rtags rtags company-c-headers ccls lsp-mode dash-functional yasnippet-snippets web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js mmm-mode markdown-toc impatient-mode simple-httpd helm-css-scss helm-company helm-c-yasnippet haml-mode gh-md fuzzy emmet-mode company-web web-completion-data company auto-yasnippet yasnippet ac-ispell auto-complete unfill orgit org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain mwim htmlize helm-org-rifle gnuplot evil-org treemacs-magit smeargle magit-svn magit-section magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge markdown-mode magit ghub closql emacsql-sqlite emacsql treepy git-commit with-editor transient ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line)))
+   '(insert-shebang helm-gtags ggtags flycheck-bashate flycheck fish-mode counsel-gtags counsel swiper ivy company-shell lsp-ui lsp-treemacs lsp-origami origami helm-rtags helm-lsp google-c-style flycheck-ycmd flycheck-rtags flycheck-pos-tip pos-tip disaster cpp-auto-include company-ycmd ycmd request-deferred deferred company-rtags rtags company-c-headers ccls lsp-mode dash-functional yasnippet-snippets web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js mmm-mode markdown-toc impatient-mode simple-httpd helm-css-scss helm-company helm-c-yasnippet haml-mode gh-md fuzzy emmet-mode company-web web-completion-data company auto-yasnippet yasnippet ac-ispell auto-complete unfill orgit org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain mwim htmlize helm-org-rifle gnuplot evil-org treemacs-magit smeargle magit-svn magit-section magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge markdown-mode magit ghub closql emacsql-sqlite emacsql treepy git-commit with-editor transient ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -569,3 +605,4 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  )
 )
+
