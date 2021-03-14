@@ -1,21 +1,29 @@
 [alias]
     s = status --short --branch
     d = diff --stat
-    cln = clean -i :/
+    cln = clean -ix :/
     adda = add :/
+  restorea = restore :/
     lst = ls-files --with-tree
 
     # For other rebases, made fish abbreviations
     autosquash = rebase --root --autostash --autosquash
 
     amend = commit --amend --no-edit
-    amenda = amend --all
+    # amenda = amend --all
+  commita = !git adda && git commit
+  amenda = !git adda && git amend
+
+	# also git fscik --dangling --unreachable --lost-found
+	fsckdanglingunreachablecommits = "!git fsck --dangling --unreachable | grep commit | tee /dev/stderr |  cut '-d ' -f3 | xargs -n 1 git log -n 1"
 
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit --date=relative
+	lga = lg --branches --tags --remotes
+  lgaa = lg --all
     # With author:
     # lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
-  watch = "!watch -t --color 'git -c color.ui=always status --short | head -n 3; echo; git lg --color --all -n $LINES'"
+  watch = "!watch -t --color 'git -c color.ui=always status --short | head -n 3; echo; git lg --color --branches --tags --remotes -n $LINES'"
   # ==== Pipefail does not work since status always succeeds
   # watch = "!watch -t --color -x bash -c 'set -o pipefail; git -c color.ui=always status --short | head -n 3 && echo; git lg --color --all -n 30'"
   # ===== Cut off long file with mark.  ====
@@ -27,10 +35,32 @@
 ff = only
 
 [credential]
-	helper = cache --timeout 72000
+	helper = store
 [init]
 	defaultBranch = main
 
+[difftool "ediff"]
+              cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+[difftool "ediffdir"]
+              cmd = emacs -nw --eval \"(ediff-directories \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+[difftool "ediffclient"]
+              cmd = emacsclient --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+# https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
+[mergetool.ediff]
+        cmd = emacs --eval \"\
+        (progn\
+          (defun ediff-write-merge-buffer ()\
+            (let ((file ediff-merge-store-file))\
+              (set-buffer ediff-buffer-C)\
+              (write-region (point-min) (point-max) file)\
+              (message \\\"Merge buffer saved in: %s\\\" file)\
+              (set-buffer-modified-p nil)\
+              (sit-for 1)))\
+          (setq ediff-quit-hook 'kill-emacs\
+                ediff-quit-merge-hook 'ediff-write-merge-buffer)\
+          (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
+                                           \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
+#
 # === .hgrc merge config ===
 # vimdiff_4.executable = vimdiff
 # vimdiff_4.args = -f -d $output -M $local $base $other -c "wincmd J" -c "setl modifiable write"
