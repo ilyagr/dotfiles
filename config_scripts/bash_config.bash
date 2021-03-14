@@ -1,5 +1,9 @@
 export EDITOR=vim
 
+if [ -f ~/config_scripts/bash_config_site.bash ]; then
+  . ~/config_scripts/bash_config_site.bash
+fi
+
 add_to_PATH() {
   for dir in "$@"; do
     # Three magic lines below
