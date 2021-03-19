@@ -15,8 +15,14 @@ function fish_prompt --description 'Informative prompt'
             set -l pipestatus_string (__fish_print_pipestatus "[" "] " "|" (set_color $fish_color_status) \
                                       (set_color --bold $fish_color_status) $last_pipestatus)
 
-            printf '[%s] %s%s %s%s %s%s%s%s \nfish> ' (date "+%I:%M %p") (set_color brblue) \
-                (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd) $pipestatus_string \
-                (set_color normal) (fish_vcs_prompt)
+            # Using redirection character > in prompt not recommended.
+            # Some options:  🐟 🐠  ‣ ‡ ⁍ • ◉
+            # NOT BLACK RIGHT-POINTING TRIANGLE
+            set -q fish_prompt_second; or set -l fish_prompt_second 🐟
+            printf '[%s] %s%s %s%s ' (date "+%I:%M %p") (set_color brblue) \
+                (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd)
+            # The number of args below varies; if (fish_vcs_prompt) is empty, it does not count.
+            printf '%s%s%s\n' $pipestatus_string (set_color normal) (fish_vcs_prompt)
+            printf '%s ' $fish_prompt_second
     end
 end
