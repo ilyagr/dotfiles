@@ -48,7 +48,13 @@ noremap <leader>l :set list!<CR>
 " highlight SpecialKey guibg=green ctermbg=red
 
 " ==== This starts SpaceVim if it's installed =====
-call SourceIfExists("~/.local/app/SpaceVim/vimrc")
+
+"call SourceIfExists("~/.local/app/SpaceVim/vimrc")
+function! SpaceVimStart()
+  source ~/.local/app/SpaceVim/vimrc
+  command! Space echo "Cannot start SpaceVim twice."
+endfunction
+command Space call SpaceVimStart()
 
 set wrap
 
