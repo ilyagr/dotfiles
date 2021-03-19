@@ -38,6 +38,9 @@ ff = only
 	helper = store
 [init]
 	defaultBranch = main
+[notes]
+    # More setup ideas: https://stackoverflow.com/a/40496777/563359
+	rewriteRef = refs/notes/commits
 
 [difftool "ediff"]
               cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
