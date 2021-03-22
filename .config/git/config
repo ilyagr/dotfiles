@@ -14,6 +14,8 @@
   commita = !git adda && git commit
   amenda = !git adda && git amend
 
+    meld = difftool -t meld -d
+
 	# also git fscik --dangling --unreachable --lost-found
 	fsckdanglingunreachablecommits = "!git fsck --dangling --unreachable | grep commit | tee /dev/stderr |  cut '-d ' -f3 | xargs -n 1 git log -n 1"
 
