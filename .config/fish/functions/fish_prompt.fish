@@ -16,7 +16,7 @@ function fish_prompt --description 'Informative prompt'
                                       (set_color --bold $fish_color_status) $last_pipestatus)
 
             # Using redirection character > in prompt not recommended.
-            # Some options:  🐟 🐠  ‣ ‡ ⁍ • ◉
+            # Some options:  🐟 🐠 🦈 🐚 ‣ ‡ ⁍ • ◉ ❯ » ›
             # NOT BLACK RIGHT-POINTING TRIANGLE
             set -q fish_prompt_second; or set -l fish_prompt_second 🐟
             printf '[%s] %s%s %s%s ' (date "+%I:%M %p") (set_color brblue) \
