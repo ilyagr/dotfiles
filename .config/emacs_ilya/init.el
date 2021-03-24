@@ -35,6 +35,11 @@
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)  ;; Default is execute-extended-command
 
+(with-eval-after-load 'org
+  ;; Enable < s <TAB> snippet
+  (require 'org-tempo))
+
+(which-key-mode)
 
 (let ((site-settings "~/.emacs.site.el"))
   (when (file-exists-p site-settings)
@@ -50,7 +55,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(tango-dark))
  '(helm-minibuffer-history-key "M-p")
- '(org-agenda-files '("~/notes/dot-notes.org"))
+ '(org-agenda-files '("~/notes/notes.org"))
  '(package-selected-packages
    '(helm-fish-completion fish-completion fish-mode helm-descbinds ztree evil-collection zenburn-theme yasnippet-snippets yaml-mode which-key use-package tabbar solarized-theme smex session rust-mode puppet-mode pod-mode muttrc-mode mutt-alias lsp-ui initsplit ido-completing-read+ htmlize graphviz-dot-mode gitignore-mode gitconfig-mode gitattributes-mode git-modes folding evil-paredit ess eproject editorconfig diminish csv-mode counsel company-lsp color-theme-modern browse-kill-ring boxquote bm bar-cursor apache-mode ace-window)))
 
