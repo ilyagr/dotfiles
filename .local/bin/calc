@@ -1,0 +1,9 @@
+#!/usr/bin/python3
+import sys
+import code
+from math import *
+
+if sys.argv[1:]:
+  print(eval(' '.join(sys.argv[1:])))
+else:
+  code.interact(local=locals(), banner="", exitmsg="")
