@@ -1,0 +1,9 @@
+add-highlighter global/ number-lines -relative -hlcursor 
+face global LineNumberCursor header
+
+# https://github.com/Delapouite/kakoune-cd/blob/master/cd.kak
+# %sh{dirname "${kak_buffile}"}
+# 
+define-command sh  terminal sh -c "cd $1; $SHELL" _unused_ %sh{dirname $kak_buffile}
+# terminal vim %val{buffile}
+
