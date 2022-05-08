@@ -1,12 +1,14 @@
 colorscheme solarized-dark
 
 add-highlighter global/ number-lines -relative -hlcursor 
-add-highlighter global/ wrap -word -indent -marker >>
+add-highlighter global/ wrap -word -marker >|
 face global LineNumberCursor header
 
 # , should remove selections like in helix (and future kak?)
 map global normal <space> ,
 map global normal , <space>
+map global normal x <a-x>
+map global normal <a-x> <a-X>
 
 # https://github.com/Delapouite/kakoune-cd/blob/master/cd.kak
 # %sh{dirname "${kak_buffile}"}

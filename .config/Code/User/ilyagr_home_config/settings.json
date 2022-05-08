@@ -22,7 +22,7 @@
         "normal": {
             "cursorStyle": "block",
             "lineNumbers": "relative",
-            // "selectionBehavior": "character",  // Not sure what this does
+            "selectionBehavior": "character",  // Seems necesary with block cursor.
         }
     },
 

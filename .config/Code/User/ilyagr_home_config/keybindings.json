@@ -1,7 +1,11 @@
 // Place your key bindings in this file to override the defaults
 [
 	// BEGIN Dance
-	// Space should be the user key
+	{
+		"key": "space",
+		"command": "workbench.action.showCommands",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
 	{
 		"key": "alt+,",
 		"command": "dance.selections.clear.main",
@@ -10,6 +14,16 @@
 	{
 		"key": ",",
 		"command": "dance.selections.clear.secondary",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
+	{
+		"key": "x",
+		"command": "dance.selections.expandToLines",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
+	{
+		"key": "alt+x",
+		"command": "dance.selections.trimLines",
 		"when": "editorTextFocus && dance.mode == 'normal'"
 	},
 	// END Dance
