@@ -1,0 +1,86 @@
+{
+    "terminal.integrated.commandsToSkipShell": [
+        "language-julia.interrupt"
+    ],
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "alt-editor.name": "emacs",
+    "alt-editor.binary": "emacsclient",
+    "alt-editor.args": "-c -a emacs --no-wait +{line}:{column} {filename}",
+    // -e '(select-frame-set-input-focus (selected-frame))'",
+    "alt-editor.terminal": false,
+    // Error: Command failed: gnome-terminal -x sh -c  \
+    // 'emacs --no-splash +7:1 /home/ilyagr/dev/ripgrep/NOTES_ILYA.org'
+
+    "dance.modes": {
+        "input": {
+            "cursorStyle": "underline-thin"
+        },
+
+        "normal": {
+            "cursorStyle": "block",
+            "lineNumbers": "relative",
+            // "selectionBehavior": "character",  // Not sure what this does
+        }
+    },
+
+    // BEGIN VSpaceCode
+    "git.confirmSync": false,
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+	// END VSpaceCode
+    "diffEditor.renderSideBySide": false,
+    "julia.enableTelemetry": true,
+    "rust-client.engine": "rust-analyzer",
+    "editor.minimap.enabled": false,
+    "julia.symbolCacheDownload": true,
+    "julia.executablePath": "~/.local/bin/julia",
+    "editor.wrappingIndent": "indent",
+    "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
+}
