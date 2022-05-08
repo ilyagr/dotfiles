@@ -1,0 +1,10 @@
+theme="solarized_dark"
+# theme="autumn"
+
+[editor]
+line-number="relative"
+true-color=true
+gutters=["line-numbers"] # Not "diagnostics"
+
+# [editor.lsp]
+# display-messages=true
