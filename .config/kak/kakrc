@@ -12,7 +12,11 @@ map global normal <a-x> <a-X>
 
 # https://github.com/Delapouite/kakoune-cd/blob/master/cd.kak
 # %sh{dirname "${kak_buffile}"}
-# 
+
+define-command -params 1 ft %{ set buffer filetype %arg{1} }
+define-command ft-py %{ ft python }
+define-command ft-md %{ ft markdown }
+
 define-command -params ..1 sh %{
     terminal sh -c "cd $1; ${2:-$SHELL}" \
     _unused_ %sh{dirname $kak_buffile} %arg[1]

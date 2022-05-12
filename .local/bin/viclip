@@ -1,3 +1,5 @@
 #!/bin/sh
+# Usage: `viclip` or `viclip emacs`.
 
+EDITOR=${1-$EDITOR}
 vis-clipboard --paste | vipe | ifne vis-clipboard --copy
