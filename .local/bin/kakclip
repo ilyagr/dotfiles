@@ -1,0 +1,3 @@
+#!/bin/sh
+
+vis-clipboard --paste | EDITOR=kak vipe | ifne vis-clipboard --copy

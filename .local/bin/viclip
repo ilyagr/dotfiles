@@ -1,0 +1,3 @@
+#!/bin/sh
+
+vis-clipboard --paste | vipe | ifne vis-clipboard --copy
