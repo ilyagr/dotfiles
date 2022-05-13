@@ -13,7 +13,13 @@ map global normal <a-x> <a-X>
 # https://github.com/Delapouite/kakoune-cd/blob/master/cd.kak
 # %sh{dirname "${kak_buffile}"}
 
-define-command -params 1 ft %{ set buffer filetype %arg{1} }
+# Problem: ! not allowed in command names
+# Could define a command with a long name and an alias
+# define-command cq %{quit 1}
+# define-command %{cq!} %{quit! 1}
+# define-command cqa %{kill 1}
+
+define-command -params 1 ft -docstring %{Set filetype.}%{ set buffer filetype %arg{1} }
 define-command ft-py %{ ft python }
 define-command ft-md %{ ft markdown }
 
