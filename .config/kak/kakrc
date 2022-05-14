@@ -1,12 +1,13 @@
 colorscheme solarized-dark
 
 add-highlighter global/ number-lines -relative -hlcursor 
-add-highlighter global/ wrap -word -marker >|
+add-highlighter global/ wrap -word -marker >| -indent
 face global LineNumberCursor header
 
 # , should remove selections like in helix (and future kak?)
 map global normal <space> ,
 map global normal , <space>
+map global normal <a-,> <a-space>
 map global normal x <a-x>
 map global normal <a-x> <a-X>
 
