@@ -147,5 +147,15 @@
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
 	},
+	{
+		"key": "alt+j alt+j",
+		"command": "dance.edit.join",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
+	{
+		"key": "ctrl+alt+j",
+		"command": "dance.edit.join",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
 	// END VSpaceCode
 ]

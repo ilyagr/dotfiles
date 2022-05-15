@@ -1,11 +1,15 @@
 {
-    "terminal.integrated.commandsToSkipShell": [
-        "language-julia.interrupt"
-    ],
-    "git.autofetch": true,
-    "git.enableSmartCommit": true,
+    "editor.wrappingIndent": "indent",
+    "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
+    "editor.fontSize": 13.5,
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
+    "diffEditor.renderSideBySide": false,
+
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+
     "alt-editor.name": "emacs",
     "alt-editor.binary": "emacsclient",
     "alt-editor.args": "-c -a emacs --no-wait +{line}:{column} {filename}",
@@ -26,8 +30,15 @@
         }
     },
 
-    // BEGIN VSpaceCode
-    "git.confirmSync": false,
+    "rust-client.engine": "rust-analyzer",
+    "julia.enableTelemetry": true,
+    "julia.symbolCacheDownload": true,
+    "julia.executablePath": "~/.local/bin/julia",
+    "terminal.integrated.commandsToSkipShell": [
+        "language-julia.interrupt"
+    ],
+
+    // BEGIN Vim & VSpaceCode
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
     "vim.normalModeKeyBindingsNonRecursive": [
@@ -75,12 +86,4 @@
         }
     ],
 	// END VSpaceCode
-    "diffEditor.renderSideBySide": false,
-    "julia.enableTelemetry": true,
-    "rust-client.engine": "rust-analyzer",
-    "julia.symbolCacheDownload": true,
-    "julia.executablePath": "~/.local/bin/julia",
-    "editor.wrappingIndent": "indent",
-    "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
-    "editor.fontSize": 13.5,
 }
