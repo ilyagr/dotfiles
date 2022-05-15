@@ -3,8 +3,8 @@
 	// BEGIN Dance
 	{
 		"key": "space",
-		"command": "workbench.action.showCommands",
-		"when": "editorTextFocus && dance.mode == 'normal'"
+		"command": "vspacecode.space",
+		"when": "editorTextFocus && dance.mode == 'normal' "
 	},
 	{
 		"key": "alt+,",

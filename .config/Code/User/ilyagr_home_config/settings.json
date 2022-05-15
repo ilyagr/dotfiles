@@ -78,9 +78,9 @@
     "diffEditor.renderSideBySide": false,
     "julia.enableTelemetry": true,
     "rust-client.engine": "rust-analyzer",
-    "editor.minimap.enabled": false,
     "julia.symbolCacheDownload": true,
     "julia.executablePath": "~/.local/bin/julia",
     "editor.wrappingIndent": "indent",
     "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
+    "editor.fontSize": 13.5,
 }

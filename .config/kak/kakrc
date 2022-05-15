@@ -1,7 +1,12 @@
 colorscheme solarized-dark
 
+define-command ekakrc %{e ~/.config/kak/kakrc}
+
 add-highlighter global/ number-lines -relative -hlcursor 
 add-highlighter global/ wrap -word -marker >| -indent
+# Would prefer to highlight trailing whitespace insteads,
+# but this should substitute for now.
+addhl global/ show-whitespaces -spc ' '
 face global LineNumberCursor header
 
 # , should remove selections like in helix (and future kak?)
@@ -30,4 +35,3 @@ define-command -params ..1 sh %{
 }
 # define-command -params ..1 sh  terminal sh -c "cd $1; $SHELL" _unused_ %sh{dirname $kak_buffile}
 # terminal vim %val{buffile}
-
