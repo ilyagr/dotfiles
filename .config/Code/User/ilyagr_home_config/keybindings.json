@@ -1,5 +1,11 @@
 // Place your key bindings in this file to override the defaults
 [
+	// Breaks :
+	// {
+	// 	"key": "shift+; w",
+	// 	"command": "saveAll",
+	// 	"when": "editorTextFocus && dance.mode == 'normal' "
+	// },
 	// BEGIN Dance
 	{
 		"key": "space",
@@ -147,5 +153,9 @@
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
 	},
-	// END VSpaceCode
+	{
+		"key": "space",
+		"command": "-dance.selections.clear.secondary",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
 ]
