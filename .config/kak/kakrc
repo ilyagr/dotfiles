@@ -28,7 +28,7 @@ map global normal <a-x> <a-X>
 # define-command cqa %{kill 1}
 
 define-command -params 1 ft -docstring %{
-        Shortcut for `set buffer filetype`
+        Shortcut for `set buffer filetype`.
     } %{
         set buffer filetype %arg{1}
     }

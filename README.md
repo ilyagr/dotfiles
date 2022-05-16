@@ -4,10 +4,12 @@
 sudo apt install stow tmux fish  # Or see below
 mkdir -p ~/stow && cd ~/stow
 git clone https://github.com/ilyagr/dotfiles.git
-stow dotfiles   # `README.md` is in the default `.stow-local-ignore`.
+git clone https://github.com/ilyagr/stow_nofold.git
+stow dotfiles stow_nofold   # `README.md` is in the default `.stow-local-ignore`.
 
 # https://backports.debian.org/Instructions/
-sudo apt install -t buster-backports git gitk gitgui tmux fish ripgrep stow
+# Not sure if any of these have backports anymore.
+sudo apt install -t bullseye-backports git gitk gitgui tmux fish ripgrep stow
 # Maybe also baobab, file-roller and p7zip-full
 bash ~/config_scripts/installers/ripgerp_dot_ignore.bash
 ```
