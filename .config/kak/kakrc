@@ -18,6 +18,22 @@ map global normal <a-,> <a-space>
 map global normal x <a-x>
 map global normal <a-x> <a-X>
 
+# Delete these? Make these user or normal?
+map global normal '/' %{/(?i)}
+map global normal '<a-/>' %{<a-/>(?i)}
+map global normal '?' %{?(?i)}
+map global normal '<a-?>' %{<a-?>(?i)}
+
+# https://github.com/mawww/kakoune/issues/898#issuecomment-727516233
+# Save selections to the [b]ackup register.
+hook -group backup-selections global NormalIdle .* %{
+  set-register b %reg{z}
+  execute-keys -draft '"zZ'
+}
+# Add a mapping to easily reach the command.
+# (Prefix with <esc> if I want to put it in `goto` rather than `user`.
+map -docstring 'Restore selections from the [b]ackup register' global user z '"bz'
+
 # https://github.com/Delapouite/kakoune-cd/blob/master/cd.kak
 # %sh{dirname "${kak_buffile}"}
 

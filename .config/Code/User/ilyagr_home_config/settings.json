@@ -39,6 +39,20 @@
     ],
 
     // BEGIN Vim & VSpaceCode
+    "vspacecode.bindingOverrides": [
+      {
+        "keys": ["j", "["],  // "j.[" should also work.
+        "name": "Go back",
+        "type": "command",
+        "command":"workbench.action.navigateBack",
+      },
+      {
+        "keys": ["j", "]"],
+        "name": "Go forward",
+        "type": "command",
+        "command":"workbench.action.navigateForward",
+      },
+    ],
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
     "vim.normalModeKeyBindingsNonRecursive": [
