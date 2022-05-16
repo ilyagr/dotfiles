@@ -1,6 +1,8 @@
 colorscheme solarized-dark
 
-define-command ekakrc %{e ~/.config/kak/kakrc}
+map global user e -docstring %{Open kakrc} ': e ~/.config/kak/kakrc <ret>'
+map global user c -docstring %{Copy to clipboard} \
+    '<a-|> vis-clipboard --copy<ret>'
 
 add-highlighter global/ number-lines -relative -hlcursor 
 add-highlighter global/ wrap -word -marker >| -indent
@@ -25,7 +27,11 @@ map global normal <a-x> <a-X>
 # define-command %{cq!} %{quit! 1}
 # define-command cqa %{kill 1}
 
-define-command -params 1 ft -docstring %{Set filetype.}%{ set buffer filetype %arg{1} }
+define-command -params 1 ft -docstring %{
+        Shortcut for `set buffer filetype`
+    } %{
+        set buffer filetype %arg{1}
+    }
 define-command ft-py %{ ft python }
 define-command ft-md %{ ft markdown }
 
