@@ -1,4 +1,5 @@
 export EDITOR=vim
+export RIPGREP_CONFIG_PATH=~/.config/ripgrep.conf
 
 if [ -f ~/config_scripts/bash_config_site.bash ]; then
   . ~/config_scripts/bash_config_site.bash
