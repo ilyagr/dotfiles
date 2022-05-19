@@ -1,5 +1,7 @@
 #!/bin/bash
 cd ~/stow
+
+# Maybe use `each_stow` if not too annoying
 for dir in ~/stow/*; do
     echo === Pulling $dir ===
     git -C "$dir" pull --ff-only --autostash
