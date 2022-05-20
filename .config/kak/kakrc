@@ -43,6 +43,7 @@ map -docstring 'Restore selections from the [b]ackup register' global user z '"b
 # define-command %{cq!} %{quit! 1}
 # define-command cqa %{kill 1}
 
+# set-option global grepcmd 'rg -Hn --no-heading'
 define-command -params 1 ft -docstring %{
         Shortcut for `set buffer filetype`.
     } %{
