@@ -1,0 +1,5 @@
+#!/bin/sh
+kitty tmux new -t0
+# -As0 does something similar, but then all the
+# attached terminals have to use the same window
+# in the session.

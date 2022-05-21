@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=kitty tmux
+GenericName=Terminal emulator
+Comment=Auto-start tmux in kitty terminal
+TryExec=kitty-tmux
+Exec=kitty-tmux
+# Exec=kitty tmux new -As0
+# Icon=kitty
+# Icon=kitty-dark
+Icon=whiskers_256x256
+Categories=System;TerminalEmulator;
