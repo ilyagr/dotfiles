@@ -53,8 +53,11 @@ define-command ft-py %{ ft python }
 define-command ft-md %{ ft markdown }
 
 define-command -params ..1 sh %{
-    terminal sh -c "cd $1; ${2:-$SHELL}" \
-    _unused_ %sh{dirname $kak_buffile} %arg[1]
+    terminal sh -c "cd $1; buf=""$2"" ${3:-$SHELL}" \
+    _unused_ %sh{dirname $kak_buffile} %val{buffile} %arg[1]
 }
+map global user v -docstring %{Edit in Vim} \
+    %{:  sh "vim %val{buffile} +%val{cursor_line}"<ret>}
+
 # define-command -params ..1 sh  terminal sh -c "cd $1; $SHELL" _unused_ %sh{dirname $kak_buffile}
 # terminal vim %val{buffile}

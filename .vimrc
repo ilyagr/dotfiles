@@ -31,6 +31,11 @@ noremap <Space>wj <C-W>j
 noremap <Space>wk <C-W>k
 noremap <Space>wl <C-W>l
 
+noremap <Space>k :!kak %<CR>
+" That was too simple :)
+noremap <Space>k :execute printf(":set autoread \| !kak %s +%s:%s", expand('%'),line('.'), col('.'))<CR><CR>
+nmap <Space>K <Space>k:q<CR>
+
 " If I want to use , as mapleader
 " noremap <unique> _ ,
 " noremap <unique> - ;
