@@ -13,7 +13,11 @@ if [ ! -d $TARGET ]; then
     exit 1
 fi
 
-set -x
 mkdir -p $TARGET/$RELDIR
-mv $1 $TARGET/$RELDIR/
+TARGET_FILE=$TARGET/$RELDIR/$(basename $1)
+if [ -e $TARGET_FILE ]; then
+    echo $TARGET_FILE already exists.
+    exit 2
+fi
+mv -v $1 $TARGET_FILE
 ~/config_scripts/restow
