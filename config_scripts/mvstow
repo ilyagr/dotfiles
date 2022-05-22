@@ -1,0 +1,19 @@
+#!/bin/sh
+# Moves $1 to the stow directory.
+set -e
+
+RELDIR=`dirname $(
+    realpath --no-symlinks --relative-to ~ $1 |
+    sed -E 's|^stow/\w+/||'
+  ) 2>/dev/null`
+TARGET=~/stow/${2-dotfiles}
+
+if [ ! -d $TARGET ]; then
+    echo $TARGET does not exist.
+    exit 1
+fi
+
+set -x
+mkdir -p $TARGET/$RELDIR
+mv $1 $TARGET/$RELDIR/
+~/config_scripts/restow
