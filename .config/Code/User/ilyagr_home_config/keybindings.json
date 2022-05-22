@@ -26,6 +26,21 @@
 		"command": "dance.selections.trimLines",
 		"when": "editorTextFocus && dance.mode == 'normal'"
 	},
+	{
+		"key": "shift+alt+x",
+		"command": "dance.select.line.above.extend"
+	},
+	// Not sure what the following ones are
+	{
+		"key": "alt+j alt+j",
+		"command": "dance.edit.join",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
+	{
+		"key": "ctrl+alt+j",
+		"command": "dance.edit.join",
+		"when": "editorTextFocus && dance.mode == 'normal'"
+	},
 	// END Dance
 	
 	// BEGIN VSpaceCode
@@ -102,6 +117,9 @@
 		"command": "vspacecode.showMagitRefMenu",
 		"when": "editorTextFocus && editorLangId == 'magit' && vim.mode == 'Normal'"
 	},
+	// END VSpaceCode
+
+	// Not sure what these are
 	{
 		"key": "ctrl+j",
 		"command": "workbench.action.quickOpenSelectNext",
@@ -147,15 +165,4 @@
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
 	},
-	{
-		"key": "alt+j alt+j",
-		"command": "dance.edit.join",
-		"when": "editorTextFocus && dance.mode == 'normal'"
-	},
-	{
-		"key": "ctrl+alt+j",
-		"command": "dance.edit.join",
-		"when": "editorTextFocus && dance.mode == 'normal'"
-	},
-	// END VSpaceCode
 ]
