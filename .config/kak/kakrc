@@ -4,10 +4,12 @@ map global user e -docstring %{Open kakrc} ': e ~/.config/kak/kakrc <ret>'
 map global user c -docstring %{Copy to clipboard} \
     '<a-|> vis-clipboard --copy<ret>'
 
-add-highlighter global/ number-lines -relative -hlcursor 
-add-highlighter global/ wrap -word -marker >| -indent
-# Would prefer to highlight trailing whitespace insteads,
-# but this should substitute for now.
+add-highlighter global/ number-lines -relative -hlcursor
+# In code, word wrapping makes it confusing to decide where the
+# spaces are. Ideally, `-word` would be turned on for text.
+add-highlighter global/ wrap -marker >| -indent
+# Would prefer to highlight trailing whitespace insteads, but
+# this should substitute for now.
 addhl global/ show-whitespaces -spc ' '
 face global LineNumberCursor header
 
@@ -30,17 +32,16 @@ hook -group backup-selections global NormalIdle .* %{
   set-register b %reg{z}
   execute-keys -draft '"zZ'
 }
-# Add a mapping to easily reach the command.
-# (Prefix with <esc> if I want to put it in `goto` rather than `user`.
+# Add a mapping to easily reach the command.  (Prefix with <esc>
+# if I want to put it in `goto` rather than `user`.
 map -docstring 'Restore selections from the [b]ackup register' global user z '"bz'
 
 # https://github.com/Delapouite/kakoune-cd/blob/master/cd.kak
 # %sh{dirname "${kak_buffile}"}
 
-# Problem: ! not allowed in command names
+# Problem: ! not allowed in command names.
 # Could define a command with a long name and an alias
-# define-command cq %{quit 1}
-# define-command %{cq!} %{quit! 1}
+# define-command cq %{quit 1} define-command %{cq!} %{quit! 1}
 # define-command cqa %{kill 1}
 
 # set-option global grepcmd 'rg -Hn --no-heading'
