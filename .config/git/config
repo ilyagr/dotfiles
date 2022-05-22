@@ -6,6 +6,8 @@
   restorea = restore :/
     lst = ls-files --with-tree
 
+    pushf = push --force-with-lease --force-if-includes
+
     # For other rebases, made fish abbreviations
     autosquash = rebase --root --autostash --autosquash
 
@@ -19,7 +21,10 @@
 	# also git fscik --dangling --unreachable --lost-found
 	fsckdanglingunreachablecommits = "!git fsck --dangling --unreachable | grep commit | tee /dev/stderr |  cut '-d ' -f3 | xargs -n 1 git log -n 1"
 
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit --date=relative
+    # Note that the committer date this shows is sometimes different
+    # from the magical "ref" date git reflog --relative-date shows.
+    rl = reflog --pretty=reflog-with-committer-date
+    lg = log --graph --pretty=lg --abbrev-commit --date=relative
 	lga = lg --branches --tags --remotes
   lgaa = lg --all
     # With author:
@@ -31,6 +36,10 @@
   # ===== Cut off long file with mark.  ====
   # awk 'BEGIN {cutoff = 4} NR < cutoff { print $0 } NR == cutoff {print $0 " ...\n"}'
   # Maybe also END && NR > 0 {print "\n"}
+
+[pretty]
+reflog-with-committer-date=%C(auto)%h %<|(20)%gd %C(blue)%cr%C(reset) %gs (%s)
+lg=%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 
 [pull]
 # rebase = true
@@ -76,3 +85,12 @@ ff = only
 
 [include]
     path = ~/.gitconfig.site
+
+[tig]
+    refresh-mode=periodic
+    refresh-interval=3
+    main-view-date-display=relative-compact
+    main-view-id-display=true
+    # Tig always shows "author dates" instead of "commit dates",
+    # making reflog dates are very confusing
+    reflog-view-date-display=relative
