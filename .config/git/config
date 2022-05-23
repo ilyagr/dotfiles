@@ -83,9 +83,6 @@ ff = only
 # vimdiff_3.args = -f -M $local $base $other -c "wincmd J" -c "setl modifiable write"
 # vimdiff_3.premerge = keep
 
-[include]
-    path = ~/.gitconfig.site
-
 [tig]
     refresh-mode=periodic
     refresh-interval=3
@@ -94,3 +91,6 @@ ff = only
     # Tig always shows "author dates" instead of "commit dates",
     # making reflog dates are very confusing
     reflog-view-date-display=relative
+
+[include]
+    path = ~/.config/git/site.config
