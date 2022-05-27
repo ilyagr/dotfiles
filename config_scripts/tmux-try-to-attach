@@ -1,13 +1,14 @@
 #!/bin/sh
-if (tmux ls | grep -v attached); then
+TMUXCMD=${TMUXCMD-tmux}
+if ($TMUXCMD ls | grep -v attached); then
     # Unattached sessions should be reused
     echo Trying to attach to an unattached session listed above.
     echo
-    tmux attach
-elif (tmux ls | grep '^0\b'); then
+    $TMUXCMD attach
+elif ($TMUXCMD ls | grep '^0\b'); then
     # Create a new session in the same group as the default "0"
     # session so that they share window contents, and open a new window there.
-    tmux new -t0 \; new-window
+    $TMUXCMD new -t0 \; new-window
 else
-    tmux
+    $TMUXCMD
 fi
