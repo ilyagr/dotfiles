@@ -1,5 +1,18 @@
 // Place your key bindings in this file to override the defaults
 [
+	{
+		"key": "ctrl+shift+escape",
+		"command": "notifications.clearAll"
+	},
+	{
+		"key": "ctrl+escape",
+		"command": "notifications.hideList",
+		"when": "notificationCenterVisible"
+	},
+	{
+		"key": "ctrl+k ctrl+alt+s",
+		"command": "workbench.action.openGlobalKeybindingsFile"
+	},
 	// BEGIN Dance
 	{
 		"key": "space",
@@ -42,7 +55,6 @@
 		"when": "editorTextFocus && dance.mode == 'normal'"
 	},
 	// END Dance
-	
 	// BEGIN VSpaceCode
 	{
 		"key": "space",
@@ -118,7 +130,6 @@
 		"when": "editorTextFocus && editorLangId == 'magit' && vim.mode == 'Normal'"
 	},
 	// END VSpaceCode
-
 	// Not sure what these are
 	{
 		"key": "ctrl+j",
