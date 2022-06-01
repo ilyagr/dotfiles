@@ -1,6 +1,6 @@
 #!/bin/bash
 cd ~/stow
-stow -v * $@
+stow -v * "$@"
 # `restow -R` or `stow -Rv` is useful
 
 # To find stragglers, do something like

@@ -3,7 +3,7 @@ for dir in ~/stow/*; do
     echo === $dir ===
     cd $dir
 
-    $@
+    "$@"
 
     echo
 done
