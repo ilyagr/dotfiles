@@ -99,5 +99,6 @@
             ]
         }
     ],
+    "window.titleBarStyle": "custom",
 	// END VSpaceCode
 }

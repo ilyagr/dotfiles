@@ -15,6 +15,9 @@ add_to_PATH() {
 }
 add_to_PATH ~/.local/bin /snap/bin
 
+mkdir -p ~/config_scripts/settings_backup
+dconf dump / > ~/config_scripts/settings_backup/gnome-dconf-dump.ini
+
 # Run fish
 WHICH_FISH="$(which fish)"
 if [[ "$-" =~ i && -x "${WHICH_FISH}" && "${SHELL}" != "${WHICH_FISH}" ]]; then
