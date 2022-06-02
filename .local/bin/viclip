@@ -2,4 +2,4 @@
 # Usage: `viclip` or `viclip emacs`.
 
 EDITOR=${1-$EDITOR}
-vis-clipboard --paste | vipe | ifne vis-clipboard --copy
+vis-clipboard --paste | vipe | ifne tee /tmp/clipboard_last | ifne vis-clipboard --copy

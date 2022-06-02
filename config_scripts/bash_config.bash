@@ -15,10 +15,9 @@ add_to_PATH() {
 }
 add_to_PATH ~/.local/bin /snap/bin
 
-mkdir -p ~/config_scripts/settings_backup
 # Running this in the background is almost certainly more trouble than
 # it's worth. Let's see when this causes some confusing problem.
-(dconf dump / > ~/config_scripts/settings_backup/gnome-dconf-dump.ini &)
+(~/config_scripts/backup-gnome-settings &)
 
 # Run fish
 WHICH_FISH="$(which fish)"
