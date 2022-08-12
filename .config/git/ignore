@@ -1,8 +1,8 @@
 # -*- mode: gitignore; -*-
 
 # Github recommends NOT ignoring .vscode/launch.json, etc.
-# WILL THIS CAUSE PROBLEMS?
-.vscode/*
+# Makes it hard to develop vscode extensions.
+# .vscode/*
 
 # https://github.com/github/gitignore/blob/master/Global/Vim.gitignore
 

@@ -2,7 +2,6 @@
     "editor.wrappingIndent": "indent",
     "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
     "editor.fontSize": 13.5,
-    "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
     "diffEditor.renderSideBySide": false,
 
@@ -19,14 +18,28 @@
     // 'emacs --no-splash +7:1 /home/ilyagr/dev/ripgrep/NOTES_ILYA.org'
 
     "dance.modes": {
-        "input": {
+        "input": { // Probably doesn't do anything.
             "cursorStyle": "underline-thin"
         },
-
         "normal": {
             "cursorStyle": "block",
             "lineNumbers": "relative",
             "selectionBehavior": "character",  // Seems necesary with block cursor.
+        },
+
+        // ======= For playing with my extension =======
+        "pending": {
+            // "cursorStyle": "underline-thin"
+        },
+        "multivim": {
+            "cursorStyle": "block",
+            "lineNumbers": "relative",
+            "selectionBehavior": "character",
+        },
+        "visual": {
+            "cursorStyle": "block",
+            "lineNumbers": "relative",
+            "selectionBehavior": "character",
         }
     },
 
@@ -100,5 +113,11 @@
         }
     ],
     "window.titleBarStyle": "custom",
+    "code-eol.crlfCharacter": "↓↵",
+    "code-eol.newlineCharacter": "↵",
+    "editor.renderWhitespace": "trailing",
+    "editor.experimental.stickyScroll.enabled": true,
+    "editor.minimap.showSlider": "always",
+    "editor.minimap.size": "fill",
 	// END VSpaceCode
 }
