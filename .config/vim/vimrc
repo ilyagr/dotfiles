@@ -63,6 +63,12 @@ command Space call SpaceVimStart()
 
 set wrap
 
-" if &diff
-"   syntax off
-" endif
+if &diff
+  " " As an alternative, could try github, monokai themes from
+  " " https://stackoverflow.com/a/53130672/563359
+  " " or Vim 9's https://github.com/vim/colorschemes
+  " colorscheme desert
+  " colorscheme pablo
+  colorscheme murphy
+  " syntax off
+endif
