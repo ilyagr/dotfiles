@@ -1,3 +1,6 @@
 # From https://unix.stackexchange.com/a/293676/261949
 # Restrict to only bin??
+#
+# Might be a bad idea to use this; too clever and I forget
+# which apps are stowed.
 --ignore='^((?!(\/)bin|include|lib|lib64|local|sbin|share|tmp).)*$'
