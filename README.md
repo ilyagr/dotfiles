@@ -3,9 +3,13 @@
 ```bash
 sudo apt install stow tmux fish  # Or see below
 mkdir -p ~/stow && cd ~/stow
-git clone https://github.com/ilyagr/dotfiles.git
+git clone https://github.com/ilyagr/dotfiles.git # Or git@github.com:ilyagr/dotfiles.git
 git clone https://github.com/ilyagr/stow_nofold.git
-stow dotfiles stow_nofold   # `README.md` is in the default `.stow-local-ignore`.
+# May need to workshop the following
+git clone --recurse-submodules --shallow-submodules --remote-submodules https://github.com/ilyagr/dotfiles_submodules submodules
+stow dotfiles
+~/config_scripts/restow -R
+~/config_scripts/each_stow git config user.email ilyagr@users.noreply.github.com
 
 # https://backports.debian.org/Instructions/
 # Not sure if any of these have backports anymore.
