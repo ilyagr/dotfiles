@@ -19,8 +19,9 @@ function fish_prompt --description 'Informative prompt'
             # Some options:  🐟 🐠 🦈 🐚 ‣ ‡ ⁍ • ◉ ❯ » › →
             # NOT BLACK RIGHT-POINTING TRIANGLE
             set -q fish_prompt_second; or set -l fish_prompt_second 🐟
-            printf '[%s] %s%s %s%s ' (date "+%I:%M %p") (set_color brblue) \
-                (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd)
+            printf '[%s]%s %s%s %s%s ' (date "+%I:%M %p") (fish_ilya_ranger_level) \
+                (set_color brblue) (prompt_hostname) \
+                (set_color $fish_color_cwd) (prompt_pwd)
             # The number of args below varies; if (fish_vcs_prompt) is empty, it does not count.
             printf '%s%s%s\n' $pipestatus_string (set_color normal) (fish_vcs_prompt)
             printf '%s ' $fish_prompt_second

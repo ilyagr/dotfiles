@@ -1,0 +1,69 @@
+cmd cfg_reload source ~/.config/lf/lfrc
+
+set incsearch
+set period 5
+
+# Defaults to w. May need to change to a "push"
+# mapping to work on Windows.
+map S $$SHELL
+# Need fish to initialize env. vars like ZLUA_SCRIPT
+map C ${{tmux split fish -c lf -- "$f"}}
+cmd follow_link %{{
+  lf -remote "send ${id} select '$(readlink $f)'"
+}}
+map gL follow_link
+
+# Pager instead of open when pressing <right>
+cmd open push i
+# Old open behavior on <enter>
+map <enter> &$OPENER "$f"
+
+# Add some sanity
+cmap <c-g> cmd-escape
+cmap <c-c> cmd-escape
+cmap <up> cmd-history-prev
+cmap <down> cmd-history-next
+
+set previewer ~/.config/lf/preview.sh
+map I $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC $f
+map i $less -CS "$f"
+
+# Possible TODOs: On-cd for z
+
+cmd z-jump ${{
+  lf -remote "send ${id} cd '$($ZLUA_SCRIPT -e $@)'"
+}}
+map Z push :z-jump<space>-I<space>
+map zb push :z-jump<space>-b<space>
+map zf push :z-jump<space>-I<space>
+map zz push :z-jump<space>
+
+# From docs
+cmd recol %{{
+    w=$(tput cols)
+    if [ $w -le 80 ]; then
+        lf -remote "send $id set ratios 1:2"
+    elif [ $w -le 130 ]; then  # Was 160
+        lf -remote "send $id set ratios 1:2:3"
+    else
+        lf -remote "send $id set ratios 1:2:3:5"
+    fi
+}}
+
+# Experimental, doesn't work
+map Q cd $OLDPWD; quit
+# Ugly, does work
+# Should be q, but flickers
+map Q ${{
+  lf -remote "send ${id} cd ${OLDPWD}"
+  lf -remote "send ${id} quit"
+}}
+# map Q quit
+
+# From https://github.com/gokcehan/lf/issues/140#issuecomment-487393320
+# and https://github.com/gokcehan/lf/discussions/915#discussioncomment-3443002
+# push m-
+# map Q push '-q
+push m-
+map q push '-:quit<enter>
+map Q quit

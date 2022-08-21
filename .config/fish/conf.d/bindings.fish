@@ -1,4 +1,5 @@
 # Could move to fish_user_key_bindings function
+bind \co 'set old_tty (stty -g); stty sane; lfcd; stty $old_tty; commandline -f repaint'
 
 # On ChromeOS, Alt+Arrows corresspond to PgUp, Home, etc
 # So, replace them with Shift+Arrows and such.

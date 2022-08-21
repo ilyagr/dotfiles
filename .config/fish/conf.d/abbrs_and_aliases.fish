@@ -7,3 +7,6 @@ abbr -a -g -- ec emacsclient
 abbr -a -g -- ecc emacsclient -c
 abbr -a -g -- ect emacsclient -t
 # alias rg 'command rg --smart-case' # Causes problems https://github.com/fish-shell/fish-shell/commit/f20e8e58603fb527b72806c3d7ee7cf509e17851
+
+alias lf lfcd
+alias ranger ranger-cd
