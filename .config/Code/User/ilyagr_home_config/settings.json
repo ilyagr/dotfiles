@@ -112,12 +112,18 @@
             ]
         }
     ],
+	// END VSpaceCode
     "window.titleBarStyle": "custom",
-    "code-eol.crlfCharacter": "↓↵",
+    "code-eol.highlightExtraWhitespace": true,
+    "code-eol.returnCharacter": "↓",
     "code-eol.newlineCharacter": "↵",
     "editor.renderWhitespace": "trailing",
     "editor.experimental.stickyScroll.enabled": true,
     "editor.minimap.showSlider": "always",
-    "editor.minimap.size": "fill",
-	// END VSpaceCode
+    "gitHistory.showEditorTitleMenuBarIcons": false,
+    "workbench.sideBar.location": "right",
+    "autoHide.autoHidePanel": false,
+    "editor.minimap.size": "fit",
+    "Lua.telemetry.enable": true,
+    "code-eol.decorateBeforeEol": true,
 }
