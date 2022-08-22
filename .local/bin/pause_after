@@ -1,0 +1,5 @@
+#!/bin/sh
+"$@"
+printf "\`%s\` exited with error code %s. Press Enter to continue. " "$1" "$?"
+# Alternatively, pressing ^D causes an error code and ^C causes an abort.
+read -r __unused || (echo "(Got EOF or ^D)"; false)
