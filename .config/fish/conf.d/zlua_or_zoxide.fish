@@ -25,6 +25,8 @@ if which lua > /dev/null && test -r $zlua_path
         end
     end
 
+    alias Z zf
+
 else if which zoxide > /dev/null
   zoxide init fish | source
 else

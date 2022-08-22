@@ -2,22 +2,23 @@
 # Moves $1 to the stow directory.
 set -e
 
-RELDIR=`dirname $(
-    realpath --no-symlinks --relative-to ~ $1 |
+RELDIR=$(dirname "$(
+    realpath --no-symlinks --relative-to ~ "$1" |
     sed -E 's|^stow/\w+/||'
-  ) 2>/dev/null`
-TARGET=~/stow/${2-dotfiles}
+  )" 2>/dev/null)
+TARGET="$HOME/stow/${2-dotfiles}"
 
-if [ ! -d $TARGET ]; then
-    echo $TARGET does not exist.
+if [ ! -d "$TARGET" ]; then
+    echo "$TARGET" does not exist.
     exit 1
 fi
 
-mkdir -p $TARGET/$RELDIR
-TARGET_FILE=$TARGET/$RELDIR/$(basename $1)
-if [ -e $TARGET_FILE ]; then
-    echo $TARGET_FILE already exists.
+mkdir -p "$TARGET/$RELDIR"
+TARGET_FILE=$TARGET/$RELDIR/$(basename "$1")
+if [ -e "$TARGET_FILE" ]; then
+    echo "$TARGET_FILE" already exists.
     exit 2
 fi
-mv -v $1 $TARGET_FILE
+mv -v "$1" "$TARGET_FILE"
 ~/config_scripts/restow
+

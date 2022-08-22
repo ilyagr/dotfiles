@@ -1,3 +1,7 @@
+# # Possible TODOs:
+# * On-cd for z
+# * Set LF_CLONE on cloning, make it show a note somehow.
+
 cmd cfg_reload source ~/.config/lf/lfrc
 
 set incsearch
@@ -6,15 +10,19 @@ set period 5
 # Defaults to w. May need to change to a "push"
 # mapping to work on Windows.
 map S $$SHELL
-# Need fish to initialize env. vars like ZLUA_SCRIPT
-map C ${{tmux split fish -c lf -- "$f"}}
+# Clone lf. Need $SHELL to initialize env. vars like ZLUA_SCRIPT
+map C ${{tmux split -- "$SHELL" -c "lf $f"}}
 cmd follow_link %{{
   lf -remote "send ${id} select '$(readlink $f)'"
 }}
 map gL follow_link
 
+set previewer ~/.config/lf/preview.sh
+map I $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC $f
+map i $less -CS "$f"
+
 # Pager instead of open when pressing <right>
-cmd open push i
+cmd open push I
 # Old open behavior on <enter>
 map <enter> &$OPENER "$f"
 
@@ -23,12 +31,6 @@ cmap <c-g> cmd-escape
 cmap <c-c> cmd-escape
 cmap <up> cmd-history-prev
 cmap <down> cmd-history-next
-
-set previewer ~/.config/lf/preview.sh
-map I $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC $f
-map i $less -CS "$f"
-
-# Possible TODOs: On-cd for z
 
 cmd z-jump ${{
   lf -remote "send ${id} cd '$($ZLUA_SCRIPT -e $@)'"
