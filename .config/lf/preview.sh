@@ -19,6 +19,9 @@ slow_preview() {
 
 fast_preview() {
   highlight -O ansi "$1" 2>/dev/null
+  # Another suggestion:
+  # (https://github.com/gokcehan/lf/issues/904#issuecomment-1211096091)
+  # bat --paging=never --style=numbers --terminal-width $(($2-5)) -f "$1"
 }
 
 if which ifne >/dev/null; then
