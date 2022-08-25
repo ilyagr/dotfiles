@@ -1,0 +1,2 @@
+#!/bin/sh
+git config user.email ilyagr@users.noreply.github.com
