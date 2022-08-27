@@ -1,7 +1,1 @@
-#!/bin/bash
-cd ~/stow
-stow -v * "$@"
-# `restow -R` or `stow -Rv` is useful
-
-# To find stragglers, do something like
-# find ~/config_scripts/ ~/.config/fish -type f -printf %P\n
+../.local/bin/c_restow
