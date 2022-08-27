@@ -4,8 +4,11 @@
 
 cmd cfg_reload source ~/.config/lf/lfrc
 
+set period 3
 set incsearch
-set period 5
+set incfilter
+# <tab>, defined below, works to undo `filter` somehow.
+map * filter
 
 # Defaults to w. May need to change to a "push"
 # mapping to work on Windows.
@@ -18,19 +21,22 @@ cmd follow_link %{{
 map gL follow_link
 
 set previewer ~/.config/lf/preview.sh
-map I $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC $f
+cmd _preview_sh $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC $f
+map I _preview_sh
 map i $less -CS "$f"
 
 # Pager instead of open when pressing <right>
-cmd open push I
-# Old open behavior on <enter>
-map <enter> &$OPENER "$f"
+cmd open _preview_sh
+# Old open behavior on x
+map x &$OPENER "$f"
+map <enter> read
 
-# Add some sanity
-cmap <c-g> cmd-escape
-cmap <c-c> cmd-escape
-cmap <up> cmd-history-prev
+# Add some sanity. Suggest this for default bindings?
+cmap <c-g>  cmd-escape  # Maybe not this one
+cmap <c-c>  cmd-escape
+cmap <up>   cmd-history-prev
 cmap <down> cmd-history-next
+map  <c-c>  echo "To exit, press the 'q' key."
 
 cmd z-jump ${{
   lf -remote "send ${id} cd '$($ZLUA_SCRIPT -e $@)'"
@@ -43,29 +49,47 @@ map zz push :z-jump<space>
 # From docs
 cmd recol %{{
     w=$(tput cols)
-    if [ $w -le 80 ]; then
+    if [ $w -le 30 ]; then
+        set nopreview
+        lf -remote "send $id set ratios 1"
+    elif [ $w -le 60 ]; then
+        lf -remote "send $id set ratios 1:1"
+    elif [ $w -le 80 ]; then
         lf -remote "send $id set ratios 1:2"
     elif [ $w -le 130 ]; then  # Was 160
         lf -remote "send $id set ratios 1:2:3"
+        set preview
     else
         lf -remote "send $id set ratios 1:2:3:5"
+        set preview
     fi
 }}
+map <tab> :recol; reload
+recol
+map zp :set preview!
 
-# Experimental, doesn't work
-map Q cd $OLDPWD; quit
-# Ugly, does work
-# Should be q, but flickers
-map Q ${{
-  lf -remote "send ${id} cd ${OLDPWD}"
-  lf -remote "send ${id} quit"
+cmd link %{{
+    # Abbreviated from more feature-full
+    # https://github.com/gokcehan/lf/wiki/Tips#create-symlinks-soft--hard
+    set -- $(cat ~/.local/share/lf/files)
+    # mode="$1" # Ignore the mode, don't want hard links
+    # TODO: Absolute links. The arguments should be absolute
+    shift
+    if [ "$#" -lt 1 ]; then
+        lf -remote "send $id echo no files to link"
+        exit 0
+    fi
+    ln -sr -t . -- "$@"
+    # rm ~/.local/share/lf/files
+    # lf -remote "send clear"
 }}
-# map Q quit
+map P :link
 
 # From https://github.com/gokcehan/lf/issues/140#issuecomment-487393320
 # and https://github.com/gokcehan/lf/discussions/915#discussioncomment-3443002
 # push m-
 # map Q push '-q
-push m-
-map q push '-:quit<enter>
+map q %{{
+  lf -remote "send $id :cd $OLDPWD; quit"
+}}
 map Q quit
