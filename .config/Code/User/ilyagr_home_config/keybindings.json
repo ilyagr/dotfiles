@@ -176,4 +176,14 @@
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
 	},
+	// ctrl+shift+c for copy. It's also possible to make it copy when there's a selection
+	// "when": "terminalFocus && terminalProcessSupported && terminalTextSelected"
+    {
+        "key": "ctrl+c",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+          "text": "\u0003"
+        },
+        "when": "terminalFocus"
+    },
 ]
