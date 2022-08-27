@@ -24,14 +24,17 @@
 
     # Note that the committer date this shows is sometimes different
     # from the magical "ref" date git reflog --relative-date shows.
-    rl = reflog --pretty=reflog-with-committer-date
-    lg = log --graph --pretty=lg --abbrev-commit --date=relative
-	lga = lg --branches --tags --remotes
-  lgaa = lg --all
+    rl = reflog --pretty=reflog-with-committer-date --decorate=short
+    # For some reason, `--decorate=no` shows *more* refs (esp. git-branchless refs).
+    # This becomes messy, since outputting to `watch` or `cat` defaults to `--decorate=no`.
+
+    lg = log --graph --pretty=lg --abbrev-commit --date=relative --decorate=short
+ 	lga = lg --branches --tags --remotes
+    lgaa = lg --all
     # With author:
     # lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
-  watch = "!watch -t --color 'git -c color.ui=always status --short | head -n 3; echo; git lg --color --branches --tags --remotes -n $LINES'"
+  watch = "!watch -t --color 'git -c color.ui=always status --short | head -n 3; echo; git lga --color -n $LINES'"
   # ==== Pipefail does not work since status always succeeds
   # watch = "!watch -t --color -x bash -c 'set -o pipefail; git -c color.ui=always status --short | head -n 3 && echo; git lg --color --all -n 30'"
   # ===== Cut off long file with mark.  ====
