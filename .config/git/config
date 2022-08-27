@@ -17,6 +17,10 @@
   amenda = !git adda && git amend
 
     meld = difftool -t meld -d
+    diffdir = difftool --dir-diff --tool vimdirdiff
+    diffdir-bc = difftool --dir-diff --tool bc
+    diffdir-meld = meld
+
     tig = !tig
 
 	# also git fscik --dangling --unreachable --lost-found
@@ -63,6 +67,8 @@ ff = only
               cmd = emacs -nw --eval \"(ediff-directories \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 [difftool "ediffclient"]
               cmd = emacsclient --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+[difftool "vimdirdiff"]
+  cmd=vimdirdiff "$LOCAL" "$REMOTE"
 # https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
 [mergetool.ediff]
         cmd = emacs --eval \"\
