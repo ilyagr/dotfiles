@@ -1,49 +1,46 @@
 [alias]
-    s = status --short --branch
-    d = diff --stat
-    cln = clean -ix :/
-    adda = add :/
-  restorea = restore :/
-    lst = ls-files --with-tree
+s = status --short --branch
+d = diff --stat
+cln = clean -ix :/
+lst = ls-files --with-tree
+adda = add :/
+restorea = restore :/
 
-    pushf = push --force-with-lease --force-if-includes
+amend = commit --amend --no-edit
+# amenda = amend --all
+commita = !git adda && git commit
+amenda = !git adda && git amend
 
-    # For other rebases, made fish abbreviations
-    autosquash = rebase --root --autostash --autosquash
+pushf = push --force-with-lease --force-if-includes
+# For other rebases, made fish abbreviations
+# This seems dangerous, rewrites too many commits.
+autosquash = rebase --root --autostash --autosquash --interactive
 
-    amend = commit --amend --no-edit
-    # amenda = amend --all
-  commita = !git adda && git commit
-  amenda = !git adda && git amend
+meld = difftool -t meld -d
+diffdir = difftool --dir-diff --tool vimdirdiff
+diffdir-bc = difftool --dir-diff --tool bc
+diffdir-meld = meld
 
-    meld = difftool -t meld -d
-    diffdir = difftool --dir-diff --tool vimdirdiff
-    diffdir-bc = difftool --dir-diff --tool bc
-    diffdir-meld = meld
+# Note that the committer date this shows is sometimes different
+# from the magical "ref" date git reflog --relative-date shows.
+rl = reflog --pretty=reflog-with-committer-date --decorate=short
+# For some reason, `--decorate=no` shows *more* refs (esp. git-branchless refs).
+# This becomes messy, since outputting to `watch` or `cat` defaults to `--decorate=no`.
+lg = log --graph --pretty=lg --abbrev-commit --date=relative --decorate=short
+lga = lg --branches --tags --remotes HEAD
+lgaa = lg --all --decorate=auto
+# With author:
+# lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+watch = "!watch -t --color 'git -c color.ui=always status --short | head -n 3; echo; git lga --color -n $LINES'"
+# ==== Pipefail does not work since status always succeeds
+# watch = "!watch -t --color -x bash -c 'set -o pipefail; git -c color.ui=always status --short | head -n 3 && echo; git lg --color --all -n 30'"
+# ===== Cut off long file with mark.  ====
+# awk 'BEGIN {cutoff = 4} NR < cutoff { print $0 } NR == cutoff {print $0 " ...\n"}'
+# Maybe also END && NR > 0 {print "\n"}
 
-    tig = !tig
-
-	# also git fscik --dangling --unreachable --lost-found
-	fsckdanglingunreachablecommits = "!git fsck --dangling --unreachable | grep commit | tee /dev/stderr |  cut '-d ' -f3 | xargs -n 1 git log -n 1"
-
-    # Note that the committer date this shows is sometimes different
-    # from the magical "ref" date git reflog --relative-date shows.
-    rl = reflog --pretty=reflog-with-committer-date --decorate=short
-    # For some reason, `--decorate=no` shows *more* refs (esp. git-branchless refs).
-    # This becomes messy, since outputting to `watch` or `cat` defaults to `--decorate=no`.
-
-    lg = log --graph --pretty=lg --abbrev-commit --date=relative --decorate=short
- 	lga = lg --branches --tags --remotes HEAD
-    lgaa = lg --all --decorate=auto
-    # With author:
-    # lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-
-  watch = "!watch -t --color 'git -c color.ui=always status --short | head -n 3; echo; git lga --color -n $LINES'"
-  # ==== Pipefail does not work since status always succeeds
-  # watch = "!watch -t --color -x bash -c 'set -o pipefail; git -c color.ui=always status --short | head -n 3 && echo; git lg --color --all -n 30'"
-  # ===== Cut off long file with mark.  ====
-  # awk 'BEGIN {cutoff = 4} NR < cutoff { print $0 } NR == cutoff {print $0 " ...\n"}'
-  # Maybe also END && NR > 0 {print "\n"}
+tig = !tig
+# also git fscik --dangling --unreachable --lost-found
+fsckdanglingunreachablecommits = "!git fsck --dangling --unreachable | grep commit | tee /dev/stderr |  cut '-d ' -f3 | xargs -n 1 git log -n 1"
 
 [pretty]
 reflog-with-committer-date=%C(auto)%h %<|(20)%gd %C(blue)%cr%C(reset) %gs (%s)
@@ -54,36 +51,35 @@ lg=%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 ff = only
 
 [credential]
-	helper = store
+helper = store
+
 [init]
-	defaultBranch = main
-[notes]
-    # More setup ideas: https://stackoverflow.com/a/40496777/563359
-	rewriteRef = refs/notes/commits
+defaultBranch = main
 
 [difftool "ediff"]
-              cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 [difftool "ediffdir"]
-              cmd = emacs -nw --eval \"(ediff-directories \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+cmd = emacs -nw --eval \"(ediff-directories \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 [difftool "ediffclient"]
-              cmd = emacsclient --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+cmd = emacsclient --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 [difftool "vimdirdiff"]
-  cmd=vimdirdiff "$LOCAL" "$REMOTE"
+cmd=vimdirdiff "$LOCAL" "$REMOTE"
+
 # https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
 [mergetool.ediff]
-        cmd = emacs --eval \"\
-        (progn\
-          (defun ediff-write-merge-buffer ()\
-            (let ((file ediff-merge-store-file))\
-              (set-buffer ediff-buffer-C)\
-              (write-region (point-min) (point-max) file)\
-              (message \\\"Merge buffer saved in: %s\\\" file)\
-              (set-buffer-modified-p nil)\
-              (sit-for 1)))\
-          (setq ediff-quit-hook 'kill-emacs\
-                ediff-quit-merge-hook 'ediff-write-merge-buffer)\
-          (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
-                                           \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
+cmd = emacs --eval \"\
+(progn\
+  (defun ediff-write-merge-buffer ()\
+    (let ((file ediff-merge-store-file))\
+      (set-buffer ediff-buffer-C)\
+      (write-region (point-min) (point-max) file)\
+      (message \\\"Merge buffer saved in: %s\\\" file)\
+      (set-buffer-modified-p nil)\
+      (sit-for 1)))\
+  (setq ediff-quit-hook 'kill-emacs\
+        ediff-quit-merge-hook 'ediff-write-merge-buffer)\
+  (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
+                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 #
 # === .hgrc merge config ===
 # vimdiff_4.executable = vimdiff
@@ -94,13 +90,17 @@ ff = only
 # vimdiff_3.premerge = keep
 
 [tig]
-    refresh-mode=periodic
-    refresh-interval=3
-    main-view-date-display=relative-compact
-    main-view-id-display=true
-    # Tig always shows "author dates" instead of "commit dates",
-    # making reflog dates are very confusing
-    reflog-view-date-display=relative
+refresh-mode=periodic
+refresh-interval=3
+main-view-date-display=relative-compact
+main-view-id-display=true
+# Tig always shows "author dates" instead of "commit dates",
+# making reflog dates are very confusing
+reflog-view-date-display=relative
+
+# [notes]
+# # More setup ideas: https://stackoverflow.com/a/40496777/563359
+# rewriteRef = refs/notes/commits
 
 [include]
-    path = ~/.config/git/site.config
+path = ~/.config/git/site.config
