@@ -2,4 +2,13 @@
 # Usage: `viclip` or `viclip emacs`.
 
 EDITOR=${1-$EDITOR}
-vis-clipboard --paste | vipe | ifne tee /tmp/clipboard_last | ifne vis-clipboard --copy
+export EDITOR
+vis-clipboard --paste | vipe |
+  ifne tee /tmp/clipboard_last |
+  ifne vis-clipboard --copy || (
+    echo vis-clipboard exited with "$?" exit code.;
+    printf "Debug: EDITOR=$EDITOR; VISUAL=$VISUAL args: [%s]\n\n" "$@";
+    echo ======== Output =========;
+    cat /tmp/clipboard_last;
+    pause_after echo =========================
+  )
