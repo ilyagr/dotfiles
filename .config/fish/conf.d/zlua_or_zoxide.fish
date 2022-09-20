@@ -25,7 +25,17 @@ if which lua > /dev/null && test -r $zlua_path
         end
     end
 
+    function z --wraps=_zlua --description 'alias z=_zlua'
+        set -g _ZL_LAST_ARGS $argv
+        _zlua $argv;
+    end
+
+    function zF
+        zf $_ZL_LAST_ARGS
+    end
+
     alias Z zf
+
 
 else if which zoxide > /dev/null
   zoxide init fish | source
