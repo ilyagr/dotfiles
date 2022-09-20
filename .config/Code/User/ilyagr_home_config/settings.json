@@ -3,7 +3,6 @@
     "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
     "editor.fontSize": 13.5,
     "editor.renderControlCharacters": true,
-    "diffEditor.renderSideBySide": false,
 
     "git.autofetch": true,
     "git.confirmSync": false,
@@ -118,7 +117,6 @@
     "code-eol.returnCharacter": "↓",
     "code-eol.newlineCharacter": "↵",
     "editor.renderWhitespace": "trailing",
-    "editor.experimental.stickyScroll.enabled": true,
     "editor.minimap.showSlider": "always",
     "gitHistory.showEditorTitleMenuBarIcons": false,
     "workbench.sideBar.location": "right",
@@ -126,4 +124,6 @@
     "editor.minimap.size": "fit",
     "Lua.telemetry.enable": true,
     "code-eol.decorateBeforeEol": true,
+    "editor.stickyScroll.enabled": true,
+    "rust-analyzer.checkOnSave.enable": false,
 }
