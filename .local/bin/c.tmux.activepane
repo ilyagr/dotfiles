@@ -1,3 +1,0 @@
-#!/bin/sh
-tmux set -g window-active-style 'fg=terminal,bg=terminal'
-tmux set -g window-style 'fg=white,bg=black' # Or brightblack, or swap bg colors

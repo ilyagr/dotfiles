@@ -1,3 +1,0 @@
-#!/bin/sh
-tmux set -gu window-active-style
-tmux set -gu window-style
