@@ -1,0 +1,8 @@
+#!/usr/bin/env fish
+# Draft
+while true
+    ssh -AYt $argv '~/config_scripts/tmux-try-to-attach'
+    # Disable focus events. Would be nice to also disable bracketed paste and have a better way
+    printf "\e[?1004l"
+    read -n1 -p 'echo "           "; set_color green; echo -n  "==== Press Enter to reconnect or ^C to exit. ==== "; set_color normal' || break
+end

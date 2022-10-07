@@ -1,5 +1,7 @@
 #!/bin/sh
 "$@"
+printf '\033[01;32m' # Green color
 printf "\`%s\` exited with error code %s. Press Enter to continue. " "$1" "$?"
+printf '\033[00m'    # Reset color
 # Alternatively, pressing ^D causes an error code and ^C causes an abort.
 read -r __unused || (echo "(Got EOF or ^D)"; false)
