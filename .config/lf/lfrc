@@ -24,15 +24,15 @@ cmd follow_link %{{
 map gL follow_link
 
 set previewer ~/.config/lf/preview.sh
-cmd _preview_sh $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC $f
+cmd _preview_sh $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC -+F -+X "$f"
 map I _preview_sh
-map i $less -CS "$f"
+map i $less -SC -+F -+X "$f"
 
 # Pager instead of open when pressing <right>
 cmd open _preview_sh
 # Old open behavior on x
 map x &$OPENER "$f"
-map <enter> shell
+map <enter> push $<space>"$f"<home>
 
 # Add some sanity. Suggest this for default bindings?
 cmap <c-g>  cmd-escape  # Maybe not this one
