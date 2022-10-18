@@ -13,6 +13,9 @@ set scrolloff 5
 # <tab>, defined below, works to undo `filter` somehow.
 map * filter
 
+map <enter> push $<space>$fx<home>
+# <a-enter> doesn't work, bug?
+map <a-enter> push !<space>$fx<home>
 # Defaults to w. May need to change to a "push"
 # mapping to work on Windows.
 map S $$SHELL
@@ -32,7 +35,6 @@ map i $less -SC -+F -+X "$f"
 cmd open _preview_sh
 # Old open behavior on x
 map x &$OPENER "$f"
-map <enter> push $<space>"$f"<home>
 
 # Add some sanity. Suggest this for default bindings?
 cmap <c-g>  cmd-escape  # Maybe not this one
