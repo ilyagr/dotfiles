@@ -1,0 +1,18 @@
+#!/bin/sh
+watch --exec --color -t -- sh ~/.local/bin/jj.logstatus $@
+exit $?
+
+
+# None of the following works
+CODE=$( cat <<'END'
+MAIN_BRANCH=${1-master}
+echo "$@"
+echo $MAIN_BRANCH
+jj diff -s --color=always |ifne sh -c 'cat && echo'
+# Don't edit this! It doesn't work
+jj --color always log -r "$MAIN_BRANCH..@|@..$MAIN_BRANCH|@|$MAIN_BRANCH..branches()"
+END
+)
+
+watch --color -t -- "printf %s \'$CODE\' | sh - \"$@\""
+watch --color -t -- sh -c "$CODE" "$@"

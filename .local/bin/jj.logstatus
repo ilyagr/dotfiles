@@ -1,0 +1,8 @@
+#!/bin/sh
+MAIN_BRANCH=${1-$(git branch | (grep -Eo 'main|master' || echo ??main_branch_not_found??) |head -n 1)}
+jj diff -s --color=always |ifne sh -c 'cat && echo'
+EXPR="$MAIN_BRANCH..@|@..$MAIN_BRANCH|@|$MAIN_BRANCH..branches()|$MAIN_BRANCH|remote_branches().. | (remote_branches()..)-"
+# EXPR="$MAIN_BRANCH..|remote_branches().. | (remote_branches()..)-|@..$MAIN_BRANCH"
+jj --color always log -r "$EXPR" |
+    sed -e 's/users.noreply.github.com/github/' -e 's/:[0-9][0-9].000//' -e 's/:00//'
+# Note: sed -E for normal regex

@@ -1,0 +1,3 @@
+#!/bin/sh
+jj --color=always op log|nl|grep -E -C 1  --color=always "${@:-^}"| less -R --quit-if-one-screen
+
