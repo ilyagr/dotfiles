@@ -1,7 +1,7 @@
 ### To run
 
 ```bash
-sudo apt install stow tmux fish git terminfo kitty-terminfo\
+sudo apt install -y stow tmux fish git terminfo kitty-terminfo\
     lua5.4 fzf ncdu htop kakoune bat highlight # Or see below
 mkdir -p ~/stow && cd ~/stow
 git clone https://github.com/ilyagr/dotfiles.git # Or git@github.com:ilyagr/dotfiles.git
