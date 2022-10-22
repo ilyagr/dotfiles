@@ -15,7 +15,7 @@ c.each_stow git config user.email ilyagr@users.noreply.github.com
 # https://backports.debian.org/Instructions/
 # Not sure if any of these have backports anymore.
 sudo apt install -t bullseye-backports git gitk gitgui tmux fish ripgrep stow
-# Maybe also ncdu (instead of baobab), file-roller and p7zip-full
+# Maybe also ncdu file-roller and p7zip-full
 bash ~/config_scripts/installers/ripgerp_dot_ignore.bash
 ```
 
