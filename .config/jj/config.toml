@@ -1,0 +1,8 @@
+[user]
+name =  "Ilya Grigoriev"
+email = "ilyagr@users.noreply.github.com"
+
+[ui]
+# diff-editor="vimdiff"
+diff-editor = "vimdirdiff"
+color = "always"

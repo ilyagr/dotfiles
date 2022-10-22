@@ -126,4 +126,9 @@
     "code-eol.decorateBeforeEol": true,
     "editor.stickyScroll.enabled": true,
     "rust-analyzer.checkOnSave.enable": false,
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "rust-analyzer.cargo.buildScripts.overrideCommand": null,
+    // "remote.SSH.defaultExtensions": [
+    //     "gitpod.gitpod-remote-ssh"
+    // ],
 }

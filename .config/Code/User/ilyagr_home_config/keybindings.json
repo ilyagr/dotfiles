@@ -185,5 +185,25 @@
           "text": "\u0003"
         },
         "when": "terminalFocus"
-    },
+	},
+	{
+		"key": "ctrl+alt+d",
+		"command": "dance.modes.set",
+		"args": {
+			"input": "disabled"
+		},
+		"when": "dance.mode != 'disabled'"
+	},
+	{
+		"key": "ctrl+alt+d",
+		"command": "dance.modes.set",
+		"args": {
+			"input": "normal"
+		},
+		"when": "dance.mode == 'disabled'"
+	},
+	{
+		"key": "ctrl+alt+s",
+		"command": "dance.selections.select"
+	},
 ]
