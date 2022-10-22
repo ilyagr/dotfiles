@@ -1,19 +1,20 @@
 ### To run
 
 ```bash
-sudo apt install stow tmux fish  # Or see below
+sudo apt install stow tmux fish git terminfo kitty-terminfo\
+    lua5.4 fzf ncdu htop kakoune bat highlight # Or see below
 mkdir -p ~/stow && cd ~/stow
 git clone https://github.com/ilyagr/dotfiles.git # Or git@github.com:ilyagr/dotfiles.git
 git clone https://github.com/ilyagr/stow_nofold.git
 # May need to workshop the following
 git clone --recurse-submodules --shallow-submodules --remote-submodules https://github.com/ilyagr/dotfiles_submodules submodules
 stow dotfiles
-~/config_scripts/restow -R
-~/config_scripts/each_stow git config user.email ilyagr@users.noreply.github.com
+c.restow -R
+c.each_stow git config user.email ilyagr@users.noreply.github.com
 
 # https://backports.debian.org/Instructions/
 # Not sure if any of these have backports anymore.
-sudo apt install -t bullseye-backports git gitk gitgui tmux fish ripgrep stow
+sudo apt install -t bookworm-backports git gitk gitgui tmux fish ripgrep stow
 # Maybe also ncdu (instead of baobab), file-roller and p7zip-full
 bash ~/config_scripts/installers/ripgerp_dot_ignore.bash
 ```
