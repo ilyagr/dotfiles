@@ -19,6 +19,12 @@ sudo apt install -t bullseye-backports git gitk gitgui tmux fish ripgrep stow
 bash ~/config_scripts/installers/ripgerp_dot_ignore.bash
 ```
 
+For cloud computers:
+
+```
+git clone git@github.com:ilyagr/dotfiles_remote.git cloud 
+```
+
 Maybe `sudo apt install powerline fonts-powerline  # For fonts`
 
 ### Finding stragglers
