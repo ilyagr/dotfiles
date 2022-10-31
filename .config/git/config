@@ -104,3 +104,8 @@ reflog-view-date-display=relative
 
 [include]
 path = ~/.config/git/site.config
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
