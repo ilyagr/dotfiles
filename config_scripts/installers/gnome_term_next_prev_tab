@@ -1,0 +1,6 @@
+#!/bin/sh
+dconf load / <<'END'
+[org/gnome/terminal/legacy/keybindings]
+prev-tab='<Primary><Shift>Tab'
+next-tab='<Primary>Tab'
+END
