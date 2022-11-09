@@ -119,7 +119,6 @@
     "editor.renderWhitespace": "trailing",
     "editor.minimap.showSlider": "always",
     "gitHistory.showEditorTitleMenuBarIcons": false,
-    "workbench.sideBar.location": "right",
     "autoHide.autoHidePanel": false,
     "editor.minimap.size": "fit",
     "Lua.telemetry.enable": true,
@@ -128,6 +127,7 @@
     "rust-analyzer.checkOnSave.enable": false,
     "editor.inlayHints.enabled": "offUnlessPressed",
     "rust-analyzer.cargo.buildScripts.overrideCommand": null,
+    "workbench.sideBar.location": "right",
     // "remote.SSH.defaultExtensions": [
     //     "gitpod.gitpod-remote-ssh"
     // ],
