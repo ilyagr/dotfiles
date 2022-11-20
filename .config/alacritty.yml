@@ -1,0 +1,12 @@
+# For defaults, see
+# /usr/share/doc/alacritty/examples/alacritty.yml
+
+font:
+    size: 12.0
+
+colors:
+    normal:
+        black:   '#2c2e32'
+        # black:   '#373b41'
+        # black:   '#282a2e'
+
