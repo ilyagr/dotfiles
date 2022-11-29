@@ -5,16 +5,15 @@ email = "ilyagr@users.noreply.github.com"
 [ui]
 diff-editor = "vimdirdiff"
 merge-editor = "vimdiff"
+# merge-editor = "meld"
 # merge-editor = "kdiff3"
 color = "always"
 
-[merge-tools]
-meld.program = "meld"
-meld.merge-args = ["$left", "$base", "$right", "-o", "$output"]
-kdiff3.program = "kdiff3"
-kdiff3.merge-args = ["$left", "$base", "$right", "-o", "$output"]
-vimdiff.program = "vimdiff"
-vimdiff.merge-args = ["-f", "-d", "$output", "-M",
-                      "$left", "$base", "$right",
-                      "-c", "wincmd J", "-c", "set modifiable",
-                      "-c", "set write"]
+# [merge-tools]
+# meld.merge-args = ["$left", "$base", "$right", "-o", "$output", "--auto-merge"]
+# kdiff3.merge-args = ["$base", "$left", "$right", "-o", "$output", "--auto"]
+# vimdiff.merge-args = ["-f", "-d", "$output", "-M",
+#                       "$left", "$base", "$right",
+#                       "-c", "wincmd J", "-c", "set modifiable",
+#                       "-c", "set write"]
+# vimdiff.merge-tool-edits-conflict-markers=true
