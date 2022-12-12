@@ -2,6 +2,8 @@ export EDITOR=vim
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep.conf
 LESS="FRX --mouse --wheel-lines=2"
 export LESS
+HWATCH="-t --color --no-help-banner --mouse"
+export HWATCH
 
 if [ -f ~/config_scripts/bash_config_site.bash ]; then
   . ~/config_scripts/bash_config_site.bash

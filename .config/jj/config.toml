@@ -17,3 +17,11 @@ color = "always"
 #                       "-c", "wincmd J", "-c", "set modifiable",
 #                       "-c", "set write"]
 # vimdiff.merge-tool-edits-conflict-markers=true
+
+[alias]
+# Will probably delete these
+prev = ["co", "@--"]
+next = ["co", "@-+ ~ @"]
+
+[revset-aliases]
+next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
