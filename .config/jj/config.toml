@@ -25,3 +25,20 @@ next = ["co", "@-+ ~ @"]
 
 [revset-aliases]
 next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
+
+[template.log]
+graph='''
+if(divergent, label("warning",change_id.short()) ,change_id.short())
+if(divergent, label("divergent", " divergent"))
+" " author.email()
+" " label("timestamp", committer.timestamp())
+if(branches, " " branches)
+if(tags, " " tags)
+if(working_copies, " " working_copies)
+if(is_git_head, label("git_head", " HEAD@git"))
+" " commit_id.short()
+if(conflict, label("conflict", " conflict"))
+"\n"
+description.first_line()
+"\n"
+'''
