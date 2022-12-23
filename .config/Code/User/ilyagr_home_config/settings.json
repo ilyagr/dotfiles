@@ -127,6 +127,7 @@
     "editor.inlayHints.enabled": "offUnlessPressed",
     // "rust-analyzer.cargo.buildScripts.overrideCommand": null,
     "workbench.sideBar.location": "right",
+    "window.commandCenter": true,
     // "remote.SSH.defaultExtensions": [
     //     "gitpod.gitpod-remote-ssh"
     // ],
