@@ -27,9 +27,12 @@ next = ["co", "@-+ ~ @"]
 next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
 
 [template.log]
+# if(divergent, label("warning",change_id.short()) ,change_id.short())
+# if(divergent, label("divergent", "??"))
+# if(divergent, label("divergent", " divergent"))
 graph='''
-if(divergent, label("warning",change_id.short()) ,change_id.short())
-if(divergent, label("divergent", " divergent"))
+change_id.short()
+if(divergent, label("divergent", "??"))
 " " author.email()
 " " label("timestamp", committer.timestamp())
 if(branches, " " branches)
