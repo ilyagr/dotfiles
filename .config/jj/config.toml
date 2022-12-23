@@ -25,6 +25,9 @@ next = ["co", "@-+ ~ @"]
 
 [revset-aliases]
 next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
+M = "present(main) | present(master)"  # Main branch
+# R: "relevant commits" from jj.logstatus. Better name?
+R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
 
 [template.log]
 # if(divergent, label("warning",change_id.short()) ,change_id.short())
