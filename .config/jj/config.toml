@@ -8,15 +8,28 @@ merge-editor = "vimdiff"
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
 color = "always"
+relative-timestamps = true
+unique-prefixes = "underscore"
 
-# [merge-tools]
+[merge-tools.kdiff3]
+edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
+
+[merge-tools.kd]
+# Possibly useless, no --merge
+edit-args = ["--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
+# No auto
+kdiff3.merge-args = ["$base", "$left", "$right", "-o", "$output"]
+program="kdiff3"
+
+[merge-tools.bcompare]
+merge-args = ["$left", "$base", "$right", "$output"]
+merge-tool-edits-conflict-markers=true
+
 # meld.merge-args = ["$left", "$base", "$right", "-o", "$output", "--auto-merge"]
-# kdiff3.merge-args = ["$base", "$left", "$right", "-o", "$output", "--auto"]
 # vimdiff.merge-args = ["-f", "-d", "$output", "-M",
 #                       "$left", "$base", "$right",
 #                       "-c", "wincmd J", "-c", "set modifiable",
 #                       "-c", "set write"]
-# vimdiff.merge-tool-edits-conflict-markers=true
 
 [alias]
 # Will probably delete these
@@ -30,21 +43,14 @@ M = "present(main) | present(master)"  # Main branch
 R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
 
 [template.log]
-# if(divergent, label("warning",change_id.short()) ,change_id.short())
+# 
 # if(divergent, label("divergent", "??"))
 # if(divergent, label("divergent", " divergent"))
-graph='''
-change_id.short()
-if(divergent, label("divergent", "??"))
-" " author.email()
-" " label("timestamp", committer.timestamp())
-if(branches, " " branches)
-if(tags, " " tags)
-if(working_copies, " " working_copies)
-if(is_git_head, label("git_head", " HEAD@git"))
-" " commit_id.short()
-if(conflict, label("conflict", " conflict"))
-"\n"
-description.first_line()
-"\n"
-'''
+
+# change_id.short()
+# if(divergent, label("divergent", "??"))
+
+
+[colors]
+"divergent change_id"="red"
+"working_copy divergent change_id"="bright red"
