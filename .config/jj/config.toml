@@ -9,16 +9,21 @@ merge-editor = "vimdiff"
 # merge-editor = "kdiff3"
 color = "always"
 relative-timestamps = true
+graph.format="curved"
 unique-prefixes = "underscore"
 
 [merge-tools.kdiff3]
 edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
 
+[merge-tools.kdiff3f] # Flipped
+merge-args = [ "$base",  "$right","$left", "-o", "$output", "--auto",]
+program="kdiff3"
+
 [merge-tools.kd]
 # Possibly useless, no --merge
 edit-args = ["--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
 # No auto
-kdiff3.merge-args = ["$base", "$left", "$right", "-o", "$output"]
+merge-args = ["$base", "$left", "$right", "-o", "$output"]
 program="kdiff3"
 
 [merge-tools.bcompare]
@@ -52,5 +57,14 @@ R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (
 
 
 [colors]
-"divergent change_id"="red"
-"working_copy divergent change_id"="bright red"
+# "empty" = "green"
+# "working_copy empty" = "bright green"
+# "working_copy email" = "yellow"
+# "working_copy description" = "bright normal"
+
+# TODO: I probably want to uncomment these after a bit
+# Colors invisible in bright themes
+# "working_copy description" = "bright white"
+# "op-log head description" = "bright white"
+# "op-log head tags" = "bright white"
+# "diff file_header" = "bright white"
