@@ -10,7 +10,12 @@ merge-editor = "vimdiff"
 color = "always"
 relative-timestamps = true
 graph.format="curved"
-unique-prefixes = "underscore"
+unique-prefixes = "styled"
+
+[merge-tools.diff]
+edit-args = ["-r", "--brief", "--new-file"]
+[merge-tools.git]
+edit-args = ["diff", "--no-index", "--name-only"]
 
 [merge-tools.kdiff3]
 edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
@@ -25,6 +30,7 @@ edit-args = ["--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
 # No auto
 merge-args = ["$base", "$left", "$right", "-o", "$output"]
 program="kdiff3"
+
 
 [merge-tools.bcompare]
 merge-args = ["$left", "$base", "$right", "$output"]

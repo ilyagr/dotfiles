@@ -1,0 +1,12 @@
+#!/bin/sh
+# Uses https://github.com/Soares/tabdiff.vim
+left_and_right() {
+    while read -r LINE; do
+        printf "%s\n" "$LINE" | sed s/right/left/
+        printf "%s\n" "$LINE"
+    done 
+}
+
+# VIMEXEC="vim -g --nofork" works
+git diff --no-index --name-only "$1" "$2" | left_and_right | \
+   xargs -d "\n" ${VIMEXEC-vim} -c 'silent :TabDiff'
