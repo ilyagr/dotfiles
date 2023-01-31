@@ -3,11 +3,9 @@
     "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
     "editor.fontSize": 13.5,
     "editor.renderControlCharacters": true,
-
     "git.autofetch": true,
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
-
     "alt-editor.name": "emacs",
     "alt-editor.binary": "emacsclient",
     "alt-editor.args": "-c -a emacs --no-wait +{line}:{column} {filename}",
@@ -15,7 +13,6 @@
     "alt-editor.terminal": false,
     // Error: Command failed: gnome-terminal -x sh -c  \
     // 'emacs --no-splash +7:1 /home/ilyagr/dev/ripgrep/NOTES_ILYA.org'
-
     "dance.modes": {
         "input": { // Probably doesn't do anything.
             "cursorStyle": "underline-thin"
@@ -23,9 +20,8 @@
         "normal": {
             "cursorStyle": "block",
             "lineNumbers": "relative",
-            "selectionBehavior": "character",  // Seems necesary with block cursor.
+            "selectionBehavior": "character", // Seems necesary with block cursor.
         },
-
         // ======= For playing with my extension =======
         "pending": {
             // "cursorStyle": "underline-thin"
@@ -41,7 +37,6 @@
             "selectionBehavior": "character",
         }
     },
-
     "rust-client.engine": "rust-analyzer",
     "julia.enableTelemetry": true,
     "julia.symbolCacheDownload": true,
@@ -49,21 +44,26 @@
     "terminal.integrated.commandsToSkipShell": [
         "language-julia.interrupt"
     ],
-
     // BEGIN Vim & VSpaceCode
     "vspacecode.bindingOverrides": [
-      {
-        "keys": ["j", "["],  // "j.[" should also work.
-        "name": "Go back",
-        "type": "command",
-        "command":"workbench.action.navigateBack",
-      },
-      {
-        "keys": ["j", "]"],
-        "name": "Go forward",
-        "type": "command",
-        "command":"workbench.action.navigateForward",
-      },
+        {
+            "keys": [
+                "j",
+                "["
+            ], // "j.[" should also work.
+            "name": "Go back",
+            "type": "command",
+            "command": "workbench.action.navigateBack",
+        },
+        {
+            "keys": [
+                "j",
+                "]"
+            ],
+            "name": "Go forward",
+            "type": "command",
+            "command": "workbench.action.navigateForward",
+        },
     ],
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
@@ -111,7 +111,7 @@
             ]
         }
     ],
-	// END VSpaceCode
+    // END VSpaceCode
     "window.titleBarStyle": "custom",
     "code-eol.highlightExtraWhitespace": true,
     "code-eol.returnCharacter": "↓",
@@ -129,6 +129,10 @@
     "workbench.sideBar.location": "right",
     "window.commandCenter": true,
     "editor.minimap.enabled": false,
+    "[rust]": {
+        "editor.formatOnSave": true,
+    },
+    "rust-analyzer.check.command": "clippy",
     // "remote.SSH.defaultExtensions": [
     //     "gitpod.gitpod-remote-ssh"
     // ],
