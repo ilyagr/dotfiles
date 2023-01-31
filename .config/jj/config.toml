@@ -9,8 +9,7 @@ merge-editor = "vimdiff"
 # merge-editor = "kdiff3"
 color = "always"
 relative-timestamps = true
-graph.format="curved"
-unique-prefixes = "styled"
+graph.style = "curved"
 
 [merge-tools.diff]
 edit-args = ["-r", "--brief", "--new-file"]
@@ -24,6 +23,12 @@ edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
 merge-args = [ "$base",  "$right","$left", "-o", "$output", "--auto",]
 program="kdiff3"
 
+[merge-tools.p4merge]
+merge-args = [ "$base",  "$left", "$right", "$output"]
+[merge-tools.p4mergef]
+merge-args = [ "$base",  "$right", "$left", "$output"]
+program="p4merge"
+
 [merge-tools.kd]
 # Possibly useless, no --merge
 edit-args = ["--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
@@ -33,7 +38,8 @@ program="kdiff3"
 
 
 [merge-tools.bcompare]
-merge-args = ["$left", "$base", "$right", "$output"]
+# merge-args = ["$left", "$base", "$right", "$output"]
+merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts", "-solo"]
 merge-tool-edits-conflict-markers=true
 
 # meld.merge-args = ["$left", "$base", "$right", "-o", "$output", "--auto-merge"]
@@ -63,6 +69,9 @@ R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (
 
 
 [colors]
+# "diff removed" = {fg="red", bold=true}
+# "diff added" = {fg="green", bold = true}
+# "diff modified" = {fg="cyan", bold=true}
 # "empty" = "green"
 # "working_copy empty" = "bright green"
 # "working_copy email" = "yellow"

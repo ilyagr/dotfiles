@@ -1,11 +1,16 @@
+# Unstable
+set cursorparentfmt "\033[7;90m"
+
 # # Possible TODOs:
 # * On-cd for z
 # * Set LF_CLONE on cloning, make it show a note somehow.
 
 set mouse on
+
+set errorfmt "\033[1;31m%s\033[0m"
 # Prettier than an error
-map <c-m-1> echo '<c-m-1> does not do much'
-map <m-3> echo '<m-3> does not do much'
+# map <c-m-1> echo '<c-m-1> does not do much'
+# map <m-3> echo '<m-3> does not do much'
 
 cmd cfg_reload source ~/.config/lf/lfrc
 # Temporary
