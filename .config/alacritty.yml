@@ -10,3 +10,31 @@ colors:
         # black:   '#373b41'
         # black:   '#282a2e'
 
+# ###############################
+# My version of gruvbox-material, see ~/.config/kitty
+
+colors:
+    primary:
+       foreground:   '#d4be98'
+       background:   '#32302f'
+    cursor:
+       cursor:  '#d4be98'
+
+    normal:
+      black:   '#3c3836' # color0
+      red:     '#b85651' # color1
+      green:   '#8f9a52' # color2
+      yellow:  '#c18f41' # color3
+      blue:    '#68948a' # color4
+      magenta: '#ab6c7d' # color5
+      cyan:    '#72966c' # color6
+      white:   '#a89984' # color7
+    bright:
+       black:   '#5a524c' # color8
+       red:     '#b85651' # color9
+       green:   '#a9b665' # color10
+       yellow:  '#d8a657' # color11
+       blue:    '#7daea3' # color12
+       magenta: '#d3869b' # color13
+       cyan:    '#89b482' # color14
+       white:   '#ddc7a1' # color15
