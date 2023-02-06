@@ -206,4 +206,12 @@
 		"key": "ctrl+alt+s",
 		"command": "dance.selections.select"
 	},
+	{
+		"key": "ctrl+s",
+		"command": "-workbench.action.files.save"
+	},
+	{
+		"key": "ctrl+s",
+		"command": "workbench.action.files.saveFiles"
+	},
 ]
