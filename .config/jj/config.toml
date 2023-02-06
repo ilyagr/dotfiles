@@ -10,6 +10,11 @@ merge-editor = "vimdiff"
 color = "always"
 relative-timestamps = true
 graph.style = "curved"
+log-id-preferred-length=5
+
+[merge-tools.vscode]
+program = "code"
+merge-args = ["--new-window", "--wait", "--merge", "$left", "$right", "$base", "$output"]
 
 [merge-tools.diff]
 edit-args = ["-r", "--brief", "--new-file"]
@@ -48,7 +53,7 @@ merge-tool-edits-conflict-markers=true
 #                       "-c", "wincmd J", "-c", "set modifiable",
 #                       "-c", "set write"]
 
-[alias]
+[aliases]
 # Will probably delete these
 prev = ["co", "@--"]
 next = ["co", "@-+ ~ @"]

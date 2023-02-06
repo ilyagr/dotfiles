@@ -1,8 +1,8 @@
 #!/bin/sh
-# All but the first command have --no-commit-working-copy
-(jj diff -s --color=always; jj --no-commit-working-copy resolve --list --color=always 2>/dev/null) |sed -E 's/\t(.*)$/\t \1\t\t     (debug \\t in hwatch)/'| ifne sh -c 'cat && echo'
+# All but the first command have --ignore-working-copy
+(jj diff -s --color=always; jj --ignore-working-copy resolve --list --color=always 2>/dev/null) |sed -E 's/\t(.*)$/\t \1\t\t     (debug \\t in hwatch)/'| ifne sh -c 'cat && echo'
 EXPR="MAIN..@|(MAIN..@)-|@..MAIN|@|MAIN..branches()|(MAIN..branches())-|MAIN|remote_branches().. | (remote_branches()..)-"
-jj --no-commit-working-copy --color always --config-toml '
+jj --ignore-working-copy --color always --config-toml '
        ui.relative-timestamps=false
        revset-aliases.MAIN = "present(main) | present(master)"
        ' log -r "$EXPR" $@ |
