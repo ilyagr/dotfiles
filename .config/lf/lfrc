@@ -1,5 +1,7 @@
 # Unstable
 set cursorparentfmt "\033[7;90m"
+map v invert-below
+map V invert
 
 # # Possible TODOs:
 # * On-cd for z
@@ -68,9 +70,9 @@ cmd recol ${{
     if [ $w -le 30 ]; then
         set nopreview
         lf -remote "send $id set ratios 1"
-    elif [ $w -le 60 ]; then
+    elif [ $w -le 50 ]; then
         lf -remote "send $id set ratios 1:1"
-    elif [ $w -le 80 ]; then
+    elif [ $w -le 65 ]; then
         lf -remote "send $id set ratios 1:2"
     elif [ $w -le 130 ]; then  # Was 160
         lf -remote "send $id set ratios 2:3:4"
@@ -105,7 +107,9 @@ map P :link
 # and https://github.com/gokcehan/lf/discussions/915#discussioncomment-3443002
 # push m-
 # map Q push '-q
-map q %{{
-  lf -remote "send $id :cd $OLDPWD; quit"
-}}
+
+# The following works well, but perhaps `cd -` after quitting lf is better.
+# map q %{{
+#   lf -remote "send $id :cd $OLDPWD; quit"
+# }}
 map Q quit
