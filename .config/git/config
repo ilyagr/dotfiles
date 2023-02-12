@@ -50,6 +50,9 @@ lg=%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 # rebase = true
 ff = only
 
+[merge]
+conflictStyle="zdiff3"
+
 [credential]
 helper = store
 

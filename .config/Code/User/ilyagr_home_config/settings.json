@@ -133,6 +133,10 @@
         "editor.formatOnSave": true,
     },
     "rust-analyzer.check.command": "clippy",
+    "files.watcherExclude": {
+        "**/.jj/repo/**": true,
+        "target/**": true
+    },
     // "remote.SSH.defaultExtensions": [
     //     "gitpod.gitpod-remote-ssh"
     // ],
