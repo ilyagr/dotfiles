@@ -8,21 +8,26 @@ merge-editor = "vimdiff"
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
 color = "always"
-relative-timestamps = true
-graph.style = "curved"
-log-id-preferred-length=5
+
+[template-aliases]
+"format_short_id(id)" = "id.shortest(6)"
+"format_timestamp(timestamp)" = "timestamp.ago()"
 
 [merge-tools.vscode]
 program = "code"
 merge-args = ["--new-window", "--wait", "--merge", "$left", "$right", "$base", "$output"]
 
 [merge-tools.diff]
-edit-args = ["-r", "--brief", "--new-file"]
+edit-args = ["-r", "--brief", "--new-file", "-s", "$left", "$right"]
+[merge-tools.diff3]
+program="sh"
+merge-args = [ "-c", "git merge-file --zdiff3 --stdout \"$left\" \"$base\" \"$right\" | diff -u \"$left\" -"]
+
 [merge-tools.git]
-edit-args = ["diff", "--no-index", "--name-only"]
+edit-args = ["diff", "--no-index", "--name-only", "$left", "$right"]
 
 [merge-tools.kdiff3]
-edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
+edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1", "$left", "$right"]
 
 [merge-tools.kdiff3f] # Flipped
 merge-args = [ "$base",  "$right","$left", "-o", "$output", "--auto",]
@@ -33,14 +38,6 @@ merge-args = [ "$base",  "$left", "$right", "$output"]
 [merge-tools.p4mergef]
 merge-args = [ "$base",  "$right", "$left", "$output"]
 program="p4merge"
-
-[merge-tools.kd]
-# Possibly useless, no --merge
-edit-args = ["--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1"]
-# No auto
-merge-args = ["$base", "$left", "$right", "-o", "$output"]
-program="kdiff3"
-
 
 [merge-tools.bcompare]
 # merge-args = ["$left", "$base", "$right", "$output"]
@@ -57,21 +54,13 @@ merge-tool-edits-conflict-markers=true
 # Will probably delete these
 prev = ["co", "@--"]
 next = ["co", "@-+ ~ @"]
+delta = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi'"]
 
 [revset-aliases]
 next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
 M = "present(main) | present(master)"  # Main branch
 # R: "relevant commits" from jj.logstatus. Better name?
 R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
-
-[template.log]
-# 
-# if(divergent, label("divergent", "??"))
-# if(divergent, label("divergent", " divergent"))
-
-# change_id.short()
-# if(divergent, label("divergent", "??"))
-
 
 [colors]
 # "diff removed" = {fg="red", bold=true}

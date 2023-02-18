@@ -3,3 +3,5 @@
 DIR1=$(printf '%q' "$1"); shift
 DIR2=$(printf '%q' "$1"); shift
 vim $@ -c "colorscheme murphy | DirDiff $DIR1 $DIR2"
+# DifDiff does not currently support -s
+# vim $@ -c "colorscheme murphy | let g:DirDiffAddArgs=\"-s\"| DirDiff $DIR1 $DIR2"

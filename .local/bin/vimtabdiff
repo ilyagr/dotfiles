@@ -9,4 +9,4 @@ left_and_right() {
 
 # VIMEXEC="vim -g --nofork" works
 git diff --no-index --name-only "$1" "$2" | left_and_right | \
-   xargs -d "\n" ${VIMEXEC-vim} -c 'silent :TabDiff'
+   xargs -d "\n" ${VIMEXEC-vim} -c 'colorscheme murphy| silent :TabDiff'
