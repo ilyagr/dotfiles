@@ -65,6 +65,20 @@ map zf push :z-jump<space>-I<space>
 map zz push :z-jump<space>
 
 # From docs
+cmd backup_paste %{{
+    load=$(cat ~/.local/share/lf/files)
+    mode=$(echo "$load" | sed -n '1p')
+    list=$(echo "$load" | sed '1d')
+    if [ $mode = 'copy' ]; then
+        cp -R --backup=numbered $list .
+    elif [ $mode = 'move' ]; then
+        mv --backup=numbered $list .
+        rm ~/.local/share/lf/files
+        lf -remote 'send clear'
+    fi
+}}
+map p :backup_paste
+
 cmd recol ${{
     w=$(tput cols)
     if [ $w -le 30 ]; then
@@ -73,7 +87,7 @@ cmd recol ${{
     elif [ $w -le 50 ]; then
         lf -remote "send $id set ratios 1:1"
     elif [ $w -le 65 ]; then
-        lf -remote "send $id set ratios 1:2"
+        lf -remote "send $id set ratios 3:4"
     elif [ $w -le 130 ]; then  # Was 160
         lf -remote "send $id set ratios 2:3:4"
         set preview
@@ -108,8 +122,8 @@ map P :link
 # push m-
 # map Q push '-q
 
-# The following works well, but perhaps `cd -` after quitting lf is better.
-# map q %{{
-#   lf -remote "send $id :cd $OLDPWD; quit"
-# }}
-map Q quit
+map Q %{{
+  lf -remote "send $id :cd $OLDPWD; quit"
+}}
+# If the above is mapped to `q`
+# map Q quit
