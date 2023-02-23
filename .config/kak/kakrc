@@ -3,6 +3,8 @@ colorscheme solarized-dark
 map global user e -docstring %{Open kakrc} ': e ~/.config/kak/kakrc <ret>'
 map global user c -docstring %{Copy to clipboard} \
     '<a-|> vis-clipboard --copy<ret>'
+map global user t -docstring %{Copy via tmux} \
+    '<a-|> tmux load-buffer -w -<ret>'
 
 add-highlighter global/ number-lines -relative -hlcursor
 # In code, word wrapping makes it confusing to decide where the
