@@ -11,6 +11,7 @@ color = "always"
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
+'format_short_change_id(id)' = 'format_short_id(id).upper()'
 "format_timestamp(timestamp)" = "timestamp.ago()"
 
 [merge-tools.vscode]
