@@ -1,14 +1,11 @@
-# Unstable
-set cursorparentfmt "\033[7;90m"
-map v invert-below
-map V invert
-
 # # Possible TODOs:
 # * On-cd for z
 # * Set LF_CLONE on cloning, make it show a note somehow.
 
 set mouse on
+set hidden
 
+set cursorparentfmt "\033[7;90m"
 set errorfmt "\033[1;31m%s\033[0m"
 # Prettier than an error
 # map <c-m-1> echo '<c-m-1> does not do much'
@@ -25,6 +22,8 @@ set scrolloff 5
 # <tab>, defined below, works to undo `filter` somehow.
 map * filter
 
+map v invert-below
+map V invert
 map <enter> push $<space>$fx<home>
 # <a-enter> doesn't work, bug?
 map <a-enter> push !<space>$fx<home>

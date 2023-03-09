@@ -63,7 +63,8 @@ command Space call SpaceVimStart()
 
 set wrap
 
-if &diff
+set diffopt+=algorithm:patience
+if &diff || get(g:, 'some_variable_indicating_about_to_diff')
   " " As an alternative, could try github, monokai themes from
   " " https://stackoverflow.com/a/53130672/563359
   " " or Vim 9's https://github.com/vim/colorschemes
