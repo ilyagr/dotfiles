@@ -4,8 +4,9 @@
 EXPR="MAIN..@|(MAIN..@)-|@..MAIN|@|MAIN..branches()|(MAIN..branches())-|MAIN|remote_branches().. | (remote_branches()..)-"
 jj --ignore-working-copy --color always --config-toml '
        ui.relative-timestamps=false
-       template-aliases."format_timestamp(timestamp)" = "timestamp"
+       template-aliases."format_timestamp(timestamp)" = "timestamp.format(\"%Y-%m-%d %H:%M %:::z\")"
        revset-aliases.MAIN = "present(main) | present(master)"
        ' log -r "$EXPR" $@ |
-    sed -e 's/users.noreply.github.com/github/' -e 's/:[0-9][0-9].000//' -e 's/:00//'
+       cat
+#    sed -e 's/users.noreply.github.com/github/' -e 's/:[0-9][0-9].000//' -e 's/:00//'
 # Note: sed -E for normal regex

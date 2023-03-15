@@ -8,11 +8,13 @@ merge-editor = "vimdiff"
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
 color = "always"
+log-word-wrap=true
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
 'format_short_change_id(id)' = 'format_short_id(id).upper()'
 "format_timestamp(timestamp)" = "timestamp.ago()"
+"format_short_signature(signature)" = 'label("email", signature.username() ++ "@")'
 
 [merge-tools.vscode]
 program = "code"
