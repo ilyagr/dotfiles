@@ -3,7 +3,7 @@ name =  "Ilya Grigoriev"
 email = "ilyagr@users.noreply.github.com"
 
 [ui]
-diff-editor = "vimdirdiff"
+diff-editor = "vimtabdiff.py"
 merge-editor = "vimdiff"
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
@@ -19,13 +19,25 @@ log-word-wrap=true
 [merge-tools.vscode]
 program = "code"
 merge-args = ["--new-window", "--wait", "--merge", "$left", "$right", "$base", "$output"]
+use-tmp-dir-under-workspace=true
 
 [merge-tools.idea]
 program = "idea"
 edit-args = ["diff",  "$left", "$right"]
 merge-args = ["merge" , "$left", "$right", "$base", "$output"]
 
-[merge-tools."vimtabdiff.py"]
+[merge-tools.code-xargs]
+program = "sh"
+diff-invocation-style = "repeat-file-pairs"
+edit-args = ["-c",
+    '''printf "%s\0" "$@" | xargs -0 -n2 -P0 -t -- code-wayland --wait --diff''',
+    "unused_name", "$repeat", "$left", "$right"
+    ]
+use-tmp-dir-under-workspace=true
+
+[merge-tools.vimtabdiff]
+# Replaces my old vimtabdiff script
+# Alternatively this can be [merge-tools.'vimtabdiff.py']
 program = "vimtabdiff.py"
 edit-args = ["--vim", '''vim -c "colorscheme murphy"''', "$left", "$right"]
 
@@ -71,8 +83,6 @@ merge-tool-edits-conflict-markers=true
 #                       "-c", "set write"]
 
 [aliases]
-# Will probably delete these
-prev = ["co", "@--"]
 next = ["co", "@-+ ~ @"]
 delta = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi'"]
 deltas = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi -s'"]
