@@ -20,6 +20,23 @@ log-word-wrap=true
 program = "code"
 merge-args = ["--new-window", "--wait", "--merge", "$left", "$right", "$base", "$output"]
 
+[merge-tools.idea]
+program = "idea"
+edit-args = ["diff",  "$left", "$right"]
+merge-args = ["merge" , "$left", "$right", "$base", "$output"]
+
+[merge-tools."vimtabdiff.py"]
+program = "vimtabdiff.py"
+edit-args = ["--vim", '''vim -c "colorscheme murphy"''', "$left", "$right"]
+
+[merge-tools.vimtabdiff-nvim]
+program = "vimtabdiff.py"
+edit-args = ["--vim", '''nvim -c "colorscheme murphy"''', "$left", "$right"]
+
+[merge-tools.vimtabdiff-gvim]
+program = "vimtabdiff.py"
+edit-args = ["--vim", '''gvim --nofork -c "colorscheme murphy"''', "$left", "$right"]
+
 [merge-tools.diff]
 edit-args = ["-r", "--brief", "--new-file", "-s", "$left", "$right"]
 [merge-tools.diff3]

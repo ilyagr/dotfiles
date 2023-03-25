@@ -16,10 +16,20 @@ pushf = push --force-with-lease --force-if-includes
 # This seems dangerous, rewrites too many commits.
 autosquash = rebase --root --autostash --autosquash --interactive
 
+# From https://gist.github.com/gnarf/5406589
+pr  = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && true disabled_this_for_now git checkout pr/$1; }; f"
+pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
+
+delta=-c 'core.pager=delta --syntax-theme ansi' diff
+deltas=-c 'core.pager=delta --syntax-theme ansi -s' diff
+
 meld = difftool -t meld -d
 diffdir = difftool --dir-diff --tool vimdirdiff
 diffdir-bc = difftool --dir-diff --tool bc
 diffdir-meld = meld
+dt = difftool --tool vimtabdiff --dir-diff
+diffdir-vimtab = dt
 
 # Note that the committer date this shows is sometimes different
 # from the magical "ref" date git reflog --relative-date shows.
@@ -50,15 +60,13 @@ lg=%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 # rebase = true
 ff = only
 
-[merge]
-conflictStyle="zdiff3"
-
 [credential]
 helper = store
 
 [init]
 defaultBranch = main
-
+[difftool "vimtabdiff"]
+        cmd = vimtabdiff.py --vim \"vim -c 'colorscheme murphy'\" $LOCAL $REMOTE
 [difftool "ediff"]
 cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 [difftool "ediffdir"]
@@ -92,6 +100,18 @@ cmd = emacs --eval \"\
 # vimdiff_3.args = -f -M $local $base $other -c "wincmd J" -c "setl modifiable write"
 # vimdiff_3.premerge = keep
 
+[diff]
+colorMoved = default
+
+[merge]
+conflictStyle="zdiff3"
+
+[interactive]
+diffFilter = delta --color-only
+
+[delta]
+navigate = true    # use n and N to move between diff sections
+
 [tig]
 refresh-mode=periodic
 refresh-interval=3
@@ -100,6 +120,8 @@ main-view-id-display=true
 # Tig always shows "author dates" instead of "commit dates",
 # making reflog dates are very confusing
 reflog-view-date-display=relative
+
+
 
 # [notes]
 # # More setup ideas: https://stackoverflow.com/a/40496777/563359
