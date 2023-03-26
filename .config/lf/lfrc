@@ -2,7 +2,7 @@
 # * On-cd for z
 # * Set LF_CLONE on cloning, make it show a note somehow.
 
-set mouse on
+set mouse
 set hidden
 
 set cursorparentfmt "\033[7;90m"
