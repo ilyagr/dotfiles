@@ -46,7 +46,7 @@ program = "vimtabdiff.py"
 edit-args = ["--vim", '''nvim -c "colorscheme murphy"''', "$left", "$right"]
 
 [merge-tools.vimtabdiff-gvim]
-program = "vimtabdiff.py"
+program = "vimtabdiff"
 edit-args = ["--vim", '''gvim --nofork -c "colorscheme murphy"''', "$left", "$right"]
 
 [merge-tools.diff]
