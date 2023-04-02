@@ -24,14 +24,15 @@ map * filter
 
 map v invert-below
 map V invert
-map <enter> push $<space>$fx<home>
+# See what happened
+map ` !true
+map <c-o> !true
+map <enter> push $<space>"$fx"<home>
 # <a-enter> doesn't work, bug?
-map <a-enter> push !<space>$fx<home>
+map <a-enter> push !<space>"$fx"<home>
 # Defaults to w. May need to change to a "push"
 # mapping to work on Windows.
 map S $$SHELL
-# Clone lf. Need $SHELL to initialize env. vars like ZLUA_SCRIPT
-map C ${{tmux split -- "$SHELL" -c "lf $f"}}
 cmd follow_link %{{
   lf -remote "send ${id} select '$(readlink $f)'"
 }}
@@ -63,21 +64,6 @@ map zb push :z-jump<space>-b<space>
 map zf push :z-jump<space>-I<space>
 map zz push :z-jump<space>
 
-# From docs
-cmd backup_paste %{{
-    load=$(cat ~/.local/share/lf/files)
-    mode=$(echo "$load" | sed -n '1p')
-    list=$(echo "$load" | sed '1d')
-    if [ $mode = 'copy' ]; then
-        cp -R --backup=numbered $list .
-    elif [ $mode = 'move' ]; then
-        mv --backup=numbered $list .
-        rm ~/.local/share/lf/files
-        lf -remote 'send clear'
-    fi
-}}
-map p :backup_paste
-
 cmd recol ${{
     w=$(tput cols)
     if [ $w -le 30 ]; then
@@ -99,6 +85,41 @@ map <tab> :recol; reload
 recol
 map zp :set preview!
 
+# Clone lf. Need $SHELL to initialize env. vars like ZLUA_SCRIPT
+map CC %{{tmux split -- "$SHELL" -c "lf $f"}}
+cmd mkdir %{{
+    IFS=" "
+    mkdir -p -- "$*" &&
+    lf -remote "send $id select \"$*\""
+}}
+map CD push :mkdir<space>
+cmd mkdir %{{
+    if [ -e "$1" ]; then
+	printf "file exists"
+        false
+    else
+        mkdir -p -- "$1" &&
+        lf -remote "send $id select \"$1\""
+    fi
+}}
+map CD push :mkdir<space>""<left>
+map CF push %touch<space>
+
+# From docs
+cmd backup_paste %{{
+    load=$(cat ~/.local/share/lf/files)
+    mode=$(echo "$load" | sed -n '1p')
+    list=$(echo "$load" | sed '1d')
+    if [ $mode = 'copy' ]; then
+        cp -R --backup=numbered $list .
+    elif [ $mode = 'move' ]; then
+        mv --backup=numbered $list .
+        rm ~/.local/share/lf/files
+        lf -remote 'send clear'
+    fi
+}}
+map p :backup_paste
+map PP :paste
 cmd link %{{
     # Abbreviated from more feature-full
     # https://github.com/gokcehan/lf/wiki/Tips#create-symlinks-soft--hard
@@ -114,7 +135,7 @@ cmd link %{{
     # rm ~/.local/share/lf/files
     # lf -remote "send clear"
 }}
-map P :link
+map PL :link
 
 # From https://github.com/gokcehan/lf/issues/140#issuecomment-487393320
 # and https://github.com/gokcehan/lf/discussions/915#discussioncomment-3443002
