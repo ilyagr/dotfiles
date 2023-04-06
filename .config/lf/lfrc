@@ -5,6 +5,9 @@
 set mouse
 set hidden
 
+set ifs "\n"
+set shellopts "-eu"
+
 set cursorparentfmt "\033[7;90m"
 set errorfmt "\033[1;31m%s\033[0m"
 # Prettier than an error
@@ -27,9 +30,10 @@ map V invert
 # See what happened
 map ` !true
 map <c-o> !true
-map <enter> push $<space>"$fx"<home>
+# Spaces in $fx OK b/c of set ifs
+map <enter> push $<space>$fx<home>
 # <a-enter> doesn't work, bug?
-map <a-enter> push !<space>"$fx"<home>
+map <a-enter> push !<space>$fx<home>
 # Defaults to w. May need to change to a "push"
 # mapping to work on Windows.
 map S $$SHELL
@@ -88,17 +92,18 @@ map zp :set preview!
 # Clone lf. Need $SHELL to initialize env. vars like ZLUA_SCRIPT
 map CC %{{tmux split -- "$SHELL" -c "lf $f"}}
 cmd mkdir %{{
-    IFS=" "
+    IFS=" " # Makes "$*" concat. with ' '
     mkdir -p -- "$*" &&
     lf -remote "send $id select \"$*\""
 }}
 map CD push :mkdir<space>
 cmd mkdir %{{
     if [ -e "$1" ]; then
-	printf "file exists"
+        # Minor bug: we don't check $2 or the rest
+	printf "'$1' exists"
         false
     else
-        mkdir -p -- "$1" &&
+        mkdir -p -- "$@" &&
         lf -remote "send $id select \"$1\""
     fi
 }}
