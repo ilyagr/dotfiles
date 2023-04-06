@@ -1,3 +1,4 @@
 # For default .ugrep, run `ugrep --save-config=-` and put the output into a
 # scratch buffer.
 pager=less -RFS
+--ignore-binary
