@@ -45,7 +45,10 @@ https://github.com/rbutoi/dotfiles/
 - [`z.lua`](https://github.com/skywind3000/z.lua) instead of zoxide?
 
 ### VS Code extensions
-- Simple: `mhutchie.git-graph`
+- mhutchie.git-graph
+- stkb.rewrap
+- timonwong.shellcheck
+- medo64.render-crlf
 
 ### Snaps
 
