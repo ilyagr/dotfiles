@@ -1,12 +1,12 @@
 #!/bin/sh
 # All but the first command have --ignore-working-copy
 (jj diff -s --color=always; jj --ignore-working-copy resolve --list --color=always 2>/dev/null) |sed -E 's/\t(.*)$/\t \1\t\t     (debug \\t in hwatch)/'| ifne sh -c 'cat && echo'
-EXPR="MAIN..@|(MAIN..@)-|@..MAIN|@|MAIN..branches()|(MAIN..branches())-|MAIN|remote_branches().. | (remote_branches()..)-"
+EXPR=${EXPR:-"MAIN..@|(MAIN..@)-|@..MAIN|@|MAIN..branches()|(MAIN..branches())-|MAIN|remote_branches().. | (remote_branches()..)-"}
 jj --ignore-working-copy --color always --config-toml '
        ui.relative-timestamps=false
        template-aliases."format_timestamp(timestamp)" = "timestamp.format(\"%Y-%m-%d %H:%M %:::z\")"
        revset-aliases.MAIN = "present(main) | present(master)"
-       ' log -r "$EXPR" $@ |
+       ' log -r "$EXPR" "$@" |
        cat
 #    sed -e 's/users.noreply.github.com/github/' -e 's/:[0-9][0-9].000//' -e 's/:00//'
 # Note: sed -E for normal regex
