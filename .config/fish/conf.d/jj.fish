@@ -1,4 +1,4 @@
 if which jj > /dev/null
-    jj support completion --fish |source
+    jj util completion --fish |source
 end
 
