@@ -29,20 +29,20 @@
 		"command": "dance.selections.clear.secondary",
 		"when": "editorTextFocus && dance.mode == 'normal'"
 	},
-	{
-		"key": "x",
-		"command": "dance.selections.expandToLines",
-		"when": "editorTextFocus && dance.mode == 'normal'"
-	},
-	{
-		"key": "alt+x",
-		"command": "dance.selections.trimLines",
-		"when": "editorTextFocus && dance.mode == 'normal'"
-	},
-	{
-		"key": "shift+alt+x",
-		"command": "dance.select.line.above.extend"
-	},
+	// {
+	// 	"key": "x",
+	// 	"command": "dance.selections.expandToLines",
+	// 	"when": "editorTextFocus && dance.mode == 'normal'"
+	// },
+	// {
+	// 	"key": "alt+x",
+	// 	"command": "dance.selections.trimLines",
+	// 	"when": "editorTextFocus && dance.mode == 'normal'"
+	// },
+	// {
+	// 	"key": "shift+alt+x",
+	// 	"command": "dance.select.line.above.extend"
+	// },
 	// Not sure what the following ones are
 	{
 		"key": "alt+j alt+j",
