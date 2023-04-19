@@ -1,9 +1,1 @@
-# See /etc/tigrc, https://github.com/jonas/tig/blob/master/tigrc
-
-# Don't show refs made by `jj`, `git-branchless`, etc.
-set reference-format = hide:other
-
-# set refresh-mode = periodic
-# set refresh-interval = 2
-
-set mouse = true
+# Do not use, the config is in ~/.git/config
