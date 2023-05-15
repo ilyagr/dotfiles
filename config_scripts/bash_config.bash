@@ -2,6 +2,7 @@ export EDITOR=vim
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep.conf
 LESS="FRX --mouse --wheel-lines=2"
 export LESS
+export LF_PAGER="less -+F"  # TODO: Remove when I have a better way
 HWATCH="-t --color --no-help-banner --mouse"
 export HWATCH
 
