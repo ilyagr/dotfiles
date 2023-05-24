@@ -6,6 +6,8 @@ set mouse
 set hidden
 
 set ifs "\n"
+map i $less -SC -+F -+X "$f"
+cmd doc $"$lf" -doc | less -+F -+X
 set shellopts "-eu"
 
 set cursorparentfmt "\033[7;90m"
@@ -45,7 +47,6 @@ map gL follow_link
 set previewer ~/.config/lf/preview.sh
 cmd _preview_sh $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC -+F -+X "$f"
 map I _preview_sh
-map i $less -SC -+F -+X "$f"
 
 # Pager instead of open when pressing <right>
 cmd open _preview_sh
