@@ -15,12 +15,6 @@ add-highlighter global/ wrap -marker >| -indent
 addhl global/ show-whitespaces -spc ' '
 face global LineNumberCursor header
 
-# , should remove selections like in helix (and future kak?)
-map global normal <space> ,
-map global normal , <space>
-map global normal <a-,> <a-space>
-map global normal x <a-x>
-map global normal <a-x> <a-X>
 # X and <a-X> are overridden below
 
 # Delete these? Make these user or normal?
@@ -42,7 +36,7 @@ map -docstring 'Restore selections from the [b]ackup register' global user z '"b
 # From https://github.com/mawww/kakoune/wiki/Selections#how-to-make-x-select-lines-downward-and-x-select-lines-upward
 # and https://github.com/mawww/kakoune/issues/1285
 def -params 1 extend-line-down %{
-      exec "<a-:>%arg{1}X"
+      exec "<a-:>%arg{1}Jx"
 }
 def -params 1 extend-line-up %{
       exec "<a-:><a-;>%arg{1}K<a-;>"
