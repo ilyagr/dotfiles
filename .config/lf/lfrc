@@ -143,6 +143,12 @@ cmd link %{{
 }}
 map PL :link
 
+# Shouldn't be a % or & command as fish_clipboard_copy sometimes
+# needs to output to the terminal.
+cmd sel_to_fish_clipboard $fish -c 'string join " " (string escape -n (string split \n $fx)) | fish_clipboard_copy'
+cmd clipboard_show !fish -c 'fish_clipboard_paste | cat'
+map PC sel_to_fish_clipboard
+
 # From https://github.com/gokcehan/lf/issues/140#issuecomment-487393320
 # and https://github.com/gokcehan/lf/discussions/915#discussioncomment-3443002
 # push m-
