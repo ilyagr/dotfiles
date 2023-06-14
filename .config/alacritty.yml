@@ -12,6 +12,9 @@ font:
 
 # draw_bold_text_with_bright_colors: true
 
+window:
+    decorations_theme_variant: Dark
+
 colors:
     normal:
         black:   '#2c2e32'
