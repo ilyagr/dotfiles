@@ -54,10 +54,6 @@ cmd open _preview_sh
 map x &$OPENER "$f"
 
 # Add some sanity. Suggest this for default bindings?
-cmap <c-g>  cmd-escape  # Maybe not this one
-cmap <c-c>  cmd-escape
-cmap <up>   cmd-history-prev
-cmap <down> cmd-history-next
 map  <c-c>  echo "To exit, press the 'q' key."
 map  <esc>  echo "To exit, press the 'q' key."
 
