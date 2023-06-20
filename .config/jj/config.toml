@@ -88,6 +88,9 @@ merge-tool-edits-conflict-markers=true
 #                       "-c", "set write"]
 
 [aliases]
+n = ["new"]
+de = ["diffedit"]
+di = ["describe"]
 next = ["co", "@-+ ~ @"]
 prev = ["co", "@--"]
 delta = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi'"]
