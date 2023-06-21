@@ -16,8 +16,9 @@ function fish_prompt --description 'Informative prompt'
                                       (set_color --bold $fish_color_status) $last_pipestatus)
 
             # Using redirection character > in prompt not recommended.
-            # Some options:  🐟 🐠 🦈 🐚 ‣ ‡ ⁍ • ◉ ❯ » › →
+            # Some options:  🐟 🐠 🦈 🐚 ‣ ‡ ⁍ • ◉ ❯ ❭ » › → ➜
             # NOT BLACK RIGHT-POINTING TRIANGLE
+            # string match -q 'some_host' (hostname); and set -g fish_prompt_second (set_color cyan)➜(set_color normal)
             set -q fish_prompt_second; or set -l fish_prompt_second 🐟
             printf '[%s]%s %s%s %s%s ' (date "+%I:%M %p") (fish_ilya_ranger_level) \
                 (set_color brblue) (prompt_hostname) \
