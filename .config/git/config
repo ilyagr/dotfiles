@@ -63,11 +63,21 @@ ff = only
 [submodule]
 recurse=true
 
+[core]
+fsmonitor = true
+
 [credential]
 helper = store
 
 [init]
 defaultBranch = main
+
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
 [difftool "vimtabdiff"]
         cmd = vimtabdiff.py --vim \"vim -c 'colorscheme murphy'\" $LOCAL $REMOTE
 [difftool "ediff"]
@@ -143,8 +153,3 @@ cursor = default default reverse dim
 
 [include]
 path = ~/.config/git/site.config
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
