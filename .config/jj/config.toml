@@ -89,12 +89,14 @@ merge-tool-edits-conflict-markers=true
 
 [aliases]
 n = ["new"]
+d = ["diff", "-s"]
 de = ["diffedit"]
 di = ["describe"]
 next = ["co", "@-+ ~ @"]
 prev = ["co", "@--"]
 delta = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi'"]
 deltas = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi -s'"]
+deltan = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi -n'"]
 
 
 [revset-aliases]
