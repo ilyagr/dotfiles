@@ -1,0 +1,27 @@
+[[verbs]]
+cmd = ":panel_right;"
+key = "Right"
+
+[[verbs]]
+cmd = ":edit;"
+apply_to = "file"
+key = "Alt-Enter"
+
+[[verbs]]
+name = "kak"
+apply_to = "file"
+keys = ["Enter", "Ctrl-k"]
+execution = "kakc +{line} {file}"
+leave_broot= false
+
+[[verbs]]
+name = "lf_stay"
+key = "Ctrl-l"
+execution = "lf {directory}"
+leave_broot= false
+
+[[verbs]]
+name = "lf_leave"
+key = "Ctrl-Alt-l"
+execution = "lf {directory}"
+leave_broot= true
