@@ -29,7 +29,7 @@ function fish_prompt --description 'Informative prompt'
             end
 
 
-            string match -qr "\s+" $pipestatus_string; and set -l fish_prompt_second (set_color red)$fish_prompt_second_error(set_color normal)
+            string match -qr "\s+" $pipestatus_string; and set -l fish_prompt_second (set_color red)$fish_prompt_second_error(set_color normal); or set -l fish_prompt_second (set_color cyan)$fish_prompt_second(set_color normal)
             printf '[%s]%s %s%s %s%s ' (date "+%I:%M %p") (fish_ilya_ranger_level) \
                 (set_color brblue) (prompt_hostname) \
                 (set_color $fish_color_cwd) (prompt_pwd)
