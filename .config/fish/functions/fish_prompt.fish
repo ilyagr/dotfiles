@@ -8,7 +8,7 @@ function fish_prompt --description 'Informative prompt'
     switch "$USER"
         case root toor
             printf '%s@%s %s%s%s# ' $USER (prompt_hostname) (set -q fish_color_cwd_root
-                                                             and set_color $fish_color_cwd_root
+                                                            and set_color $fish_color_cwd_root
                                                              or set_color $fish_color_cwd) \
                 (prompt_pwd) (set_color normal)
         case '*'
@@ -18,10 +18,18 @@ function fish_prompt --description 'Informative prompt'
             # Using redirection character > in prompt not recommended.
             # Some options:  🐟 🐠 🦈 🐚 ‣ ‡ ⁍ • ◉ ❯ ❭ » › → ➜
             # NOT BLACK RIGHT-POINTING TRIANGLE
-            # string match -q 'some_host' (hostname); and set -g fish_prompt_second (set_color cyan)➜(set_color normal); and set -g fish_prompt_second_error (set_color red)➜(set_color normal)
-            set -q fish_prompt_second; or set -l fish_prompt_second 🐟
-            set -q fish_prompt_second_error; or set -l fish_prompt_second_error 🐠
-            string match -qr "\s+" $pipestatus_string; and set -l fish_prompt_second $fish_prompt_second_error
+            # string match -q 'some_host' (hostname); and set -g fish_prompt_second (set_color cyan)➜(set_color normal)
+            set -q fish_prompt_second; or set -f fish_prompt_second "🐟 or_err 🐠"
+            set -f fish_prompt_second (string split " or_err " $fish_prompt_second)
+            if set -qf fish_prompt_second[2]
+                set -f fish_prompt_second_error $fish_prompt_second[2]
+                set -f fish_prompt_second $fish_prompt_second[1]
+            else
+                set -f fish_prompt_second_error $fish_prompt_second
+            end
+
+
+            string match -qr "\s+" $pipestatus_string; and set -l fish_prompt_second (set_color red)$fish_prompt_second_error(set_color normal)
             printf '[%s]%s %s%s %s%s ' (date "+%I:%M %p") (fish_ilya_ranger_level) \
                 (set_color brblue) (prompt_hostname) \
                 (set_color $fish_color_cwd) (prompt_pwd)
