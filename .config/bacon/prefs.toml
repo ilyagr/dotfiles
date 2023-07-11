@@ -62,6 +62,14 @@ n = "job:nextest"
 ctrl-i = "job:initial"
 i = "job:insta"
 shift-i = "job:insta-accept"
+c = "job:msrv-and-clippy"
+shift-c = "job:clippy"
+
+[jobs.msrv-and-clippy]
+command = ["ionice", "-c", "3", "nice", "sh", "-c", "~/.config/bacon/msrv-and-clippy.job"]
+# command = ["cargo", "+1.64", "check", "--workspace", "--all-targets", "--color=always"]
+# on_success = "job:clippy"
+need_stdout = true
 
 [jobs.nextest]
 command = ["cargo", "nextest", "run", "--workspace", "--color", "always", "--hide-progress-bar", "--failure-output", "final"]
