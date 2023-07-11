@@ -17,17 +17,17 @@ log-word-wrap=true
 "format_short_signature(signature)" = 'label("email", signature.username() ++ "@")'
 "separator()" = 'label("change_id rest", "|")'
 
-[templates]
-commit_summary = '''
-separate(" ",
-  format_short_commit_id(commit_id),
-  if(empty, label("empty", "(empty)")),
-  separate(" " ++ separator(),
-    if(description, description.first_line(), description_placeholder),
-    branches,
-  )
-)
-'''
+# [templates]
+# commit_summary = '''
+# separate(" ",
+#   format_short_commit_id(commit_id),
+#   if(empty, label("empty", "(empty)")),
+#   separate(" " ++ separator(),
+#     if(description, description.first_line(), description_placeholder),
+#     branches,
+#   )
+# )
+# '''
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
 [merge-tools.scm]
