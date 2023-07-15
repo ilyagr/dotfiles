@@ -2,9 +2,13 @@ theme="solarized_dark"
 # theme="autumn"
 
 [editor]
+soft-wrap.enable=true
+soft-wrap.max-indent-retain=20
+auto-pairs=false
+
 line-number="relative"
 true-color=true
-gutters=["line-numbers"] # Not "diagnostics"
+# gutters=["line-numbers"] # Not "diagnostics"
 
 # [editor.lsp]
 # display-messages=true
