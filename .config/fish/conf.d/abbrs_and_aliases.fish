@@ -8,5 +8,10 @@ abbr -a -g -- ecc emacsclient -c
 abbr -a -g -- ect emacsclient -t
 # alias rg 'command rg --smart-case' # Causes problems https://github.com/fish-shell/fish-shell/commit/f20e8e58603fb527b72806c3d7ee7cf509e17851
 
+# for `h funced funced`
+abbr -a -g -- k "EDITOR=kakc"
+abbr -a -g -- h "EDITOR=hx"
+abbr -a -g -- v "EDITOR=vim"
+
 alias lf lfcd
 alias ranger ranger-cd
