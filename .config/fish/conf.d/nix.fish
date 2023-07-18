@@ -1,5 +1,5 @@
-if test -e /home/ilyagr/.nix-profile/etc/profile.d/nix.fish
-    . /home/ilyagr/.nix-profile/etc/profile.d/nix.fish
+if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
+    . $HOME/.nix-profile/etc/profile.d/nix.fish
     set -ax MANPATH (manpath -g)
 
     # Avoids weird problems with `nix develop` running `bash` inside `bash`
