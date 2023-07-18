@@ -12,3 +12,9 @@ true-color=true
 
 # [editor.lsp]
 # display-messages=true
+
+[keys.normal]
+x="extend_to_line_bounds"
+X="extend_line_below"
+
+"C-A-r"=":config-reload"
