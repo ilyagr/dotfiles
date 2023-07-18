@@ -17,4 +17,12 @@ true-color=true
 x="extend_to_line_bounds"
 X="extend_line_below"
 
+"C-/"="toggle_comments"
 "C-A-r"=":config-reload"
+
+[keys.normal."C-A-d"]
+# s=":open ~/dev/helix/book/src/SUMMARY.md"  # Not very useful
+k=":open ~/dev/helix/book/src/keymap.md"
+# r=":open ~/dev/helix/book/src/remapping.md" # Not very useful
+c=":open ~/dev/helix/book/src/generated/typable-cmd.md"
+u=":open ~/dev/helix/book/src/usage.md"
