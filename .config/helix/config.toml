@@ -14,15 +14,24 @@ true-color=true
 # display-messages=true
 
 [keys.normal]
+# Kakoune-like
 x="extend_to_line_bounds"
 X="extend_line_below"
+"A-l"=["select_mode", "goto_line_end", "normal_mode"]
+"A-h"=["select_mode", "goto_line_start", "normal_mode"] 
 
 "C-/"="toggle_comments"
 "C-A-r"=":config-reload"
 
+"space".h=":toggle-option lsp.display-inlay-hints"
+
 [keys.normal."C-A-d"]
 # s=":open ~/dev/helix/book/src/SUMMARY.md"  # Not very useful
 k=":open ~/dev/helix/book/src/keymap.md"
-# r=":open ~/dev/helix/book/src/remapping.md" # Not very useful
+r=":open ~/dev/helix/book/src/remapping.md"
 c=":open ~/dev/helix/book/src/generated/typable-cmd.md"
 u=":open ~/dev/helix/book/src/usage.md"
+C=":open ~/dev/helix/book/src/configuration.md"
+t=":open ~/dev/helix/book/src/themes.md"
+
+# :sh jj --config-toml ui.color=\\"none\\" co master
