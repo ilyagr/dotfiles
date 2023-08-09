@@ -74,11 +74,11 @@ cmd recol ${{
         lf -remote "send $id set ratios 1:1"
     elif [ $w -le 65 ]; then
         lf -remote "send $id set ratios 3:4"
-    elif [ $w -le 130 ]; then  # Was 160
+    elif [ $w -le 95 ]; then  # Was 160
         lf -remote "send $id set ratios 2:3:4"
         set preview
     else
-        lf -remote "send $id set ratios 1:2:2:4"
+        lf -remote "send $id set ratios 2:2:3:4"
         set preview
     fi
 }}
