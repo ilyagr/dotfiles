@@ -1,6 +1,5 @@
 # For defaults, see
 # /usr/share/doc/alacritty/examples/alacritty.yml
-
 font:
     size: 12.0
     normal:
@@ -9,9 +8,7 @@ font:
 #    bold:
 #        style: SemiBold
 # Kitty corresponds to {normal: {style: "Medium"}, bold: {style: Bold}}
-
 # draw_bold_text_with_bright_colors: true
-
 ################## Delete these?
 # These are not very useful as alacritty can't match wod boundaries or other
 # zero-width regex elements
@@ -34,26 +31,21 @@ hints:
        key: U
        mods: Control|Shift
 ##################
-
 window:
     decorations_theme_variant: Dark
-
 colors:
     normal:
         black:   '#2c2e32'
         # black:   '#373b41'
         # black:   '#282a2e'
-
 # ###############################
 # My version of gruvbox-material, see ~/.config/kitty
-
 colors:
     primary:
         foreground:   '#d4be98'
         background:   '#32302f'
     cursor:
         cursor:  '#d4be98'
-
     normal:
         black:   '#3c3836' # color0
         red:     '#b85651' # color1
@@ -72,3 +64,38 @@ colors:
         magenta: '#d3869b' # color13
         cyan:    '#89b482' # color14
         white:   '#ddc7a1' # color15
+# White bg color scheme for testing things
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0xffffff'
+#     foreground: '0x1F2328'
+#
+#   # Cursor colors
+#   #
+#   # These will only be used when the `custom_cursor_colors` field is set to `true`.
+#   cursor:
+#     text: '0xffffff'
+#     cursor: '0x1f2328'
+#
+#   # Normal colors
+#   normal:
+#     black: '0x24292f'
+#     red: '0xcf222e'
+#     green: '0x116329'
+#     yellow: '0x4d2d00'
+#     blue: '0x0969da'
+#     magenta: '0x8250df'
+#     cyan: '0x1b7c83'
+#     white: '0x6e7781'
+#
+#   # Bright colors
+#   bright:
+#     black: '0x57606a'
+#     red: '0xa40e26'
+#     green: '0x1a7f37'
+#     yellow: '0x633c01'
+#     blue: '0x218bff'
+#     magenta: '0x8250df'
+#     cyan: '0x1b7c83'
+#     white: '0x6e7781'

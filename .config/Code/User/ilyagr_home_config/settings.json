@@ -128,7 +128,6 @@
     // "rust-analyzer.cargo.buildScripts.overrideCommand": null,
     "workbench.sideBar.location": "right",
     "window.commandCenter": true,
-    "editor.minimap.enabled": false,
     "[rust]": {
         "editor.formatOnSave": true,
     },
@@ -150,7 +149,8 @@
                 }
             ],
         }
-    }
+    },
+    "workbench.colorTheme": "Atom One Dark"
     // "remote.SSH.defaultExtensions": [
     //     "gitpod.gitpod-remote-ssh"
     // ],
