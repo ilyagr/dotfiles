@@ -9,6 +9,7 @@ merge-editor = "vimdiff"
 # merge-editor = "kdiff3"
 color = "always"
 log-word-wrap=true
+pager="sp"
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
