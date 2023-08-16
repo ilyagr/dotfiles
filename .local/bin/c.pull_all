@@ -4,6 +4,7 @@ cd ~/stow
 # Maybe use `each_stow` if not too annoying
 for dir in ~/stow/*; do
     echo === Pulling $dir ===
+    git -C "$dir" switch main --no-merge --no-discard-changes
     # --recurse-submodules should be gathered from gitconfig, but it doesn't work
     git -C "$dir" pull --ff-only --autostash --recurse-submodules=on-demand
     git -C "$dir" s
