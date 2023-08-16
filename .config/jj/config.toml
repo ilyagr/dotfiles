@@ -15,19 +15,7 @@ log-word-wrap=true
 'format_short_change_id(id)' = 'format_short_id(id).upper()'
 "format_timestamp(timestamp)" = "timestamp.ago()"
 "format_short_signature(signature)" = 'label("email", signature.username() ++ "@")'
-"separator()" = 'label("change_id rest", "|")'
-
-# [templates]
-# commit_summary = '''
-# separate(" ",
-#   format_short_commit_id(commit_id),
-#   if(empty, label("empty", "(empty)")),
-#   separate(" " ++ separator(),
-#     if(description, description.first_line(), description_placeholder),
-#     branches,
-#   )
-# )
-# '''
+commit_summary_separator = 'label("separator", "| ")'
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
 [merge-tools.scm]

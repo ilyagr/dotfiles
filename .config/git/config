@@ -60,6 +60,9 @@ lg=%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 # rebase = true
 ff = only
 
+[rebase]
+updateRefs = true
+
 [fetch]
 # Doesn't seem to work. Is it a bug that submodule.recurse overrides it?
 recurseSubmodules = on-demand
