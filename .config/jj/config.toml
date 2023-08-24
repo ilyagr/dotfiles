@@ -99,6 +99,11 @@ next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+
 M = "present(main) | present(master)"  # Main branch
 # R: "relevant commits" from jj.logstatus. Better name?
 R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
+# 'iddot(from, to)'= '(from..to)|((::from & ::to)~((::from & ::to)-))'
+
+#  jj log -r 'siddot(main,mdbook::|mkdocs::)'
+'siddot(from, to)'= '(from..to)|(from..to)-'
+'iddot(from, to)'= 'siddot(from,to)|from'
 
 [revsets]
 short-prefixes="(remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags()).."
