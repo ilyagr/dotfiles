@@ -1,0 +1,2 @@
+#!/bin/sh
+printf 'none()'; jj log --color=never --no-graph -T '"|" ++ commit_id' -r "$1"
