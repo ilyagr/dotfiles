@@ -23,6 +23,7 @@ use-tmp-dir-under-workspace=true
 
 [merge-tools.idea]
 program = "idea"
+diff-args = ["diff",  "$left", "$right"]
 edit-args = ["diff",  "$left", "$right"]
 merge-args = ["merge" , "$left", "$right", "$base", "$output"]
 
@@ -59,7 +60,13 @@ merge-args = [ "-c", "git merge-file --zdiff3 --stdout \"$left\" \"$base\" \"$ri
 edit-args = ["diff", "--no-index", "--name-only", "$left", "$right"]
 
 [merge-tools.kdiff3]
-edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1", "$left", "$right"]
+edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1", "$left", "$right", "$output"]
+# Notes on interesting kdiff3 ptions
+# SkipDirStatus=1
+# CreateBakFiles=0
+# ShowInfoDialogs=0
+# AutoCopySelection (??)
+# SyncMode (??)
 
 [merge-tools.kdiff3f] # Flipped
 merge-args = [ "$base",  "$right","$left", "-o", "$output", "--auto",]
@@ -70,13 +77,15 @@ merge-args = [ "$base",  "$left", "$right", "$output"]
 [merge-tools.p4mergef]
 merge-args = [ "$base",  "$right", "$left", "$output"]
 program="p4merge"
+env = {QT_QPA_PLATFORM="xcb"}  # Doesn't seem to work?
 
 [merge-tools.bcompare]
 # merge-args = ["$left", "$base", "$right", "$output"]
 merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts", "-solo"]
 merge-tool-edits-conflict-markers=true
 
-# meld.merge-args = ["$left", "$base", "$right", "-o", "$output", "--auto-merge"]
+[merge-tools.meld]
+edit-args = ["$left", "$right", "-a",] #  "-o", "/tmp/output"]
 # vimdiff.merge-args = ["-f", "-d", "$output", "-M",
 #                       "$left", "$base", "$right",
 #                       "-c", "wincmd J", "-c", "set modifiable",
@@ -116,20 +125,7 @@ short-prefixes="(remote_branches(main)|remote_branches(master)|remote_branches(d
 commit_summary_separator = 'label("separator", "| ")'
 description_placeholder = 'label(separate(" ", if(empty, "empty"), "description placeholder"), "(no description set)")'
 
-[colors]
-"description placeholder" =  "yellow" # "blue"
-"empty description placeholder" = "green"
-# "diff removed" = {fg="red", bold=true}
-# "diff added" = {fg="green", bold = true}
-# "diff modified" = {fg="cyan", bold=true}
-# "empty" = "green"
-# "working_copy empty" = "bright green"
-# "working_copy email" = "yellow"
-# "working_copy description" = "bright normal"
-
-# TODO: I probably want to uncomment these after a bit
-# Colors invisible in bright themes
-# "working_copy description" = "bright white"
-# "op-log head description" = "bright white"
-# "op-log head tags" = "bright white"
-# "diff file_header" = "bright white"
+# [colors]
+# "description placeholder" =  "yellow" # "blue"
+# "empty description placeholder" = "green"
+# 
