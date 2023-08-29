@@ -13,6 +13,9 @@ true-color=true
 # [editor.lsp]
 # display-messages=true
 
+[editor.file-picker]
+hidden=false # Show hidden files (but not gitignored ones)
+
 [keys.normal]
 # Kakoune-like
 x="extend_to_line_bounds"
@@ -21,7 +24,8 @@ X="extend_line_below"
 "A-h"=["select_mode", "goto_line_start", "normal_mode"] 
 
 "C-/"="toggle_comments"
-"C-A-r"=":config-reload"
+"F5"=[":reload", ":reload-all"]
+"C-A-r"=[":config-reload", ":reload", ":reload-all"]
 
 "space".h=":toggle-option lsp.display-inlay-hints"
 
