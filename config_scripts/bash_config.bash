@@ -2,6 +2,8 @@ export EDITOR=vim
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep.conf
 LESS="FRX --mouse --wheel-lines=2"
 export LESS
+MOAR="-no-linenumbers -no-statusbar -statusbar bold -quit-if-one-screen"
+export MOAR
 # TODO: Implement a way to move this to lfrc.
 export LF_PAGER="less -+F"
 # # The newline is because I have (unwisely?) `set ifs "\n"` in lfrc as suggested by the docs. It only seems to be important for :doc command
