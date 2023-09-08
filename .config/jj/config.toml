@@ -80,9 +80,8 @@ program="p4merge"
 env = {QT_QPA_PLATFORM="xcb"}  # Doesn't seem to work?
 
 [merge-tools.bcompare]
-# merge-args = ["$left", "$base", "$right", "$output"]
-merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts", "-solo"]
-merge-tool-edits-conflict-markers=true
+# edit-args = ["$left", "$right", "-favorright", "-edit", "-mergeoutput=$output",]
+merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts"] #"-solo"?
 
 [merge-tools.meld]
 edit-args = ["$left", "$right", "-a",] #  "-o", "/tmp/output"]
