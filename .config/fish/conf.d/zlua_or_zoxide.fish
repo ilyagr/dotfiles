@@ -30,6 +30,12 @@ if which lua > /dev/null && test -r $zlua_path
         _zlua $argv;
     end
 
+    function zt --wraps=_zlua --description '`z` and set tmux title'
+        tmux rename-window "$argv"
+        set -g _ZL_LAST_ARGS $argv
+        _zlua $argv;
+    end
+
     function zF
         zf $_ZL_LAST_ARGS
     end
