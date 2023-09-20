@@ -114,7 +114,8 @@ R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (
 'iddot(from, to)'= 'siddot(from,to)|from'
 
 [revsets]
-short-prefixes="(remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags()).."
+short-prefixes="ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
+immutable-heads="::trunk()"
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
