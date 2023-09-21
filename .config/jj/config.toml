@@ -112,10 +112,18 @@ R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (
 #  jj log -r 'siddot(main,mdbook::|mkdocs::)'
 'siddot(from, to)'= '(from..to)|(from..to)-'
 'iddot(from, to)'= 'siddot(from,to)|from'
+stack = "(trunk()..@)::"
+open = "trunk().."
+stacklog = "ancestors(stack, 2)"
+openlog = "ancestors(open, 2)"
+stackl="stacklog"
+openl="openlog"
 
 [revsets]
 short-prefixes="ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
 immutable-heads="::trunk()"
+# log="openl"
+log="openlog"
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
