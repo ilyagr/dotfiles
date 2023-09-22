@@ -10,6 +10,7 @@ merge-editor = "vimdiff"
 color = "always"
 log-word-wrap=true
 pager="sp"
+default-command="log"
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
 [merge-tools.scm]
@@ -89,6 +90,12 @@ edit-args = ["$left", "$right", "-a",] #  "-o", "/tmp/output"]
 #                       "$left", "$base", "$right",
 #                       "-c", "wincmd J", "-c", "set modifiable",
 #                       "-c", "set write"]
+#
+[merge-tools.difft]
+diff-args = [ "--color=always", "$left", "$right"]
+[merge-tools.diffti]
+program="difft"
+diff-args = [ "--color=always", "--display=inline", "$left", "$right"]
 
 [aliases]
 n = ["new"]
@@ -97,9 +104,9 @@ de = ["diffedit"]
 di = ["describe"]
 next = ["co", "@-+ ~ @"]
 prev = ["co", "@--"]
-delta = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi'"]
-deltas = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi -s'"]
-deltan = ["diff", "--git", "--config-toml=ui.pager='delta --syntax-theme ansi -n'"]
+delta = ["diff", "--git", "--config-toml=ui.pager='delta'"]
+deltas = ["diff", "--git", "--config-toml=ui.pager='delta -s'"]
+deltan = ["diff", "--git", "--config-toml=ui.pager='delta -n'"]
 
 
 [revset-aliases]
@@ -114,8 +121,8 @@ R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (
 'iddot(from, to)'= 'siddot(from,to)|from'
 stack = "(trunk()..@)::"
 open = "trunk().."
-stacklog = "ancestors(stack, 2)"
-openlog = "ancestors(open, 2)"
+stacklog = "ancestors(stack, 2)|trunk()"
+openlog = "ancestors(open, 2)|trunk()|@"
 stackl="stacklog"
 openl="openlog"
 

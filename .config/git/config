@@ -21,8 +21,8 @@ pr  = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} r
 pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
 
 
-delta=-c 'core.pager=delta --syntax-theme ansi' diff
-deltas=-c 'core.pager=delta --syntax-theme ansi -s' diff
+delta=-c 'core.pager=delta' diff
+deltas=-c 'core.pager=delta -s' diff
 
 meld = difftool -t meld -d
 diffdir = difftool --dir-diff --tool vimdirdiff
@@ -132,6 +132,7 @@ diffFilter = delta --color-only
 
 [delta]
 navigate = true    # use n and N to move between diff sections
+syntax-theme = ansi
 
 # See /etc/tigrc, https://github.com/jonas/tig/blob/master/tigrc,
 # https://jonas.github.io/tig/doc/tigrc.5.html
