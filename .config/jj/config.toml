@@ -120,15 +120,16 @@ R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (
 'siddot(from, to)'= '(from..to)|(from..to)-'
 'iddot(from, to)'= 'siddot(from,to)|from'
 stack = "(trunk()..@)::"
-open = "trunk().."
+open = "immutable-heads.."
 stacklog = "ancestors(stack, 2)|trunk()"
-openlog = "ancestors(open, 2)|trunk()|@"
+openlog = "ancestors(open, 2)|immutable-heads|@"
 stackl="stacklog"
 openl="openlog"
+immutable-heads="trunk()"
 
 [revsets]
 short-prefixes="ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
-immutable-heads="::trunk()"
+immutable-heads="immutable-heads"
 # log="openl"
 log="openlog"
 
