@@ -7,9 +7,11 @@ diff-editor = "vimtabdiff.py"
 merge-editor = "vimdiff"
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
+# pager="sp"
+pager="moar"
+
 color = "always"
 log-word-wrap=true
-pager="sp"
 default-command="log"
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
