@@ -128,6 +128,7 @@ openlog = "ancestors(open, 2)|immutable-heads|@"
 stackl="stacklog"
 openl="openlog"
 immutable-heads="trunk()"
+immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(gh-pages@upstream)"
 
 [revsets]
 short-prefixes="ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
