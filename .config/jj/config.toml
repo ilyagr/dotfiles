@@ -21,8 +21,9 @@ edit-args = ["--dir-diff", "$left", "$right"]
 
 [merge-tools.vscode]
 program = "code"
-merge-args = ["--new-window", "--wait", "--merge", "$left", "$right", "$base", "$output"]
-use-tmp-dir-under-workspace=true
+merge-args = [ "--wait", "--merge", "$left", "$right", "$base", "$output"] #"--new-window",
+merge-tool-edits-conflict-markers = true
+# use-tmp-dir-under-workspace=true
 
 [merge-tools.idea]
 program = "idea"
