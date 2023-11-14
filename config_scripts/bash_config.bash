@@ -2,7 +2,7 @@ export EDITOR=vim
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep.conf
 LESS="FRX --mouse --wheel-lines=2"
 export LESS
-MOAR="-no-linenumbers -no-statusbar -statusbar bold -quit-if-one-screen"
+MOAR="-quit-if-one-screen -no-linenumbers -no-statusbar -statusbar bold -colors 16 -style dracula"
 export MOAR
 # TODO: Implement a way to move this to lfrc.
 export LF_PAGER="less -+F"
