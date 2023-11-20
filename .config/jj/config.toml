@@ -111,6 +111,8 @@ delta = ["diff", "--git", "--config-toml=ui.pager='delta'"]
 deltas = ["diff", "--git", "--config-toml=ui.pager='delta -s'"]
 deltan = ["diff", "--git", "--config-toml=ui.pager='delta -n'"]
 
+eachcommit = ["log", "--no-graph", "--color=never", "--ignore-working-copy", "-T", 'commit_id.shortest(8) ++ "\n"', "-r"]
+
 
 [revset-aliases]
 next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
