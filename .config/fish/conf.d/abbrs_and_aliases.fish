@@ -12,6 +12,7 @@ abbr -a -g -- ect emacsclient -t
 abbr -a -g -- k "EDITOR=kakc"
 abbr -a -g -- h "EDITOR=hx"
 abbr -a -g -- v "EDITOR=vim"
+abbr -a -g -- vs 'EDITOR="code --wait"'
 
 alias lf lfcd
 alias ranger ranger-cd
