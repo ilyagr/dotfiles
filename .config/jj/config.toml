@@ -133,6 +133,10 @@ openl="openlog"
 immutable-heads="trunk()"
 immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(gh-pages@upstream)"
 
+"conflictroot(x)" = "latest(roots( (::x~conflict())..x ))"
+"cr(x)" = "conflictroot(x)"
+crat = "cr(@)"
+
 [revsets]
 short-prefixes="ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
 immutable-heads="immutable-heads"
