@@ -1,9 +1,43 @@
 {
+  "window.titleBarStyle": "custom",
+  "window.commandCenter": true,
+  "workbench.colorTheme": "Default Dark+ Experimental",
+  "workbench.startupEditor": "none",
+  "window.menuBarVisibility": "classic",
+  "editor.renderControlCharacters": true,
+  "dance.modes": {
+    "normal": {
+      "cursorStyle": "block",
+      "selectionBehavior": "character",
+      "lineNumbers": "on"
+    }
+  },
+  "editor.fontFamily": "Noto Sans Mono, Consolas, 'Courier New', monospace",
+  "workbench.sideBar.location": "right",
+  "autoHide.autoHidePanel": false,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.size": "fit",
+  "editor.renderWhitespace": "trailing",
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "markdownFormatter.formatOpt": {
+    "wrap_line_length": 78
+  },
+  "[rust]": {
+    "editor.formatOnSave": true
+  },
+  "update.mode": "none",
+  "editor.minimap.autohide": true,
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.cargo.noDefaultFeatures": true,
+  "rust-analyzer.check.targets": ["x86_64-unknown-linux-gnu"],
     "editor.wrappingIndent": "indent",
     "editor.fontFamily": "'Fira Code',  'Droid Sans Mono', 'monospace', monospace",
     "editor.fontSize": 13.5,
     "editor.renderControlCharacters": true,
-    "git.autofetch": true,
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
     "alt-editor.name": "emacs",
@@ -150,7 +184,14 @@
             ],
         }
     },
-    "workbench.colorTheme": "Atom One Dark"
+    "workbench.colorTheme": "Atom One Dark",
+    "diffEditor.renderSideBySide": false,
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    },
+    "accessibility.dimUnfocused.enabled": true,
+    "accessibility.dimUnfocused.opacity": 0.8,
+    "editor.minimap.enabled": false,
     // "remote.SSH.defaultExtensions": [
     //     "gitpod.gitpod-remote-ssh"
     // ],
