@@ -56,6 +56,9 @@ fsckdanglingunreachablecommits = "!git fsck --dangling --unreachable | grep comm
 reflog-with-committer-date=%C(auto)%h %<|(20)%gd %C(blue)%cr%C(reset) %gs (%s)
 lg=%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 
+[push]
+autoSetupRemote = true
+
 [pull]
 # rebase = true
 ff = only
