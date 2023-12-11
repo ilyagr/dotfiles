@@ -9,6 +9,10 @@ font:
 #        style: SemiBold
 # Kitty corresponds to {normal: {style: "Medium"}, bold: {style: Bold}}
 # draw_bold_text_with_bright_colors: true
+
+key_bindings:
+  - { key: F,              mods: Shift|Control|Alt,            action: ToggleFullscreen      }
+
 ################## Delete these?
 # These are not very useful as alacritty can't match wod boundaries or other
 # zero-width regex elements
