@@ -1,6 +1,7 @@
 # For defaults, see
 # /usr/share/doc/alacritty/examples/alacritty.yml
 font:
+    # Size 12 is good on Chromebook, 15 on Mac currently
     size: 12.0
     normal:
         family: Fira Code
@@ -9,6 +10,11 @@ font:
 #        style: SemiBold
 # Kitty corresponds to {normal: {style: "Medium"}, bold: {style: Bold}}
 # draw_bold_text_with_bright_colors: true
+
+window:
+    decorations_theme_variant: Dark
+    # MacOS-only. Can be Both, OnlyLeft, or OnlyRight
+    option_as_alt: Both
 
 key_bindings:
   - { key: F,              mods: Shift|Control|Alt,            action: ToggleFullscreen      }
@@ -35,8 +41,6 @@ hints:
        key: U
        mods: Control|Shift
 ##################
-window:
-    decorations_theme_variant: Dark
 colors:
     normal:
         black:   '#2c2e32'
