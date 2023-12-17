@@ -1,0 +1,4 @@
+#!/bin/sh
+# Works even if `home-manager` command is not installed
+set -e
+nix run home-manager/master --impure -- switch --impure
