@@ -8,7 +8,7 @@ merge-editor = "vimdiff"
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
 # pager="sp"
-pager="moar"
+# pager="moar"
 
 color = "always"
 log-word-wrap=true
