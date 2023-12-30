@@ -3,8 +3,14 @@ if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
     set -ax MANPATH (manpath -g)
 
     # Avoids weird problems with `nix develop` running `bash` inside `bash`
-    alias bash /usr/bin/bash
+    # ... but creates weirder problems on mac os, where /usr/bin/bash is old.
+    # alias bash /usr/bin/bash
 end # added by Nix installer
+
+if test -e /nix/var/nix/profiles/default/etc/profile.d/nix.fish
+    . /nix/var/nix/profiles/default/etc/profile.d/nix.fish
+    set -ax MANPATH (manpath -g)
+end
 
 if command -q nix-your-shell
   nix-your-shell fish | source
