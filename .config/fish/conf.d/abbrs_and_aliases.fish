@@ -14,5 +14,8 @@ abbr -a -g -- h "EDITOR=hx"
 abbr -a -g -- v "EDITOR=vim"
 abbr -a -g -- vs 'EDITOR="code --wait"'
 
+# jj
+abbr -a -g -- vsd 'EDITOR="code --wait" jj describe'
+
 alias lf lfcd
 alias ranger ranger-cd
