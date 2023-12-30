@@ -84,8 +84,21 @@ program="p4merge"
 env = {QT_QPA_PLATFORM="xcb"}  # Doesn't seem to work?
 
 [merge-tools.bcompare]
+edit-args = ["-ro1", "-expandall", "$left", "$right"]
+merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts"] #"-solo"? Is `-ro` a good idea?
+
+[merge-tools.bcomp]
+edit-args = ["-ro1", "-expandall", "$left", "$right"]
 # edit-args = ["$left", "$right", "-favorright", "-edit", "-mergeoutput=$output",]
-merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts"] #"-solo"?
+merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts"] #"-solo"? is `-ro` a good idea?
+
+[merge-tools.bcomp-3]
+program="bcomp"
+edit-args = ["$left", "$right",  "-expandall", "-mergeoutput=$output", "-ro1", "-ro2"] #"-favorright", "-edit",
+
+[merge-tools.bcomp-3b]
+program="bcomp"
+edit-args = ["$left", "$right",  "-expandall", "-mergeoutput=$right", "-ro1", "-ro2"] #"-favorright", "-edit",
 
 [merge-tools.meld]
 edit-args = ["$left", "$right", "-a",] #  "-o", "/tmp/output"]
