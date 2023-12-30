@@ -1,6 +1,6 @@
 #!/bin/sh
 export KAKSESSION
-KAKSESSION=$(kak -l|head -n 1)
+KAKSESSION=$(kak -l|grep -vF '(dead)' |head -n 1)
 # I want word splitting.
 # shellcheck disable=SC2046
 kak $([ -z "$KAKSESSION" ] || printf -- "-c %s" "$KAKSESSION")  "$@"
