@@ -2,6 +2,7 @@ INSTALL_MISC.md
 CONTRIBUTING.md
 
 \.jj
+\.DS_Store
 
 \.gitmodules
 \.gitattributes

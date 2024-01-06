@@ -1,5 +1,7 @@
 # -*- mode: gitignore; -*-
 
+.DS_Store
+
 # Github recommends NOT ignoring .vscode/launch.json, etc.
 # Makes it hard to develop vscode extensions.
 # .vscode/*
