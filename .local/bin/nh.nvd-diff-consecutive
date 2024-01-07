@@ -1,0 +1,6 @@
+#!/bin/sh
+# Compares the last and the last-but one home-manager generation by default.
+# Adding an argument `n` will compare (last + 1 - n) generation with the one before.
+# TODO: Allow `home-manager generations` to take arguments.
+FIRST_LINE=${1-1}
+home-manager generations --impure | tail -n +$FIRST_LINE | head -2 | awk '{print $NF}' | tac | xargs -n 2 nvd diff
