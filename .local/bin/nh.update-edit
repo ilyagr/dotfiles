@@ -1,2 +1,3 @@
 #!/bin/sh
-nix flake update ~/.config/home-manager/ --impure && home-manager packages --impure && home-manager edit --impure && home-manager switch --impure
+nix flake update ~/.config/home-manager/ --impure && home-manager edit --impure && home-manager switch --impure
+nh.nvd-diff-consecutive
