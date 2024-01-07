@@ -1,0 +1,4 @@
+#!/bin/sh
+# TODO: Generalize to diffing -n-th generation and -(n+1)-th generation
+# `tail -n +5` seems to be POSIX
+home-manager generations --impure | head -2 | awk '{print $NF}' | tac | xargs -n 2 nvd diff
