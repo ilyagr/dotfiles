@@ -2,7 +2,8 @@
 
 ```bash
 sudo apt install -y stow tmux fish git terminfo kitty-terminfo\
-    lua5.4 fzf ncdu htop kakoune bat highlight bat # Or see below
+    lua5.4 fzf ncdu htop kakoune bat highlight bat \
+    command-not-found  # Or see below
 mkdir -p ~/stow && cd ~/stow
 git clone https://github.com/ilyagr/dotfiles.git # Or git@github.com:ilyagr/dotfiles.git
 git clone https://github.com/ilyagr/stow_nofold.git
