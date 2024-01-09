@@ -1,6 +1,0 @@
-#!/bin/sh
-LAST_GENERATION=$(home-manager generations | head -n 1)
-nix flake update --flake ~/.config/home-manager/ --impure && home-manager edit --impure && home-manager switch --impure
-if [ "$LAST_GENERATION" != "$(home-manager generations | head -n 1)" ]; then
-  nh.nvd-diff-consecutive
-fi
