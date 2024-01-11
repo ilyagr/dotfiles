@@ -1,4 +1,4 @@
 #!/bin/sh
 set -ue
 nix flake update --flake ~/.config/home-manager/ --impure
-nh.edit
+hm.edit

@@ -3,5 +3,5 @@ set -eu
 home-manager edit --impure && home-manager switch --impure
 LAST_GENERATION=$(home-manager generations | head -n 1)
 if [ "$LAST_GENERATION" != "$(home-manager generations | head -n 1)" ]; then
-  nh.nvd-diff-consecutive
+  hm.nvd-diff-consecutive
 fi
