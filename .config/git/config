@@ -1,4 +1,7 @@
 [alias]
+# Exec command in git root
+exec = "!exec "
+
 s = status --short --branch
 d = diff --stat
 cln = clean -ix :/

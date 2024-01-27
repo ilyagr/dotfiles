@@ -1,5 +1,6 @@
 # -*- mode: gitignore; -*-
 
+_ilyagrignore/*
 .DS_Store
 
 # Github recommends NOT ignoring .vscode/launch.json, etc.
