@@ -19,6 +19,10 @@ default-command="log"
 program="scm-diff-editor"
 edit-args = ["--dir-diff", "$left", "$right"]
 
+[merge-tools.tauri]
+program="tauri_difftool"
+edit-args = ["$left", "$right", "$output"]
+
 [merge-tools.vscode]
 program = "code"
 merge-args = [ "--wait", "--merge", "$left", "$right", "$base", "$output"] #"--new-window",
@@ -56,6 +60,7 @@ edit-args = ["--vim", '''gvim --nofork -c "colorscheme murphy"''', "$left", "$ri
 
 [merge-tools.diff]
 edit-args = ["-r", "--brief", "--new-file", "-s", "$left", "$right"]
+diff-args = ["-r", "--new-file", "-s", "$left", "$right"]
 [merge-tools.diff3]
 program="sh"
 merge-args = [ "-c", "git merge-file --zdiff3 --stdout \"$left\" \"$base\" \"$right\" | diff -u \"$left\" -"]
@@ -158,6 +163,8 @@ log="openlog"
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
+# GitHub needs 7 chars to recognize a commit id
+"format_short_commit_id(id)" = "id.shortest(7)"
 # # `format_short_change_id` is disabled since lowercase ids
 # # seem more readable after all.
 # 'format_short_change_id(id)' = 'format_short_id(id)'
