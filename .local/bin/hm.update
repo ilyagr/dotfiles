@@ -1,0 +1,4 @@
+#!/bin/sh
+set -ue
+nix flake update --flake ~/.config/home-manager/ --impure --cores 10
+hm.switch

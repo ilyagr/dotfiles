@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+LAST_GENERATION=$(home-manager generations | head -n 1)
+home-manager switch --impure --cores 10
+if [ "$LAST_GENERATION" != "$(home-manager generations | head -n 1)" ]; then
+  hm.nvd-diff-consecutive
+fi
+
