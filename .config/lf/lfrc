@@ -29,6 +29,7 @@ map * filter
 
 map v invert-below
 map V invert
+map ~ invert
 # See what happened
 map ` !true
 map <c-o> !true
@@ -155,3 +156,7 @@ map Q %{{
 }}
 # If the above is mapped to `q`
 # map Q quit
+
+
+source ~/.config/lf/lfrc-local
+
