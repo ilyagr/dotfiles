@@ -157,6 +157,10 @@ map Q %{{
 # If the above is mapped to `q`
 # map Q quit
 
-
-source ~/.config/lf/lfrc-local
-
+${{
+ filename=~/.config/lf/lfrc-local
+ if [ -f "$filename" ]; then
+  lf -remote "send $id :source $filename"
+ fi
+}}
+ 
