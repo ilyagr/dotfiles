@@ -157,10 +157,14 @@ map Q %{{
 # If the above is mapped to `q`
 # map Q quit
 
-${{
- filename=~/.config/lf/lfrc-local
- if [ -f "$filename" ]; then
-  lf -remote "send $id :source $filename"
- fi
-}}
+# Same as `source ~/.config/lf/lfrc-local`, but does not error
+# if file doesn't exist. Would be nice, but doesn't work if
+# lf server is not up yet.
+# ${{
+#  filename=~/.config/lf/lfrc-local
+#  if [ -f "$filename" ]; then
+#   lf -remote "send $id :source $filename"
+#  fi
+# }}
  
+source ~/.config/lf/lfrc-local
