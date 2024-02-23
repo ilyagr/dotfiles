@@ -1,5 +1,9 @@
 if which jj > /dev/null
-    jj util completion --fish |source
+    if test (uname) = Darwin
+        jj util completion fish |source
+    else
+        jj util completion --fish |source
+    end
     alias "jl=jj log"
 end
 
