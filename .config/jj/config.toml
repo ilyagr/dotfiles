@@ -1,48 +1,91 @@
+[core]
+fsmonitor="watchman"
 [user]
-name =  "Ilya Grigoriev"
+name = "Ilya Grigoriev"
 email = "ilyagr@users.noreply.github.com"
 
 [ui]
-diff-editor = "vimtabdiff.py"
+diff-editor = ":builtin-web"
 merge-editor = "vimdiff"
+log-synthetic-elided-nodes = true
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
 # pager="sp"
 # pager="moar"
 
 color = "always"
-log-word-wrap=true
-default-command="log"
+log-word-wrap = true
+default-command = "log"
+
+# BEGIN PR https://github.com/martinvonz/jj/pull/3109/files
+[merge-tools."meld-3"]
+# With Meld's 3-way merge resolution mode, once the output pane has been
+# edited, it loses the original contents of `$base`. Here we offer an
+# alternative that opens the original two sides compared to the base in two
+# more tabs.
+merge-args = ["--diff", "$left", "$output", "$right", "--diff", "$base", "$left", "--diff", "$base", "$right"]
+# To make it useful, the output pane must be prepopulated with _something_. The
+# conflict markers here are not a great distraction, and might even be helpful
+# in their own right.
+merge-tool-edits-conflict-markers = true
+# END PR
+
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
 [merge-tools.scm]
-program="scm-diff-editor"
+program = "scm-diff-editor"
 edit-args = ["--dir-diff", "$left", "$right"]
 
 [merge-tools.tauri]
-program="tauri_difftool"
+program = "tauri_difftool"
+edit-args = ["$left", "$right", "$output"]
+
+[merge-tools.local]
+program = "echo"
+edit-args = ["Use `diffedit3` instead of `diffedit3-web` or `local`!!"]
+
+[merge-tools.diffedit3]
+program = "diffedit3-web"
+edit-args = ["$left", "$right", "$output", "--port-range", "10035", "10040"]
+
+[merge-tools.diffedit3-web]
+program = "echo"
+edit-args = ["Use `diffedit3` instead of `diffedit3-web`!!"]
+
+[merge-tools.diffedit3-gui]
 edit-args = ["$left", "$right", "$output"]
 
 [merge-tools.vscode]
 program = "code"
-merge-args = [ "--wait", "--merge", "$left", "$right", "$base", "$output"] #"--new-window",
+merge-args = [
+    "--wait",
+    "--merge",
+    "$left",
+    "$right",
+    "$base",
+    "$output",
+] #"--new-window",
 merge-tool-edits-conflict-markers = true
 # use-tmp-dir-under-workspace=true
 
 [merge-tools.idea]
 program = "idea"
-diff-args = ["diff",  "$left", "$right"]
-edit-args = ["diff",  "$left", "$right"]
-merge-args = ["merge" , "$left", "$right", "$base", "$output"]
+diff-args = ["diff", "$left", "$right"]
+edit-args = ["diff", "$left", "$right"]
+merge-args = ["merge", "$left", "$right", "$base", "$output"]
 
 [merge-tools.code-xargs]
 program = "sh"
 diff-invocation-style = "repeat-file-pairs"
-edit-args = ["-c",
+edit-args = [
+    "-c",
     '''printf "%s\0" "$@" | xargs -0 -n2 -P0 -t -- code-wayland --wait --diff''',
-    "unused_name", "$repeat", "$left", "$right"
-    ]
-use-tmp-dir-under-workspace=true
+    "unused_name",
+    "$repeat",
+    "$left",
+    "$right",
+]
+use-tmp-dir-under-workspace = true
 
 [merge-tools.vimtabdiff]
 # Replaces my old vimtabdiff script
@@ -56,20 +99,37 @@ edit-args = ["--vim", '''nvim -c "colorscheme murphy"''', "$left", "$right"]
 
 [merge-tools.vimtabdiff-gvim]
 program = "vimtabdiff"
-edit-args = ["--vim", '''gvim --nofork -c "colorscheme murphy"''', "$left", "$right"]
+edit-args = [
+    "--vim",
+    '''gvim --nofork -c "colorscheme murphy"''',
+    "$left",
+    "$right",
+]
 
 [merge-tools.diff]
 edit-args = ["-r", "--brief", "--new-file", "-s", "$left", "$right"]
 diff-args = ["-r", "--new-file", "-s", "$left", "$right"]
 [merge-tools.diff3]
-program="sh"
-merge-args = [ "-c", "git merge-file --zdiff3 --stdout \"$left\" \"$base\" \"$right\" | diff -u \"$left\" -"]
+program = "sh"
+merge-args = [
+    "-c",
+    "git merge-file --zdiff3 --stdout \"$left\" \"$base\" \"$right\" | diff -u \"$left\" -",
+]
 
 [merge-tools.git]
 edit-args = ["diff", "--no-index", "--name-only", "$left", "$right"]
 
 [merge-tools.kdiff3]
-edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1", "$left", "$right", "$output"]
+edit-args = [
+    "--merge",
+    "--cs",
+    "CreateBakFiles=0",
+    "--cs",
+    "SkipDirStatus=1",
+    "$left",
+    "$right",
+    "$output",
+]
 # Notes on interesting kdiff3 ptions
 # SkipDirStatus=1
 # CreateBakFiles=0
@@ -78,49 +138,80 @@ edit-args = ["--merge", "--cs", "CreateBakFiles=0", "--cs", "SkipDirStatus=1", "
 # SyncMode (??)
 
 [merge-tools.kdiff3f] # Flipped
-merge-args = [ "$base",  "$right","$left", "-o", "$output", "--auto",]
-program="kdiff3"
+merge-args = ["$base", "$right", "$left", "-o", "$output", "--auto"]
+program = "kdiff3"
 
 [merge-tools.p4merge]
-merge-args = [ "$base",  "$left", "$right", "$output"]
+merge-args = ["$base", "$left", "$right", "$output"]
 [merge-tools.p4mergef]
-merge-args = [ "$base",  "$right", "$left", "$output"]
-program="p4merge"
-env = {QT_QPA_PLATFORM="xcb"}  # Doesn't seem to work?
+merge-args = ["$base", "$right", "$left", "$output"]
+program = "p4merge"
+env = { QT_QPA_PLATFORM = "xcb" }                    # Doesn't seem to work?
 
 [merge-tools.bcompare]
 edit-args = ["-ro1", "-expandall", "$left", "$right"]
-merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts"] #"-solo"? Is `-ro` a good idea?
+merge-args = [
+    "$left",
+    "$right",
+    "$base",
+    "$output",
+    "-automerge",
+    "-reviewconflicts",
+] #"-solo"? Is `-ro` a good idea?
 
 [merge-tools.bcomp]
 edit-args = ["-ro1", "-expandall", "$left", "$right"]
 # edit-args = ["$left", "$right", "-favorright", "-edit", "-mergeoutput=$output",]
-merge-args = ["$left", "$right", "$base", "$output", "-automerge", "-reviewconflicts"] #"-solo"? is `-ro` a good idea?
+merge-args = [
+    "$left",
+    "$right",
+    "$base",
+    "$output",
+    "-automerge",
+    "-reviewconflicts",
+] #"-solo"? is `-ro` a good idea?
 
 [merge-tools.bcomp-3]
-program="bcomp"
-edit-args = ["$left", "$right",  "-expandall", "-mergeoutput=$output", "-ro1", "-ro2"] #"-favorright", "-edit",
+program = "bcomp"
+edit-args = [
+    "$left",
+    "$right",
+    "-expandall",
+    "-mergeoutput=$output",
+    "-ro1",
+    "-ro2",
+] #"-favorright", "-edit",
 
 [merge-tools.bcomp-3b]
-program="bcomp"
-edit-args = ["$left", "$right",  "-expandall", "-mergeoutput=$right", "-ro1", "-ro2"] #"-favorright", "-edit",
+program = "bcomp"
+edit-args = [
+    "$left",
+    "$left",
+    "$right",
+    "-expandall",
+    "-mergeoutput=$right",
+    "-ro1",
+    "-ro2",
+    "-ro3",
+] #"-favorright", "-edit",
 
 [merge-tools.meld]
-edit-args = ["$left", "$right", "-a",] #  "-o", "/tmp/output"]
+edit-args = ["$left", "$right", "-a"] #  "-o", "/tmp/output"]
 # vimdiff.merge-args = ["-f", "-d", "$output", "-M",
 #                       "$left", "$base", "$right",
 #                       "-c", "wincmd J", "-c", "set modifiable",
 #                       "-c", "set write"]
 #
 [merge-tools.difft]
-diff-args = [ "--color=always", "$left", "$right"]
+diff-args = ["--color=always", "$left", "$right"]
 [merge-tools.diffti]
-program="difft"
-diff-args = [ "--color=always", "--display=inline", "$left", "$right"]
+program = "difft"
+diff-args = ["--color=always", "--display=inline", "$left", "$right"]
 
 [aliases]
 n = ["new"]
 d = ["diff", "-s"]
+br = ["branch"]
 de = ["diffedit"]
 di = ["describe"]
 next = ["co", "@-+ ~ @"]
@@ -129,26 +220,37 @@ delta = ["diff", "--git", "--config-toml=ui.pager='delta'"]
 deltas = ["diff", "--git", "--config-toml=ui.pager='delta -s'"]
 deltan = ["diff", "--git", "--config-toml=ui.pager='delta -n'"]
 
-eachcommit = ["log", "--no-graph", "--color=never", "--ignore-working-copy", "-T", 'commit_id.shortest(8) ++ "\n"', "-r"]
+# Thanks to Hypatian from https://discord.com/channels/968932220549103686/968932220549103689/1225647474933370950
+forcibly = ["--config-toml=revset-aliases.'immutable_heads()' = 'none()'"]
+
+eachcommit = [
+    "log",
+    "--no-graph",
+    "--color=never",
+    "--ignore-working-copy",
+    "-T",
+    'commit_id.shortest(8) ++ "\n"',
+    "-r",
+]
 
 
 [revset-aliases]
-next = "@-+ ~ @"  # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
-M = "present(main) | present(master)"  # Main branch
+next = "@-+ ~ @"                      # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
+M = "present(main) | present(master)" # Main branch
 # R: "relevant commits" from jj.logstatus. Better name?
-R ="M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
+R = "M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
 # 'iddot(from, to)'= '(from..to)|((::from & ::to)~((::from & ::to)-))'
 
 #  jj log -r 'siddot(main,mdbook::|mkdocs::)'
-'siddot(from, to)'= '(from..to)|(from..to)-'
-'iddot(from, to)'= 'siddot(from,to)|from'
+'siddot(from, to)' = '(from..to)|(from..to)-'
+'iddot(from, to)' = 'siddot(from,to)|from'
 stack = "(trunk()..@)::"
 open = "immutable-heads.."
 stacklog = "ancestors(stack, 2)|trunk()"
 openlog = "ancestors(open, 2)|immutable-heads|@"
-stackl="stacklog"
-openl="openlog"
-immutable-heads="trunk()"
+stackl = "stacklog"
+openl = "openlog"
+immutable-heads = "trunk()"
 immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(gh-pages@upstream)"
 
 "conflictroot(x)" = "latest(roots( (::x~conflict())..x ))"
@@ -156,10 +258,10 @@ immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(g
 crat = "cr(@)"
 
 [revsets]
-short-prefixes="ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
-immutable-heads="immutable-heads"
+short-prefixes = "ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
+immutable-heads = "immutable-heads"
 # log="openl"
-log="openlog"
+log = "openlog"
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
@@ -176,4 +278,4 @@ description_placeholder = 'label(separate(" ", if(empty, "empty"), "description 
 # [colors]
 # "description placeholder" =  "yellow" # "blue"
 # "empty description placeholder" = "green"
-# 
+#
