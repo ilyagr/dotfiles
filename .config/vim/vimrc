@@ -74,3 +74,7 @@ if &diff || get(g:, 'some_variable_indicating_about_to_diff')
   colorscheme murphy
   " syntax off
 endif
+
+if has("gui_macvim")
+    set guifont=-monospace-:h15
+endif
