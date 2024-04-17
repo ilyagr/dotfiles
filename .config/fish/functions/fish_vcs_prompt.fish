@@ -5,6 +5,7 @@ function fish_vcs_prompt --description 'Print the prompts for all available vcse
            return 0
        end
     end
+    fish_jj_prompt and printf " "
     # If a prompt succeeded, we assume that it's printed the correct info.
     # This is so we don't try svn if git already worked.
     fish_git_prompt

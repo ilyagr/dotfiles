@@ -282,8 +282,31 @@ op_log_node = 'builtin_op_log_node'
 "format_short_signature(signature)" = 'label("email", signature.username() ++ "@")'
 commit_summary_separator = 'label("separator", "| ")'
 description_placeholder = 'label(separate(" ", if(empty, "empty"), "description placeholder"), "(no description set)")'
+shell_prompt_id = '''
+label("shell_prompt " ++ if(current_working_copy, "working_copy"),
+concat(
+  label("separator", "<"),
+  separate(label("separator", "|"),
+    concat(
+        if(divergent,
+          label("divergent", "⌥") ++ commit_id.shortest(),
+          change_id.shortest()
+        ),
+    ),
+    concat(
+        if(conflict, label("conflict", "⇋")),
+        if(empty, label("empty", "∅")),
+    ),
+    branches,
+    tags,
+  ),
+  label("separator", ">"),
+),
+)
+'''
 
-# [colors]
+[colors]
+"shell_prompt branches" = "blue" # "default"
 # "description placeholder" =  "yellow" # "blue"
 # "empty description placeholder" = "green"
 #
