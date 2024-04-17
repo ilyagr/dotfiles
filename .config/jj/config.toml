@@ -7,7 +7,10 @@ email = "ilyagr@users.noreply.github.com"
 [ui]
 diff-editor = ":builtin-web"
 merge-editor = "vimdiff"
+
+# Upcoming defaults
 log-synthetic-elided-nodes = true
+allow-filesets = true
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
 # pager="sp"
@@ -256,12 +259,17 @@ immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(g
 "conflictroot(x)" = "latest(roots( (::x~conflict())..x ))"
 "cr(x)" = "conflictroot(x)"
 crat = "cr(@)"
+crall = "cr(heads(::))"  # Not fully tested
 
 [revsets]
 short-prefixes = "ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
 immutable-heads = "immutable-heads"
 # log="openl"
 log = "openlog"
+
+[templates]
+log_node = 'builtin_log_node'
+op_log_node = 'builtin_op_log_node'
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
