@@ -8,7 +8,7 @@ function fish_vcs_prompt --description 'Print the prompts for all available vcse
     fish_jj_prompt and printf " "
     # If a prompt succeeded, we assume that it's printed the correct info.
     # This is so we don't try svn if git already worked.
-    fish_git_prompt
+    or fish_git_prompt
     or fish_hg_prompt
     # The svn prompt is disabled by default because it's quite slow on common svn repositories.
     # To enable it uncomment it.
