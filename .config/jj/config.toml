@@ -5,7 +5,7 @@ name = "Ilya Grigoriev"
 email = "ilyagr@users.noreply.github.com"
 
 [ui]
-diff-editor = ":builtin-web"
+diff-editor = "diffedit3"
 merge-editor = "vimdiff"
 
 # Upcoming defaults
@@ -33,6 +33,17 @@ merge-args = ["--diff", "$left", "$output", "$right", "--diff", "$base", "$left"
 merge-tool-edits-conflict-markers = true
 # END PR
 
+[merge-tools.gvimdiff]
+program = "gvim"
+# `-d` enables diff mode. `-f` makes vim run in foreground even if it starts a GUI.
+# The other options make sure that only the output file can be modified.
+merge-args = ["-f", "-d", "$output", "-M", "$left", "$base", "$right",
+              "-c", "wincmd J", "-c", "set modifiable", "-c", "set write"]
+merge-tool-edits-conflict-markers = true
+# Using vimdiff as a diff editor is not recommended. For instructions on configuring
+# the DirDiff Vim plugin for a better experience, see
+# https://gist.github.com/ilyagr/5d6339fb7dac5e7ab06fe1561ec62d45
+edit-args = ["-f", "-d", "$left", "$right"]
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
 [merge-tools.scm]
@@ -47,9 +58,12 @@ edit-args = ["$left", "$right", "$output"]
 program = "echo"
 edit-args = ["Use `diffedit3` instead of `diffedit3-web` or `local`!!"]
 
-[merge-tools.diffedit3]
-program = "diffedit3-web"
-edit-args = ["$left", "$right", "$output", "--port-range", "10035", "10040"]
+# [merge-tools.diffedit3]
+# program = "diffedit3-web"
+# edit-args = ["$left", "$right", "$output", "--port-range", "10035", "10040"]
+# # merge-args = ["$left", "$right", "$output", "--port-range", "10035", "10040"]
+# # merge-args = false
+# merge-tool-edits-conflict-markers = true
 
 [merge-tools.diffedit3-web]
 program = "echo"
@@ -256,8 +270,8 @@ openl = "openlog"
 immutable-heads = "trunk()"
 immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(gh-pages@upstream)"
 
-"conflictroot(x)" = "latest(roots( (::x~conflict())..x ))"
-"cr(x)" = "conflictroot(x)"
+"conflictroots(x)" = "roots( (::x~conflict())..x )"
+"cr(x)" = "conflictroots(x)"
 crat = "cr(@)"
 crall = "cr(heads(::))"  # Not fully tested
 
@@ -281,7 +295,7 @@ op_log_node = 'builtin_op_log_node'
 "format_timestamp(timestamp)" = "timestamp.ago()"
 "format_short_signature(signature)" = 'label("email", signature.username() ++ "@")'
 commit_summary_separator = 'label("separator", "| ")'
-description_placeholder = 'label(separate(" ", if(empty, "empty"), "description placeholder"), "(no description set)")'
+# description_placeholder = 'label(separate(" ", if(empty, "empty"), "description placeholder"), "(no description set)")'
 "shell_prompt_id(diff_stats)" = '''
 label("shell_prompt " ++ if(current_working_copy, "working_copy"),
 concat(

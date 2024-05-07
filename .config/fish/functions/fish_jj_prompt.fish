@@ -17,6 +17,7 @@ function fish_jj_prompt
       set -f diff_stats (jj diff -s --color=never | string sub -l 1 | sort -u | string join "" || true)
     end
 
+    # Info for parent commit(s)
     jj log --no-graph --ignore-working-copy --color=always -T "shell_prompt_id(\"\")" -r @-
     printf "→"
     jj log --no-graph --ignore-working-copy --color=always -T "shell_prompt_id(\"$diff_stats\")" -r @
