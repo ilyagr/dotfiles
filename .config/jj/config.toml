@@ -231,11 +231,12 @@ d = ["diff", "-s"]
 br = ["branch"]
 de = ["diffedit"]
 di = ["describe"]
-next = ["co", "@-+ ~ @"]
-prev = ["co", "@--"]
+# next = ["co", "@-+ ~ @"]  # Now overridden by `jj next` command
+# prev = ["co", "@--"]
 delta = ["diff", "--git", "--config-toml=ui.pager='delta'"]
 deltas = ["diff", "--git", "--config-toml=ui.pager='delta -s'"]
 deltan = ["diff", "--git", "--config-toml=ui.pager='delta -n'"]
+difft = ["diff", "--tool=difft"]
 
 # Thanks to Hypatian from https://discord.com/channels/968932220549103686/968932220549103689/1225647474933370950
 forcibly = ["--config-toml=revset-aliases.'immutable_heads()' = 'none()'"]
