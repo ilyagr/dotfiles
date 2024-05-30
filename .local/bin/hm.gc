@@ -1,0 +1,4 @@
+#!/bin/sh
+home-manager expire-generations '-15 days'
+nix profile wipe-history --older-than 10d
+nix store gc
