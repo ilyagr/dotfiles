@@ -3,6 +3,13 @@ import sys
 import code
 from math import *
 
+def codepoint(c):
+    # https://stackoverflow.com/a/70606064/563359
+    return "U+{:04X}".format(ord(c))
+
+def codepoints(s):
+    return "\n".join(f"{codepoint(c)}\t{c}" for c in s)
+
 if sys.argv[1:]:
   print(eval(' '.join(sys.argv[1:])))
 else:
