@@ -1,0 +1,34 @@
+#!/bin/sh
+# See also `wcurl`. Unlike `wcurl`, this downloads a single file
+# and does not continue failed downloads (since this breaks
+# --no-clobber and instead appends to files with the same name,
+# even if the same name is a coincidence).
+#
+# More or less:
+#      curl -Lf# -OJ "$@"
+#
+# `curl -o filename` is probably useful
+#
+# -J / --remote-header-name can be useful,
+# but can be dangerous and doesn't work with --continue-at -
+#
+# -i shows headers
+#
+# --no-clobber doesn't work with `--continue-at -` AKA `-C -`. `--continue-at`
+# does NOT check that the first part of the file is as expected
+
+set -eu
+case "$0" in
+    *dlcat) OUTPUT_ARGS="-o -";;
+    *)      OUTPUT_ARGS="--remote-name --remote-time --remote-header-name --no-clobber"
+esac
+
+
+curl --location --fail --progress-bar $OUTPUT_ARGS \
+     -w '%{stderr}curl: successfully wrote to %{filename_effective}.\n'\
+     --retry 10 --retry-max-time 20 "$@"
+# # TODO: output to stdout when called as `dlcat`
+# curl --location --fail --remote-name --remote-time \
+#      --progress-bar --no-clobber --remote-header-name \
+#      -w '%{stderr}curl: wrote %{filename_effective}.\n' \
+#      --retry 10 --retry-max-time 20 "$@"
