@@ -18,14 +18,21 @@
 # does NOT check that the first part of the file is as expected
 
 set -eu
-case "$0" in
-    *dlcat) OUTPUT_ARGS="-o -";;
-    *)      OUTPUT_ARGS="--remote-name --remote-time --remote-header-name --no-clobber"
+PROGNAME=$(basename "$0")
+case "$PROGNAME" in
+    *dlcat)
+        OUTPUT_ARGS="-o -"
+        SUCCESS_MESSAGE='%{stderr}' # Empty message
+        ;;
+    *)
+        OUTPUT_ARGS="--remote-name --remote-time --remote-header-name --no-clobber"
+        SUCCESS_MESSAGE='%{stderr}'"$PROGNAME"': successfully wrote to %{filename_effective}.\n'
+        ;;
 esac
 
 
 curl --location --fail --progress-bar $OUTPUT_ARGS \
-     -w '%{stderr}curl: successfully wrote to %{filename_effective}.\n'\
+     -w "$SUCCESS_MESSAGE"\
      --retry 10 --retry-max-time 20 "$@"
 # # TODO: output to stdout when called as `dlcat`
 # curl --location --fail --remote-name --remote-time \
