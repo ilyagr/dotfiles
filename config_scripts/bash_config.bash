@@ -8,7 +8,7 @@ export MOAR
 export LF_PAGER="less -+F"
 # # The newline is because I have (unwisely?) `set ifs "\n"` in lfrc as suggested by the docs. It only seems to be important for :doc command
 # export LF_PAGER=$(printf "less\n-+F")
-HWATCH="-t --color --no-help-banner --mouse"
+HWATCH="-t --color --no-help-banner --mouse --border --with-scrollbar"
 export HWATCH
 
 if [ -f ~/config_scripts/bash_config_site.bash ]; then
