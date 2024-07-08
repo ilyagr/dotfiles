@@ -1,3 +1,9 @@
 #!/usr/bin/env fish
+# startgui: Start a GUI program without letting it print to this terminal
+#
+# This has a "bug" that `startgui echo qq` does not start a job
+# (as echo is a builtin) and thus there is nothing to disown. We
+# could put `command` in front of `$argv`, but it might do more
+# harm than good.
 $argv &> /dev/null &
 disown
