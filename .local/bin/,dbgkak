@@ -1,0 +1,4 @@
+#!/bin/sh
+"$@" 2>&1
+ERRCODE=$?
+printf "[\`%s\` exited with error code %s]\n" "$1" "$ERRCODE"
