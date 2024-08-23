@@ -22,18 +22,21 @@ PROGNAME=$(basename "$0")
 case "$PROGNAME" in
     *dlcat)
         OUTPUT_ARGS="-o -"
-        SUCCESS_MESSAGE='%{stderr}' # Empty message
+        MESSAGE='%{stderr}' # Empty message
+        SUCCESS_MESSAGE=""
         ;;
     *)
         OUTPUT_ARGS="--remote-name --remote-time --remote-header-name --no-clobber"
-        SUCCESS_MESSAGE='%{stderr}'"$PROGNAME"': successfully wrote to %{filename_effective}.\n'
+        MESSAGE='%{stderr}'"$PROGNAME"': downloading %{filename_effective} %{onerror}failed.\n'
+        SUCCESS_MESSAGE="succeeded.\n"
         ;;
 esac
 
 
 curl --location --fail --progress-bar $OUTPUT_ARGS \
-     -w "$SUCCESS_MESSAGE"\
-     --retry 10 --retry-max-time 20 "$@"
+     -w "$MESSAGE"\
+     --retry 10 --retry-max-time 20 "$@" &&
+     printf "$SUCCESS_MESSAGE" >&2
 # # TODO: output to stdout when called as `dlcat`
 # curl --location --fail --remote-name --remote-time \
 #      --progress-bar --no-clobber --remote-header-name \
