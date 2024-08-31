@@ -1,2 +1,2 @@
 #! /bin/sh
-rg -p --max-columns=0 "$@" | less -RSF
+rg --pretty --max-columns=0 "$@" | less -RSF
