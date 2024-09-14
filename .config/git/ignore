@@ -6,6 +6,7 @@ Cranky.toml
 
 # Github recommends NOT ignoring .vscode/launch.json, etc.
 # Makes it hard to develop vscode extensions.
+# But we CAN `echo '*'>.gitignore` if necessary!
 # .vscode/*
 # Good idea? Bad idea?
 .idea
