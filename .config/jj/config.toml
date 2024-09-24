@@ -48,9 +48,9 @@ merge-tool-edits-conflict-markers = true
 merge-args = ["$left", "$right","$output"]
 merge-tool-edits-conflict-markers = true
 
-# [experimental-advance-branches]
-# enabled-branches = ["glob:*"]
-# disabled-branches = ["main", "gh-pages", "ilya", "ilya2"]
+# [experimental-advance-bookmarks]
+# enabled-bookmarks = ["glob:*"]
+# disabled-bookmarks = ["main", "gh-pages", "ilya", "ilya2"]
 
 [merge-tools.pratdiff]
 diff-args = ["--color=always", "$left", "$right"]
@@ -284,7 +284,7 @@ eachcommit = [
 next = "@-+ ~ @"                      # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
 M = "present(main) | present(master)" # Main branch
 # R: "relevant commits" from jj.logstatus. Better name?
-R = "M..@|(M..@)-|@..M|@|M..branches()|(M..branches())-|M|remote_branches().. | (remote_branches()..)-"
+R = "M..@|(M..@)-|@..M|@|M..bookmarks()|(M..bookmarks())-|M|remote_bookmarks().. | (remote_bookmarks()..)-"
 # 'iddot(from, to)'= '(from..to)|((::from & ::to)~((::from & ::to)-))'
 
 #  jj log -r 'siddot(main,mdbook::|mkdocs::)'
@@ -307,7 +307,7 @@ crall = "cr(heads(::))"  # Not fully tested
 at = "@"
 
 [revsets]
-short-prefixes = "ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
+short-prefixes = "ancestors((remote_bookmarks(main)|remote_bookmarks(master)|remote_bookmarks(develop)|tags())..,2)"
 # immutable-heads = "immutable-heads"
 # log="openl"
 # log = "openlog"
@@ -367,7 +367,7 @@ concat(
         if(empty, label("empty", "∅")),
         diff_stats
     ),
-    branches,
+    bookmarks,
     tags,
   ),
   label("separator", ">"),
@@ -376,8 +376,8 @@ concat(
 '''
 
 [colors]
-"shell_prompt branches" = "blue" # "default"
-"shell_prompt working_copy branches" = "bright blue" # "default"
+"shell_prompt bookmarks" = "blue" # "default"
+"shell_prompt working_copy bookmarks" = "bright blue" # "default"
 # "description placeholder" =  "yellow" # "blue"
 # "empty description placeholder" = "green"
 
