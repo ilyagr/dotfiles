@@ -1,5 +1,7 @@
 [core]
 fsmonitor="watchman"
+watchman.register_snapshot_trigger = true
+
 [user]
 name = "Ilya Grigoriev"
 email = "ilyagr@users.noreply.github.com"
@@ -18,7 +20,16 @@ allow-filesets = true
 
 color = "always"
 log-word-wrap = true
-default-command = "log"
+default-command = ["status"]
+
+[fix.tools.rustfmt]
+patterns = ["glob:'**/*.rs'"]
+command = ["rustfmt", "--emit", "stdout"]
+
+
+
+[diff.color-words]
+# max-inline-alternation = 3  # Now the default
 
 # BEGIN PR https://github.com/martinvonz/jj/pull/3109/files
 [merge-tools."meld-3"]
@@ -33,6 +44,18 @@ merge-args = ["--diff", "$left", "$output", "$right", "--diff", "$base", "$left"
 merge-tool-edits-conflict-markers = true
 # END PR
 
+[merge-tools.diffedit3]
+merge-args = ["$left", "$right","$output"]
+merge-tool-edits-conflict-markers = true
+
+# [experimental-advance-branches]
+# enabled-branches = ["glob:*"]
+# disabled-branches = ["main", "gh-pages", "ilya", "ilya2"]
+
+[merge-tools.pratdiff]
+diff-args = ["--color=always", "$left", "$right"]
+diff-invocation-mode = "file-by-file"
+
 [merge-tools.gvimdiff]
 program = "gvim"
 # `-d` enables diff mode. `-f` makes vim run in foreground even if it starts a GUI.
@@ -44,6 +67,11 @@ merge-tool-edits-conflict-markers = true
 # the DirDiff Vim plugin for a better experience, see
 # https://gist.github.com/ilyagr/5d6339fb7dac5e7ab06fe1561ec62d45
 edit-args = ["-f", "-d", "$left", "$right"]
+
+# #3982
+diff-args = ["-f", "-d", "$left", "$right"]
+diff-invocation-mode = "file-by-file"
+
 
 # cargo install --git https://github.com/arxanas/git-branchless scm-record --features scm-diff-editor
 [merge-tools.scm]
@@ -228,7 +256,7 @@ diff-args = ["--color=always", "--display=inline", "$left", "$right"]
 [aliases]
 n = ["new"]
 d = ["diff", "-s"]
-br = ["branch"]
+bm = ["bookmark"]
 de = ["diffedit"]
 di = ["describe"]
 # next = ["co", "@-+ ~ @"]  # Now overridden by `jj next` command
@@ -268,23 +296,47 @@ stacklog = "ancestors(stack, 2)|trunk()"
 openlog = "ancestors(open, 2)|immutable-heads|@"
 stackl = "stacklog"
 openl = "openlog"
-immutable-heads = "trunk()"
+# immutable-heads = "trunk()"
 immutable-heads-jj-repo = "present(main@upstream)|present(main@origin)|present(gh-pages@upstream)"
 
+# Should this be `roots( conflict() & ::x )`
 "conflictroots(x)" = "roots( (::x~conflict())..x )"
 "cr(x)" = "conflictroots(x)"
 crat = "cr(@)"
 crall = "cr(heads(::))"  # Not fully tested
+at = "@"
 
 [revsets]
 short-prefixes = "ancestors((remote_branches(main)|remote_branches(master)|remote_branches(develop)|tags())..,2)"
-immutable-heads = "immutable-heads"
+# immutable-heads = "immutable-heads"
 # log="openl"
-log = "openlog"
+# log = "openlog"
 
 [templates]
-log_node = 'builtin_log_node'
-op_log_node = 'builtin_op_log_node'
+# Add empty set to default. Alternatives: ∅◌
+log_node = '''
+coalesce(
+  if(!self, label("elided", "~")),
+  label(
+    separate(" ",
+      if(current_working_copy, "working_copy"),
+      if(immutable, "immutable"),
+      if(conflict, "conflict"),
+    ),
+    coalesce(
+      if(current_working_copy, "@"),
+      if(immutable, "◆"),
+      if(conflict, "×"),
+      if(empty, "◌"),
+      "○",
+    )
+  )
+)
+'''
+
+  
+ # log_node = 'builtin_log_node'
+# op_log_node = 'builtin_op_log_node'
 
 [template-aliases]
 "format_short_id(id)" = "id.shortest(6)"
@@ -328,4 +380,7 @@ concat(
 "shell_prompt working_copy branches" = "bright blue" # "default"
 # "description placeholder" =  "yellow" # "blue"
 # "empty description placeholder" = "green"
-#
+
+# #3994
+ "diff removed token" = { bg = "#330000", underline = false }
+ "diff added token" = { bg = "#002200", underline = false }
