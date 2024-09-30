@@ -1,5 +1,8 @@
 #!/bin/sh
 # Uses https://github.com/Soares/tabdiff.vim
+
+echo vimtabdiff: WARNING: Use vimtabdiff.py instead, it works on Mac and is more reliable! >& 2
+
 left_and_right() {
     while read -r LINE; do
         printf "%s\n" "$LINE" | sed s/right/left/
