@@ -28,8 +28,8 @@ Sessionx.vim
 # Temporary
 .netrwhist
 *~
-# Auto-generated tag files
-tags
+# # Auto-generated tag files -- caused problems with a dir `tags`
+# tags
 # Persistent undo
 [._]*.un~
 
