@@ -328,7 +328,7 @@ handle_mime() {
             exit 1;;
 
         ## Text
-        text/* | */xml)
+        text/* | */xml | application/json)  # ilyagr: TOML file was once marked with app/json
             ## Syntax highlight
             if [[ "$( stat --printf='%s' -- "${FILE_PATH}" )" -gt "${HIGHLIGHT_SIZE_MAX}" ]]; then
                 exit 2
