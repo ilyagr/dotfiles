@@ -3,6 +3,10 @@ import sys
 import code
 from math import *
 
+# Does not seem to work. PYTHONSTARTUP might be better
+# import rlcompleter # ?? https://docs.python.org/3.13/library/rlcompleter.html#module-rlcompleter
+# import readline
+
 def codepoint(c):
     # https://stackoverflow.com/a/70606064/563359
     return "U+{:04X}".format(ord(c))

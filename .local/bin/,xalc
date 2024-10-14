@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+
+set -l prelude  '
+from math import *
+__xonsh__.env["PROMPT"] = "# "
+__xonsh__.env["XONSH_COLOR_STYLE"] = "inkpot"  # dracula gruvbox-dark lightbulb inkpot
+'
+
+if test "$argv" = ""
+   xonsh --rc (echo "$prelude" | psub)
+else
+   xonsh --rc (echo "$prelude" | psub) -c "$argv"
+end
+
