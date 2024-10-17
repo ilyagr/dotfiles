@@ -23,6 +23,7 @@ abbr -a -g -- vsd 'EDITOR="code --wait" jj describe'
 
 function _replace_gitdir
     set -l dir (git rev-parse --path-format=relative --show-toplevel 2>/dev/null || return 1)
+    set -l dir (git rev-parse --show-toplevel 2>/dev/null || return 1)/
     # set -l dir (git rev-parse --show-cdup 2>/dev/null || return 1)
     string replace -r "^:/" "$dir" $argv
 end
