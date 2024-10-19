@@ -1,6 +1,12 @@
 function fish_right_prompt
-    # https://github.com/fish-shell/fish-shell/issues/3476#issuecomment-256058730
-    if type -q tput
+    set -l move_up_one_line ""
+    if type -q tput && test (tput cols) -gt 60
+        # Perhaps not worth it
+        # set move_up_one_line yes
+    end
+
+    if test -n "$move_up_one_line"
+        # https://github.com/fish-shell/fish-shell/issues/3476#issuecomment-256058730
         tput sc; tput cuu1; tput cuf 2
     end
 
@@ -35,7 +41,7 @@ function fish_right_prompt
         printf '⏲%s' $output(set_color normal)
     end
 
-    if type -q tput
+    if test -n "$move_up_one_line"
         tput rc
     end
 end
