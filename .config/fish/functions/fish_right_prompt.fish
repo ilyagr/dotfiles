@@ -2,7 +2,7 @@ function fish_right_prompt
     set -l move_up_one_line ""
     if type -q tput && test (tput cols) -gt 60
         # Perhaps not worth it
-        # set move_up_one_line yes
+        set move_up_one_line yes
     end
 
     if test -n "$move_up_one_line"
@@ -23,21 +23,22 @@ function fish_right_prompt
     set -l day  (math "$hour * 24")
     if test $duration -gt $day
         set output (printf "%s"$numberfmt"%s"$unitfmt"d" $output (math -s 0 $duration / $day) )
-        set duration "$duration % $day"
+        set duration (math $duration % $day)
     end
     if test $duration -gt $hour
         set output (printf "%s"$numberfmt"%s"$unitfmt"h" $output (math -s 0 $duration / $hour) )
-        set duration "$duration % $hour"
+        set duration (math $duration % $hour)
     end
     if test $duration -gt $minute
         set output (printf "%s"$numberfmt"%s"$unitfmt"m" $output (math -s 0 $duration / $minute) )
-        set duration "$duration % $minute"
+        set duration (math $duration % $minute)
     end
-    if test -n "$output" || test $duration -gt 500
+    if test -n "$output" || test $duration -gt 7000 # 500
         set output (printf "%s"$numberfmt"%s"$unitfmt"s" $output (math -s 2 $duration / 1000))
     end
 
     if test -n "$output"
+        # 
         printf '⏲%s' $output(set_color normal)
     end
 
