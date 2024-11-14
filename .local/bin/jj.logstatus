@@ -1,7 +1,17 @@
 #!/bin/sh
 MAYBE_IGNORE_WORKING_COPY=--ignore-working-copy
+export RESET=$(printf '\033[00m')
+export BBLACK=$(printf '\033[01;30m')
+export YELLOW=$(printf '\033[0;33m')
+export CYAN=$(printf '\033[0;36m')
 # All but the first command have --ignore-working-copy
-(jj diff $MAYBE_IGNORE_WORKING_COPY --stat --color=always |grep -Ev '^\d+ file'; jj --ignore-working-copy resolve --list --color=always 2>/dev/null) |sed -E 's/\t(.*)$/\t \1\t\t     (debug \\t in hwatch)/'| ifne sh -c 'cat && echo'
+(
+   jj --ignore-working-copy resolve --list --color=always 2>/dev/null
+   jj diff $MAYBE_IGNORE_WORKING_COPY --stat --color=always |grep -Ev '^\d+ file'
+   if [ "$(jj log --no-pager --ignore-working-copy --color=never -r @- -T 'if(immutable, "immutable\n", "mutable\n")' --no-graph)" = "mutable" ]; then
+       jj diff $MAYBE_IGNORE_WORKING_COPY --stat --color=always -r @-|grep -Ev '^\d+ file'| ,head | ifne sh -c 'echo "$CYAN  =====  Parent  =====$RESET" && cat'
+   fi
+) |sed -E 's/\t(.*)$/\t \1\t\t     (debug \\t in hwatch)/'| ifne sh -c 'cat && echo'
 # EXPR=${EXPR:-"MAIN..@|(MAIN..@)-|@..MAIN|@|MAIN..branches()|(MAIN..branches())-|MAIN|remote_branches().. | (remote_branches()..)-"}
 jj --ignore-working-copy --color always --config-toml '
        ui.relative-timestamps=false

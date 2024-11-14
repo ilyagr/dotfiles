@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+N=${1:-5}
+ONE_MORE=$(( N + 1 ))
+ONE_MORE_RESULT=$(head -n $ONE_MORE)
+RESULT=$(printf %s "$ONE_MORE_RESULT" | head -n $N)
+printf '%s' "$RESULT"
+
+if [ x"$RESULT" != x ]; then
+    printf '\n' # Will sometimes be misleading
+fi
+
+if [ "$ONE_MORE_RESULT" != "$RESULT" ]; then
+    RESET=$(printf '\033[00m')
+    BBLACK=$(printf '\033[01;30m')
+    YELLOW=$(printf '\033[0;33m')
+    CYAN=$(printf '\033[0;36m')
+    printf "  %s... (snip) ...%s\n" "$CYAN" "$RESET"
+fi

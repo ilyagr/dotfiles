@@ -1,12 +1,24 @@
 #!/bin/sh
+BGREEN=$(printf '\033[01;32m')
+BYELLOW=$(printf '\033[01;33m')
+RESET=$(printf '\033[00m')
+# To make this work with `dash`, see https://unix.stackexchange.com/a/322213/261949
+# https://matrix.to/#/!YLTeaulxSDauOOxBoR:matrix.org/$Oe7jh_BPAc5gjqrj3CYsk8i4XaaMPsl4MKOC34oBmy8?via=matrix.org&via=gitter.im&via=matrix.protektwar.net
+# sh -c 'trap "trap : EXIT; echo aa" INT EXIT; cat'
+#
+# dash and bash behave differently on '( trap "echo ^C" INT; cat; ); trap - INT; echo end'
+# They behave the same without parentheses. I'm quite confused by this.
+# Or this hack of my invention. Not sure why it works, but it seems to work on dash+bash
+# Could try removing the subshell, but then would need to check that inner ctrl-c doesn't
+# break outer pipeline.
+trap : INT
 (
-    # Yellow.
-    # sh -c "trap 'exit 130' SIGINT; cat"
-    trap "printf '\033[01;33m  Aborted by ^C.\033[00m\n'; exit 130" SIGINT
+    # exit 130 only matters in bash, and only if there were more commands after "$@".
+    trap "printf '  %sAborted by ^C.%s\n' \"$BYELLOW\" \"$RESET\"; exit 130" INT
     "$@"
 )
 ERRCODE=$?
-printf '\033[01;32m' # Green color
-printf "\`%s\` exited with error code %s. Press Enter to continue, ^C/^D to abort/fail. " "$1" "$ERRCODE"
-printf '\033[00m'    # Reset color
+trap - INT
+printf "%s\`%s\` exited with error code %s. Press Enter to continue, ^C/^D to abort/fail.%s " \
+            "$BGREEN" "$1" "$ERRCODE" "$RESET"
 read -r __unused || (echo "(Got EOF or ^D)"; false)
