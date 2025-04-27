@@ -1,4 +1,4 @@
-function ilya_prompt_pwd
+function fish_ilya_prompt_pwd
     set -q argv[1]
     or set argv $PWD
 

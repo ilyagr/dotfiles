@@ -1,18 +1,8 @@
-function fish_right_prompt
-    set -l move_up_one_line ""
-    if type -q tput && test (tput cols) -gt 60
-        # Perhaps not worth it
-        set move_up_one_line yes
-    end
-
-    if test -n "$move_up_one_line"
-        # https://github.com/fish-shell/fish-shell/issues/3476#issuecomment-256058730
-        tput sc; tput cuu1; tput cuf 2
-    end
-
+function fish_ilya_execution_time_display
+    # TODO: Get rid of `output`, just print
     set -l duration "$cmd_duration$CMD_DURATION"
     set -l output ""
-    set -l numberfmt (set_color green)
+    set -l numberfmt (set_color green) # cyan
     set -l unitfmt  (set_color normal)
 
     # See https://github.com/pure-fish/pure/blob/28447d2e7a4edf3c954003eda929cde31d3621d2/functions/_pure_format_time.fish#L4
@@ -34,15 +24,12 @@ function fish_right_prompt
         set duration (math $duration % $minute)
     end
     if test -n "$output" || test $duration -gt 7000 # 500
-        set output (printf "%s"$numberfmt"%s"$unitfmt"s" $output (math -s 2 $duration / 1000))
+        # Change 0 to 1-2 to add a decimal point
+        set output (printf "%s"$numberfmt"%s"$unitfmt"s" $output (math -s 0 $duration / 1000))
     end
 
     if test -n "$output"
-        # 
-        printf '⏲%s' $output(set_color normal)
+        printf '%s' $output(set_color normal)
     end
 
-    if test -n "$move_up_one_line"
-        tput rc
-    end
 end

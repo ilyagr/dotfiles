@@ -1,0 +1,25 @@
+function fish_right_prompt
+    set -l move_up_one_line ""
+    if type -q tput && test (tput cols) -gt 60
+        # Perhaps not worth it. Causes some more rendering bugs with first line of prompt duplicated.
+        # OTOH, right_prompt on the same line overrides copy-pasting
+        set move_up_one_line yes
+    end
+
+    set -l output (fish_ilya_execution_time_display)
+
+    if test -n "$output"
+        if test -n "$move_up_one_line"
+            # https://github.com/fish-shell/fish-shell/issues/3476#issuecomment-256058730
+            tput sc; tput cuu1; tput cuf 2
+        end
+
+        # 
+        printf '%s' $output
+
+        if test -n "$move_up_one_line"
+            tput rc
+        end
+    end
+
+end
