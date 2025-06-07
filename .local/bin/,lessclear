@@ -1,0 +1,12 @@
+#!/bin/sh
+exec less -+FX "$@"
+
+# export LESS="$(echo $LESS | sed 's/[FX]//g')"
+# if [ "$#" = 0 ]; then
+#     if [ -t 0 ]; then
+#         echo "$(basename "$0"): must pass a command or pipe input to stdin" >& 2
+#         exit 1
+#     fi
+#     exec less
+# fi
+# exec "$@"

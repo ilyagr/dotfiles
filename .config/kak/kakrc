@@ -65,5 +65,11 @@ define-command -params ..1 sh %{
 map global user v -docstring %{Edit in Vim} \
     %{:  sh "vim %val{buffile} +%val{cursor_line}"<ret>}
 
+def wsudo -docstring "Save file with sudo, piping to `sudo tee`" %{
+    # %% is an escaped single %
+    # Alternative: https://github.com/occivink/kakoune-sudo-write
+    # See also the vim version in my vimrc
+    exec "Z%%<a-|> sudo tee %val{buffile} <ret>z"
+}
 # define-command -params ..1 sh  terminal sh -c "cd $1; $SHELL" _unused_ %sh{dirname $kak_buffile}
 # terminal vim %val{buffile}

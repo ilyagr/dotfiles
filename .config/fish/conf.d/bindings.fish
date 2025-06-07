@@ -14,3 +14,7 @@ bind \e\[1\;5F nextd-or-forward-word
 bind \e\[1\;5H prevd-or-backward-word
 bind \e\[6\;5~  history-token-search-forward
 bind \e\[5\;5~  history-token-search-backward
+
+bind alt-shift-right forward-bigword
+bind alt-shift-left backward-bigword
+

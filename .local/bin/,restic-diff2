@@ -1,0 +1,3 @@
+#!/bin/sh
+restic -r $RESTIC_LOCAL_REPOSITORY diff $(restic snapshots --json | jq -r '.[-2:][].id') "$@"
+

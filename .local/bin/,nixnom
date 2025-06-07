@@ -1,0 +1,2 @@
+#!/bin/sh
+nix --log-format internal-json "$@" 2>&1 | nom --json

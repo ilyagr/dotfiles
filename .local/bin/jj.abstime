@@ -1,5 +1,11 @@
 #!/bin/sh
-jj --config-toml '
+jj \
+       --config ui.relative-timestamps=false \
+       --config 'template-aliases."format_timestamp(timestamp)"="timestamp.format(\"%Y-%m-%d %H:%M %:::z\")"' \
+       --config 'template-aliases."format_time_range(time_range)"="""time_range.start().format("%b %d %H:%M") ++ label("separator", " (") ++ time_range.duration() ++ label("separator", ")") """' \
+       "$@"
+
+: --config-toml '
        ui.relative-timestamps=false
        template-aliases."format_timestamp(timestamp)" = "timestamp.format(\"%Y-%m-%d %H:%M %:::z\")"
        template-aliases."format_time_range(time_range)" = """time_range.start().format("%b %d %H:%M") ++ label("separator", " (") ++ time_range.duration() ++ label("separator", ")") """

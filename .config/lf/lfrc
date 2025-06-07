@@ -5,6 +5,10 @@
 set mouse
 set hidden
 
+# https://github.com/gokcehan/lf/discussions/1767
+# https://github.com/gokcehan/lf/issues/1916
+set autoquit false
+
 set ifs "\n"
 map i $less -SC -+F -+X "$f"
 cmd doc $"$lf" -doc | less -+F -+X
@@ -47,6 +51,7 @@ map gL follow_link
 
 set previewer ~/.config/lf/preview.sh
 cmd _preview_sh $LESSOPEN='| ~/.config/lf/preview.sh %s' less -RC -+F -+X "$f"
+cmd _preview_sh $~/.config/lf/preview.sh $fx | less -RC -+F -+X
 map I _preview_sh
 
 # Pager instead of open when pressing <right>
@@ -66,16 +71,21 @@ map zb push :z-jump<space>-b<space>
 map zf push :z-jump<space>-I<space>
 map zz push :z-jump<space>
 
-cmd recol ${{
-    w=$(tput cols)
-    if [ $w -le 30 ]; then
+# cmd recol ${{
+cmd recol %{{
+    # if [ "${lf_user_allow_recol-no}" = no ]; then
+    #   exit 0
+    # fi
+
+    # w=$(tput cols)
+    if [ "$lf_width" -le 30 ]; then
         set nopreview
         lf -remote "send $id set ratios 1"
-    elif [ $w -le 50 ]; then
+    elif [ "$lf_width" -le 50 ]; then
         lf -remote "send $id set ratios 1:1"
-    elif [ $w -le 65 ]; then
+    elif [ "$lf_width" -le 65 ]; then
         lf -remote "send $id set ratios 3:4"
-    elif [ $w -le 95 ]; then  # Was 160
+    elif [ "$lf_width" -le 95 ]; then  # Was 160
         lf -remote "send $id set ratios 2:3:4"
         set preview
     else
@@ -83,8 +93,15 @@ cmd recol ${{
         set preview
     fi
 }}
+# cmd on-redraw :recol
+# cmd on-init :set user_allow_recol true; recol
+# https://github.com/gokcehan/lf/issues/1916#issuecomment-2652545608
+cmd on-init :{{
+   recol
+   cmd on-redraw recol
+}}
+
 map <tab> :recol; reload
-recol
 map zp :set preview!
 
 # Clone lf. Need $SHELL to initialize env. vars like ZLUA_SCRIPT

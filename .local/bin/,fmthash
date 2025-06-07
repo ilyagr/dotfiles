@@ -1,0 +1,4 @@
+#!/bin/sh
+# Very convenient for kakoune's '|' command.
+# -w is also very useful
+fmt -p \# "$@"

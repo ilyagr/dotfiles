@@ -1,3 +1,5 @@
+not status is-interactive && exit 0
+
 set -l zlua_path ~/.local/app/z.lua
 if which lua > /dev/null && test -r $zlua_path
     lua $zlua_path --init fish once fzf | source

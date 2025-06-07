@@ -1,0 +1,9 @@
+if type -q jj
+    if not set -q JJ_NEW_COMPLETIONS
+        jj util completion fish |source
+    else
+        COMPLETE=fish jj | source
+    end
+    alias "jl=jj log"
+end
+

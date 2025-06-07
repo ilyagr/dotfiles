@@ -1,0 +1,4 @@
+puts -nonewline {Exectuing ~/.expect.rc. }
+# source ~/.tclshrc
+# ~/.tclshrc does not work in Tcl 9. `file expandhome` does not work in Tcl 8
+source $env(HOME)/.tclshrc

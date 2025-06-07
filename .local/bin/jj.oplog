@@ -1,4 +1,8 @@
 #!/bin/sh
-test -n "$COLUMNS" && COLUMNS=$((COLUMNS - 8))
-jj.abstime --color=always op log|nl|grep -E -C 1  --color=always "${@:-^}"| less -R --quit-if-one-screen
+maybe_nl=cat
+if false; then
+    test -n "$COLUMNS" && COLUMNS=$((COLUMNS - 8))
+    maybe_nl=nl
+fi
+jj.abstime --color=always --ignore-working-copy op log|$maybe_nl|grep -E -C 1  --color=always "${@:-^}"| less -R --quit-if-one-screen
 

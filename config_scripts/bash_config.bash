@@ -1,6 +1,7 @@
 export EDITOR=vim
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep.conf
-LESS="FRX --mouse --wheel-lines=2"
+# See also ~/.config/lesskey
+LESS="R F M --mouse --wheel-lines=2"
 export LESS
 MOAR="-quit-if-one-screen -no-linenumbers -no-statusbar -statusbar bold -colors 16 -style dracula"
 export MOAR

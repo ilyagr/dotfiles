@@ -1,4 +1,15 @@
 #!/bin/sh
 set -ue
+
+hashlock() {
+    # date -Iseconds -r ~/.config/home-manager/flake.lock
+    cksum ~/.config/home-manager/flake.lock
+}
+hash=$(hashlock)
 nix flake update --flake ~/.config/home-manager/ --impure --cores 10
-hm.switch
+if [ "$(hashlock)" = "$hash" ]; then
+    echo "$(basename $0): flake.lock unchanged"
+    exit 3
+fi
+
+hm.switch "$@"

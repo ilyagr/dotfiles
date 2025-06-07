@@ -1,0 +1,3 @@
+#!/bin/sh
+tmux splitw -fvd -l '30%' hwatch "jj.oplog | ,h500"
+tmux split -hd -l '55%' -t '{bottom}' hwatch "jj.logstatus | ,h500"

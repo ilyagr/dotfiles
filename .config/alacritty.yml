@@ -41,11 +41,11 @@ hints:
        key: U
        mods: Control|Shift
 ##################
-colors:
-    normal:
-        black:   '#2c2e32'
-        # black:   '#373b41'
-        # black:   '#282a2e'
+# colors:
+#     normal:
+#         black:   '#2c2e32'
+#         # black:   '#373b41'
+#         # black:   '#282a2e'
 # ###############################
 # My version of gruvbox-material, see ~/.config/kitty
 colors:

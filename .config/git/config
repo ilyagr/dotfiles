@@ -78,7 +78,7 @@ recurseSubmodules = on-demand
 recurse=true
 
 [core]
-fsmonitor = true
+fsmonitor = false
 
 [credential]
 helper = store
@@ -102,6 +102,9 @@ cmd = emacs -nw --eval \"(ediff-directories \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 cmd = emacsclient --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 [difftool "vimdirdiff"]
 cmd=vimdirdiff "$LOCAL" "$REMOTE"
+
+[difftool "diffedit3"]
+cmd = diffedit3 "$LOCAL" "$REMOTE"
 
 # https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
 [mergetool.ediff]
@@ -131,7 +134,7 @@ cmd = emacs --eval \"\
 colorMoved = default
 
 [merge]
-conflictStyle="zdiff3"
+conflictStyle="diff3"
 
 [interactive]
 diffFilter = delta --color-only
@@ -155,9 +158,24 @@ reflog-view-date-display=relative
 # Don't show refs made by `jj`, `git-branchless`, etc.
 reference-format=hide:other
 
+[tig "bind"]
+# Use Shift-J and Shift-K, or Alt+Up/Down, to move in the "other" view
+# or press <Tab> and then use <Up>/<Down>.
+# Not sure whether <ShiftUp> and <ShiftDown> can be set
+generic = <Up> move-up
+generic = <Down> move-down
+# Alt+Up/Down
+generic = "<Esc>[1;3A" previous
+generic = "<Esc>k" previous
+generic = "<Esc>[1;3B" next
+generic = "<Esc>j" next
+
+generic = . view-blame
+
 [tig "color"]
-# cursor = default default underline
-cursor = default default reverse dim
+# cursor-blur = default default reverse dim
+cursor-blur = default default underline
+cursor = black green
 # cursor = black white
 
 

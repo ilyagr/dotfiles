@@ -1,8 +1,20 @@
 #!/bin/sh
 set -eu
-LAST_GENERATION=$(home-manager generations | head -n 1)
-home-manager switch --impure --cores 10
-if [ "$LAST_GENERATION" != "$(home-manager generations | head -n 1)" ]; then
-  hm.nvd-diff-consecutive
+
+cp_flake_lock_on_success() {
+    echo cp ~/.config/home-manager/{flake.lock,flake-last-switched.lock} # TODO: Deleteme
+    cp ~/.config/home-manager/{flake.lock,flake-last-switched.lock}
+}
+
+if type nh > /dev/null 2>&1; then
+    echo 'Found `nh`, using it.'
+    nh home switch ~/.config/home-manager/ --ask -- --impure --cores 10 "$@" && cp_flake_lock_on_success
+else
+    echo 'Using `home-manager` and `nvd`. Will not ask for confirmation.'
+    LAST_GENERATION=$(home-manager generations | head -n 1)
+    home-manager switch --impure --cores 10 "$@" && cp_flake_lock_on_success # 2>&1 | nom
+    if [ "$LAST_GENERATION" != "$(home-manager generations | head -n 1)" ]; then
+      hm.nvd-diff-consecutive
+    fi
 fi
 

@@ -1,0 +1,2 @@
+puts { Executing ~/.tkconrc }
+set ::tkcon::COLOR(bg) #DDDDEE

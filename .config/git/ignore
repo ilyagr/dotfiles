@@ -1,8 +1,11 @@
 # -*- mode: gitignore; -*-
+/.aider*
 
 _ilyagrignore/*
 .DS_Store
 Cranky.toml
+
+.flox
 
 # Github recommends NOT ignoring .vscode/launch.json, etc.
 # Makes it hard to develop vscode extensions.
@@ -10,6 +13,10 @@ Cranky.toml
 # .vscode/*
 # Good idea? Bad idea?
 .idea
+
+# zig
+.zig-cache/
+zig-out/
 
 # https://github.com/github/gitignore/blob/master/Global/Vim.gitignore
 

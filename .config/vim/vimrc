@@ -36,6 +36,13 @@ noremap <Space>k :!kak %<CR>
 noremap <Space>k :execute printf(":set autoread \| !kak %s +%s:%s", expand('%'),line('.'), col('.'))<CR><CR>
 nmap <Space>K <Space>k:q<CR>
 
+" https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
+" cmap introduces a weird lag
+" https://stackoverflow.com/questions/21659637/how-to-fix-sudo-no-tty-present-and-no-askpass-program-specified-error/24107529#24107529
+" might be useful for sudo errors.
+ca w!! w !sudo /usr/bin/tee % > /dev/null
+command! Wsudo w !sudo /usr/bin/tee % > /dev/null
+
 " If I want to use , as mapleader
 " noremap <unique> _ ,
 " noremap <unique> - ;
@@ -72,6 +79,8 @@ if &diff || get(g:, 'some_variable_indicating_about_to_diff')
   " colorscheme pablo  " Ugly
   " colorscheme habamax " Pretty, not sure about diff.
   colorscheme murphy
+  " set diffopt+=inline:word
+  set diffopt+=inline:char
   " syntax off
 endif
 

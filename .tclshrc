@@ -1,0 +1,31 @@
+puts {Exectuing ~/.tclshrc.}
+# For expect, it'd be `.expect.rc`
+proc ig_rl {} {
+    # See https://github.com/flightaware/tclreadline/blob/master/sample.tclshrc
+    package require tclreadline; # ::tclreadline::Loop
+    set ::tclreadline::autosave 1
+    # proc ::tclreadline::prompt1 {} { variable prompt_string; return "$prompt_string " }
+
+    if 0 {
+        # https://github.com/flightaware/tclreadline/blob/2b17b887aae80280201cd9a11ee3acc5714cc43e/tclreadlineSetup.tcl.in#L140
+        # Doesn't work because boo
+        proc ::tclreadline::prompt1 {} {
+            if { [info vars ::tclreadline::prompt_string] == "" } {
+               return "% "
+            }
+
+            variable prompt_string
+            return "$prompt_string "
+        }
+    }
+
+    ::tclreadline::Loop
+} 
+
+set auto_noexec 1;  # Run `unset auto_noexec` to undo
+# See `tclsh> info body unknown` or `man n unknown`
+
+if {$tcl_interactive} {
+   ig_rl
+}
+   

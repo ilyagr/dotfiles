@@ -1,0 +1,16 @@
+#!/usr/bin/env fish
+for line in (tmux lsp -F "#{pane_pid}|#D|[#I.#P #D]|#{pane_title}" $argv)
+  set -l split (string split --max 4 "|" $line)
+  set_color cyan
+  if [ "$TMUX_PANE" = $split[2] ]
+      printf "SELF "
+  else
+      printf "**** "
+  end
+  set_color green
+  printf "%s " $split[3]
+  set_color blue
+  echo $split[4]
+  set_color normal
+  pstree -g 3 -w $split[1] # | tail -n +3
+end

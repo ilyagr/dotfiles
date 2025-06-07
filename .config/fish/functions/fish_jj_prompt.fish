@@ -19,9 +19,10 @@ function fish_jj_prompt
       set -f diff_stats (jj diff -s --color=never --ignore-working-copy | string sub -l 1 | sort | string join "" || true)
     end
 
-    jj op log --limit 1 --no-graph -T "id.short(5)"
+    # jj op log --ignore-working-copy --limit 1 --no-graph -T "id.short(5)"
     # ⌚
-    printf "∘"
+    # printf "∘"
+
     # Info for parent commit(s)
     jj log --no-graph --ignore-working-copy --no-pager --color=always -T "shell_prompt_id(\"\")" -r @-
     printf "→"

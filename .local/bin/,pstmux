@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # https://stackoverflow.com/a/50572139/563359
+# See https://claude.ai/chat/4a0afb4a-0a07-4680-91b6-352c99ffde03 for a fixed version
 
 #!/usr/bin/env bash
 set -eu
@@ -13,7 +14,7 @@ subtree_pids() {
         return
     fi
     echo "$pid"
-    ps --ppid "$pid" -o pid= | while read -r pid; do
+    pgrep -P "$pid"  | while read -r pid; do
         subtree_pids "$pid" $((level + 1))
     done
 }
@@ -23,10 +24,10 @@ underline=$(tput smul)
 # reset=$(tput sgr0)   # produces extra symbols in less (^O), TERM=screen-256color (under tmux)
 reset=$(echo -e '\033[m')
 re=$(echo "$pids" | paste -sd'|')
-tmux list-panes -aF '#{session_name} #{window_index} #{window_name} #{pane_pid}' \
-| while read -r session_name window_index window_name pane_pid; do
-    echo "-- $session_name $window_index $window_name"
-    ps -p "$(subtree_pids "$pane_pid" | paste -sd,)" -Ho pid=,ppid=,comm=,args= \
+tmux list-panes -aF '#{session_name} #{window_index} #{pane_id} #{window_name} #{pane_pid}' \
+| while read -r session_name window_index pane_id window_name pane_pid; do
+    echo "-- $pane_id $session_name:$window_index $window_name"
+    ps -p "$(subtree_pids "$pane_pid" | paste -sd,)" -o pid=,ppid=,comm=,args= \
         | sed -E 's/^/        /' \
         | awk \
         -v re="$re" -v underline="$underline" -v reset="$reset" '
