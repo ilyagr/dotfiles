@@ -1,3 +1,4 @@
+not status is-interactive && exit 0
 # Could move to fish_user_key_bindings function
 bind \co 'set old_tty (stty -g); stty sane; lfcd; stty $old_tty; commandline -f repaint'
 

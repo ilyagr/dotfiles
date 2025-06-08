@@ -1,4 +1,0 @@
-if type -q tailscale
-    tailscale completion fish |source
-end
-

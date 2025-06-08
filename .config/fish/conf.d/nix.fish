@@ -1,3 +1,4 @@
+not status is-interactive && exit 0
 #if not string match -q  '*/nix/var/nix/profiles/default/share*' "$XDG_DATA_DIRS"
 if test -n "$NIX_PROFILES"
     # Try to only run this once.

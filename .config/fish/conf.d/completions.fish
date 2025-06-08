@@ -1,3 +1,4 @@
+not status is-interactive && exit 0
 # Various completions that will always be loaded. It's too much
 # fuss to create a separate file for each.
 complete -c rgp -w rg
