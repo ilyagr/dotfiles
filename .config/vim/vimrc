@@ -14,6 +14,7 @@ set tabstop=4
 set wildmenu
 "set wildmode=list:longest   " make cmdline tab completion similar to bash
 set wildmode=list:longest,full " better
+set completeopt=longest,menu,preview
 
 set pastetoggle=<F2>
 " Another suggestion is :r! cat
