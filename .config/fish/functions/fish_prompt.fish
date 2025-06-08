@@ -1,6 +1,11 @@
 function fish_prompt --description 'Custom prompt based on "Informative prompt"'
     #Save the return status of the previous command
-    set -l last_pipestatus $pipestatus
+    set -f last_pipestatus $pipestatus
+    if test "$testing_ilya_pipestatus" = 1
+        echo '>' pipestatus: $last_pipestatus
+        echo '>' ilya_pipestatus: $ilya_pipestatus
+        set -f last_pipestatus $ilya_pipestatus
+    end
 
     fish_ilya_git_prompt_config
 
