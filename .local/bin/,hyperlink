@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# E.g. `,hyperlink https://example.com "Text to hyperlink"; echo` or
+# `printf "This is an %s.\n" $(,hyperlink https://example.com "example website")`.
+# 
+# https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+# https://github.com/Alhadis/OSC8-Adoption/
+
+osc8start=$(printf "\e]8;;")
+st=$(printf "\e\\")
+printf "%s%s%s" "$osc8start" "$1" "$st"
+printf "%s%s%s" "$2" "$osc8start" "$st"
