@@ -1,0 +1,2 @@
+#!/bin/sh
+ansi2txt | vis-clipboard "$@" --copy
