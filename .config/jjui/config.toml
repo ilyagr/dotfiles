@@ -1,0 +1,27 @@
+[ui]
+# highlight_dark = "#393939"
+highlight_dark = "#444444"
+auto_refresh_interval = 3
+# highlight_light = "#a0a0a0"
+enable_mouse = true
+mouse_events = true
+
+[custom_commands]
+"show" = { key = ["ctrl+s",], args = [ "show", "$change_id", "--color", "always", "--git", ], show = "diff" }
+
+"copy id to clipboard" = { key = ["ctrl+x",], args = ["util", "exec", "--", "bash", "-c", """
+# jjui will replace one of $change_id or $operation_id with the id, and the other
+# will be expanded by the shell as an empty variable.
+change_id= operation_id= printf $change_id$operation_id | vis-clipboard --copy
+"""] }
+
+# "delta" = { args = ["util", "exec", "--", "bash", "-c", """
+# jj show -r $change_id --summary --git | delta
+# """], show = "diff" }
+"oplog patch" = { key = ["ctrl+o",], args = [ "op", "show", "$operation_id", "--color", "always", "--patch", ], show = "diff" }
+
+# Idea from EmNudge, https://discord.com/channels/968932220549103686/1376574667678285844/1392628696506175611
+# Can be used with `jjui -r 'bookmarks() & ::~(git_head() | ~mine())'` AKA jjui -r mypr
+"open PR in github" = { key = ["G"], args = ["util", "exec", "--", "bash", "-c", """
+  gh pr view $(jj log --no-graph --color=never -r $change_id -T 'bookmarks') -w
+"""] }
