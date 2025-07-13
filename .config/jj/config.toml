@@ -1,4 +1,6 @@
-"$schema" = "https://jj-vcs.github.io/jj/prerelease/config-schema.json"
+# "$schema" = "https://jj-vcs.github.io/jj/prerelease/config-schema.json"
+
+#:schema https://jj-vcs.github.io/jj/prerelease/config-schema.json
 # "$schema" = "file:///Users/ilyagr/dev/jj/docs/config-schema.json"
 # "$schema" = "https://github.com/jj-vcs/jj/raw/03b3b1e52321f69319c3d9427c8f8aa2e4800dd3/cli/src/config-schema.json"
 
@@ -7,11 +9,12 @@
 
 [core]
 # fsmonitor="watchman"
-# watchman.register_snapshot_trigger = true
+# watchman.register-snapshot-trigger = true
 
 [user]
-name = "Ilya Grigoriev"
+name =  "Ilya Grigoriev"
 email = "ilyagr@users.noreply.github.com"
+
 
 [ui]
 diff-editor = "diffedit3"
@@ -23,6 +26,7 @@ merge-editor = "vimdiff"
 # pager="moar"
 # pager=":builtin"
 # pager=["ov", "-F"]
+pager = ["less", "-FR"]
 
 color = "always"
 log-word-wrap = true
@@ -315,6 +319,12 @@ program = "open"
 edit-args = ["-a", "FileMerge", "-n", "-W", "--args", "-left", "$left", "-right", "$right", "-merge", "$output"]
 merge-args = ["-a", "FileMerge", "-n", "-W", "--args", "-left", "$left", "-right", "$right", "-ancestor", "$base", "-merge", "$output",]
 
+[merge-tools.gumtree-docker]
+program="docker"
+# diff-args = ["run", "--platform", "linux/amd64", "-v", "./$left:/diff/left", "-v", "./$right:/diff/right", "-p", "4567:4567", "gumtreediff/gumtree", "webdiff", "left/", "right/",]
+diff-args = ["run", "--platform", "linux/amd64", "-v", "./$left:/diff/left", "-v", "./$right:/diff/right",
+             "-p", "4567:4567", "--rm", "gumtreediff/gumtree", "webdiff", "left/", "right/",]
+
 [aliases]
 n = ["new"]
 d = ["diff", "-s"]
@@ -339,6 +349,9 @@ push = ["p"]
 pusht = ["pt"]
 pushu = ["pu"]
 pushtu = ["ptu"]
+
+fetch = ["git", "fetch"]
+fetchu = ["fetch", "--remote=upstream"]
 
 # https://github.com/jj-vcs/jj/pull/6190
 ydiff = ["diff", "--config=diff.color-words.conflict=pair"]
@@ -374,6 +387,10 @@ oldmains = 'present(main@origin)|present(master@origin)'
 oldigtrunk = 'heads(oldmains::oldmains)'
 mains = 'present(main@origin)|present(master@origin)|present(main@upstream)|present(master@upstream)|ghqueue'
 igtrunk = 'heads(mains::mains)'
+
+# From EmNudge in https://discord.com/channels/968932220549103686/1376574667678285844/1392628696506175611
+# Good to use with jjui and the custom `G` command there.
+mypr = 'bookmarks() & ::~(git_head() | ~mine())'
 
 #  jj log -r 'siddot(main,mdbook::|mkdocs::)'
 'siddot(from, to)' = '(from..to)|(from..to)-'
