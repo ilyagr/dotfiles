@@ -36,6 +36,9 @@ abbr ",w" --position anywhere --set-cursor=% '(which %)'
 abbr orb --set-cursor=% "orb % sh -c 'fish || bash'"  # Might be too safe
 abbr orb --set-cursor=% "orb % fish"
 
+abbr qman "MANPAGER= qman"
+abbr unicode 'unicode --brief'
+
 # TODO: https://dpc.pw/posts/cool-fish-shell-abbreviations/ has a few nice ones
 
 # By krobelus, better link? https://matrix.to/#/!YLTeaulxSDauOOxBoR:matrix.org/$jk-gHKF6w4d4jOICbqs6iVZGXrqKINGoyydEiJ5GBKA?via=matrix.org&via=gitter.im&via=one.ems.host

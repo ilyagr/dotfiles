@@ -23,5 +23,3 @@ complete -c ,jl -w "jj log"
 complete -c ,kakc -w kak
 complete -c hm.switch -w "home-manager switch"
 complete -c hm.update -w "home-manager switch"
-
-
