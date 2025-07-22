@@ -81,8 +81,10 @@ if &diff || get(g:, 'some_variable_indicating_about_to_diff')
   " colorscheme habamax " Pretty, not sure about diff.
   colorscheme murphy
   " set diffopt+=inline:word
-  set diffopt+=inline:char
-  " syntax off
+
+  " Re-enable after patch 1567
+  " https://github.com/vim/vim/commit/c8b99e2d139cf72c567892e44939f2719f703fa8
+  " set diffopt+=inline:char
 endif
 
 if has("gui_macvim")
