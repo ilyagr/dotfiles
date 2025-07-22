@@ -1,10 +1,13 @@
 [ui]
-# highlight_dark = "#393939"
-highlight_dark = "#444444"
 auto_refresh_interval = 3
-# highlight_light = "#a0a0a0"
 enable_mouse = true
 mouse_events = true
+
+[ui.colors.selected]
+fg = ""
+bg = "#444444"
+# highlight_light = "#a0a0a0"
+# highlight_dark = "#393939"
 
 [custom_commands]
 "show" = { key = ["ctrl+s",], args = [ "show", "$change_id", "--color", "always", "--git", ], show = "diff" }
@@ -25,3 +28,14 @@ change_id= operation_id= printf $change_id$operation_id | vis-clipboard --copy
 "open PR in github" = { key = ["G"], args = ["util", "exec", "--", "bash", "-c", """
   gh pr view $(jj log --no-graph --color=never -r $change_id -T 'bookmarks') -w
 """] }
+
+# Copied from https://github.com/idursun/jjui/wiki/Leader-Key, may or may not use
+[leader.e]
+context = [ "$file", "$change_id" ]
+help = "Edit file in @"
+send = [ "$", "$EDITOR $file", "enter" ]
+
+[leader.E]
+context = [ "$file", "$change_id" ]
+help = "Edit file in change"
+send = [ "$", "jj edit $change_id && $EDITOR $file", "enter" ]

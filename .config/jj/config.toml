@@ -18,7 +18,8 @@ email = "ilyagr@users.noreply.github.com"
 
 [ui]
 diff-editor = "diffedit3"
-merge-editor = "vimdiff"
+merge-editor = "gvimdiff"
+default-command = ["status", "--no-pager"]
 
 # merge-editor = "meld"
 # merge-editor = "kdiff3"
@@ -26,11 +27,10 @@ merge-editor = "vimdiff"
 # pager="moar"
 # pager=":builtin"
 # pager=["ov", "-F"]
-pager = ["less", "-FR"]
 
-color = "always"
+# color = "always"
+pager = ["less", "-FR"]
 log-word-wrap = true
-default-command = ["status", "--no-pager"]
 
 # Experimenting :(
 # always-allow-large-revsets = true
@@ -39,6 +39,14 @@ default-command = ["status", "--no-pager"]
 patterns = ["glob:'**/*.rs'"]
 command = ["rustfmt", "--emit", "stdout"]
 
+[fix.tools.gofmt]
+patterns = ["glob:'**/*.go'"]
+command = ["gofmt"]
+
+[fix.tools.gofumpt]
+patterns = ["glob:'**/*.go'"]
+command = ["gofumpt"]
+enabled = false
 
 
 [diff.color-words]
