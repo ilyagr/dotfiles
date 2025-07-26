@@ -7,9 +7,10 @@
 [git]
 # subprocess=false
 
-[core]
-# fsmonitor="watchman"
+# [fsmonitor]
+# backend="watchman"
 # watchman.register-snapshot-trigger = true
+
 
 [user]
 name =  "Ilya Grigoriev"
@@ -360,6 +361,8 @@ pushtu = ["ptu"]
 
 fetch = ["git", "fetch"]
 fetchu = ["fetch", "--remote=upstream"]
+
+mergiraf = ["resolve", "--tool=mergiraf"]
 
 # https://github.com/jj-vcs/jj/pull/6190
 ydiff = ["diff", "--config=diff.color-words.conflict=pair"]
