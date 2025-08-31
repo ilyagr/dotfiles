@@ -3,6 +3,10 @@ auto_refresh_interval = 3
 enable_mouse = true
 mouse_events = true
 
+[ui.tracer]
+# experimental
+enabled = true
+
 [ui.colors.selected]
 fg = ""
 bg = "#444444"
