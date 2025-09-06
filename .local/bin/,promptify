@@ -4,6 +4,13 @@ if [ (count $argv) = 0 ]
    echo '      ' "$(basename "$0")" '"command &| pipe" | pbcopy' >&2
    echo >&2
    echo 'Then paste to a forum inside a Markdown ```console block' >&2
+   echo
+   echo 'Additional tricks:'
+   echo
+   echo '- For ANSI sequences, use tools from https://github.com/kilobyte/colorized-logs'
+   echo '  `unbuffer`, packaged with `expect`, may be slightly better than'
+   echo '  `pipetty` from `colorized-logs`.'
+   echo '- Pipe to `tee /dev/stderr | pbcopy` to see the output'
    exit 1
 end
 
@@ -17,8 +24,6 @@ printf '$ '
 # printf '%s ' '$'
 
 if [ (count $argv) = 1 ]
-    # ,dollar "a | b"
-    # printf "%s\n" (string escape -- $argv[1])
     echo $argv[1]
     exec fish -c "$argv[1]" 2>&1
 else

@@ -1,0 +1,2 @@
+#!/bin/sh
+tee /dev/stderr | cb,copy
