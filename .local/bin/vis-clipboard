@@ -1,8 +1,7 @@
 #!/bin/sh
-
-# ilyagr: Copied this from https://github.com/martanne/vis/blob/d3cb76ed2af006102a1f776f48d6bf992ff8e439/vis-clipboard
-
 # Copyright (C) 2016 Richard Burke, ISC licensed
+# shellcheck disable=SC2317
+set -e
 
 vc_fatal() {
 	echo "$@" >&2
@@ -10,7 +9,16 @@ vc_fatal() {
 }
 
 vc_usage() {
-	vc_fatal "$(basename "$0") [--selection sel] [--usable|--copy|--paste]"
+	vc_fatal "Usage: $(basename "$0") [--selection sel] [--usable|--copy|--paste]
+
+Copy/paste clipboard interface with support on all provided platforms.
+
+Options:
+    --copy       copy text from standard input
+    --paste      paste text to standard output
+    --usable     silently exit with a status code indicating if a supported
+                 clipboard implementation was found
+    --selection  take input from sel. valid options: clipboard, primary"
 }
 
 vc_determine_command() {
@@ -21,8 +29,15 @@ vc_determine_command() {
 				return 0
 			fi
 		done
+
+		for c in waycopy waypaste; do
+			if command -v "$c" >/dev/null 2>&1; then
+				echo "wayclip"
+				return 0
+			fi
+		done
 	fi
-	
+
 	if [ -n "$DISPLAY" ]; then
 		for c in xclip xsel; do
 			if command -v "$c" >/dev/null 2>&1; then
@@ -32,12 +47,13 @@ vc_determine_command() {
 		done
 	fi
 
-	if [ "$sel" = "primary" ]; then
-		vc_fatal "clipboard primary selection is not supported on your platform"
-	fi
-
 	if command -v pbcopy >/dev/null 2>&1; then
 		echo 'mac'
+		return 0
+	fi
+
+	if command -v wslclip >/dev/null 2>&1; then
+		echo 'wsl'
 		return 0
 	fi
 
@@ -85,9 +101,9 @@ vc_paste() {
 
 vc_wlclipboard_copy() {
 	if [ "$sel" = "primary" ]; then
-		wl-copy --primary -t TEXT
+		wl-copy --primary -t TEXT 2>/dev/null
 	else
-		wl-copy -t TEXT
+		wl-copy -t TEXT 2>/dev/null
 	fi
 }
 
@@ -99,12 +115,28 @@ vc_wlclipboard_paste() {
 	fi
 }
 
+vc_wayclip_copy() {
+	if [ "$sel" = "primary" ]; then
+		waycopy -p 2>/dev/null
+	else
+		waycopy 2>/dev/null
+	fi
+}
+
+vc_wayclip_paste() {
+	if [ "$sel" = "primary" ]; then
+		waypaste -p
+	else
+		waypaste
+	fi
+}
+
 vc_xsel_copy() {
-	xsel --"$sel" -bi
+	xsel --"$sel" -i
 }
 
 vc_xsel_paste() {
-	xsel --"$sel" -bo
+	xsel --"$sel" -o
 }
 
 vc_xclip_copy() {
@@ -123,6 +155,14 @@ vc_mac_paste() {
 	pbpaste
 }
 
+vc_wsl_copy() {
+	wslclip
+}
+
+vc_wsl_paste() {
+	wslclip -g
+}
+
 vc_cygwin_copy() {
 	cat >/dev/clipboard
 }
@@ -136,8 +176,13 @@ while [ $# -gt 0 ]; do
 		--usable) fn=vc_usable;;
 		--copy) fn=vc_copy;;
 		--paste) fn=vc_paste;;
-		--selection) shift; sel="$1";;
-		*) ;;
+		--selection)
+			shift
+			if [ "$1" != "clipboard" ] && [ "$1" != "primary" ]; then
+				vc_fatal "Invalid selection: $1\nValid options are 'clipboard' or 'primary'"
+			fi
+			sel="$1";;
+		*) vc_usage;;
 	esac
 	shift
 done

@@ -2,3 +2,8 @@
 commit = d465e5cf8bbbc084dee0778691f92a754e753882
 branch = main
 target = .local/bin
+
+[file "vis-clipboard" from "https://github.com/martanne/vis"]
+commit = 8cdf93ef29432c4e639d0d6398e28071ca5da609
+branch = master
+target = .local/bin
