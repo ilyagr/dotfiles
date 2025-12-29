@@ -1,0 +1,26 @@
+{
+      "theme": "One Dark",
+      "status_lines": [
+        {
+            "components": [
+                "KiCharacter",
+                "Mode",
+                "SelectionMode",
+                "Reveal",
+                "Spacer",
+                "LastDispatch",
+                "LineColumn"
+            ]
+        },
+        {
+            "components": [
+                "CurrentWorkingDirectory",
+                "CurrentFileParentFolder",
+                "Spacer",
+                "LastSearchString",
+                "Spacer",
+                "Help"
+            ]
+        }
+    ]
+}
