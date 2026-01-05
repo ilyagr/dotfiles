@@ -19,6 +19,9 @@ complete pause_after -x -a '(__fish_complete_subcommand)'
 complete -c ,pause_after -w pause_after
 complete -c ,nixnom -w nix
 
+complete ,nohome -x -a '(__fish_complete_subcommand)'
+complete ,nohome -x -s q -l quiet -d 'Don\'t print temporary HOME dir to stderr'
+
 complete -c ,jl -w "jj log"
 complete -c ,kakc -w kak
 complete -c hm.switch -w "home-manager switch"

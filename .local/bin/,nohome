@@ -1,0 +1,13 @@
+#!/bin/sh
+HOME=$(mktemp -d || exit 1)
+export HOME
+export XDG_CONFIG_HOME="$HOME/.config"
+# Could also clear XDG_DATA_DIRS, not sure; can be done manually
+
+if [ "$1" = "-q" ] || [ "$1" = "--quiet" ]; then
+    shift
+else
+    echo ",nohome: using HOME=$HOME" >&2
+fi
+
+"$@"
