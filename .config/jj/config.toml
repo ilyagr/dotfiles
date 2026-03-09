@@ -7,6 +7,9 @@
 [git]
 # subprocess=false
 
+[merge]
+merge.hunk-level = "word"
+
 # [fsmonitor]
 # backend="watchman"
 # watchman.register-snapshot-trigger = true
@@ -30,7 +33,7 @@ default-command = ["status", "--no-pager"]
 # pager=["ov", "-F"]
 
 # color = "always"
-pager = ["less", "-FR"]
+# pager = ["less", "-FR"]
 log-word-wrap = true
 
 # Experimenting :(
@@ -38,7 +41,7 @@ log-word-wrap = true
 
 [fix.tools.rustfmt]
 patterns = ["glob:'**/*.rs'"]
-command = ["rustfmt", "--emit", "stdout"]
+command = ["rustfmt", "+nightly", "--emit", "stdout"]
 
 [fix.tools.gofmt]
 patterns = ["glob:'**/*.go'"]
@@ -48,6 +51,23 @@ command = ["gofmt"]
 patterns = ["glob:'**/*.go'"]
 command = ["gofumpt"]
 enabled = false
+
+[fix.tools.prettier]
+#   command = ["prettier", "--stdin-filepath", "$path"]
+# run with npx:
+command = ["npx", "prettier", "--stdin-filepath", "$path"]
+# run from node_modules:
+#   command = ["node_modules/.bin/prettier", "--stdin-filepath", "$path"]
+patterns = [
+    "glob:'**/*.js'",
+    "glob:'**/*.jsx'",
+    "glob:'**/*.ts'",
+    "glob:'**/*.tsx'",
+    "glob:'**/*.json'",
+    "glob:'**/*.html'",
+    "glob:'**/*.md'",
+    "glob:'**/*.css'",
+    ]
 
 
 [diff.color-words]
@@ -330,9 +350,9 @@ merge-args = ["-a", "FileMerge", "-n", "-W", "--args", "-left", "$left", "-right
 
 [merge-tools.gumtree-docker]
 program="docker"
-# diff-args = ["run", "--platform", "linux/amd64", "-v", "./$left:/diff/left", "-v", "./$right:/diff/right", "-p", "4567:4567", "gumtreediff/gumtree", "webdiff", "left/", "right/",]
-diff-args = ["run", "--platform", "linux/amd64", "-v", "./$left:/diff/left", "-v", "./$right:/diff/right",
-             "-p", "4567:4567", "--rm", "gumtreediff/gumtree", "webdiff", "left/", "right/",]
+# diff-args = ["run", "linux/amd64", "-v", "./$left:/diff/left", "-v", "./$right:/diff/right", "-p", "4567:4567", "gumtreediff/gumtree", "webdiff", "left/", "right/",]
+diff-args = ["run", "-v", "./$left:/left", "-v", "./$right:/right",
+             "-p", "4567:4567", "--rm", "gumtreediff/gumtree", "webdiff", "left/", "right/",] # "--platform", "linux/amd64",
 
 [aliases]
 n = ["new"]
@@ -352,6 +372,8 @@ p = ["git", "push"]
 pt = ["git", "push", "--tracked", "--deleted"]
 pu = ["p", "--remote=upstream"]
 ptu = ["pt", "--remote=upstream"]
+pp = ["p", "--remote=pierre"]
+ppt = ["pt", "--remote=pierre"]
 put = ["ptu"]
 
 push = ["p"]
@@ -384,6 +406,9 @@ eachcommit = [
     "-r",
 ]
 
+[fileset-aliases]
+'LOCK' = '**/Cargo.lock | **/package-lock.json | **/uv.lock'
+'not:x' = '~x'
 
 [revset-aliases]
 next = "@-+ ~ @"                      # After `jj up abc`, `jj up next` is equivalent to `jj up abc+`
@@ -422,11 +447,18 @@ immutable-heads-no-dependabot =  'present(trunk()) | tags() | untracked_remote_b
 "cr(x)" = "conflictroots(x)"
 crat = "cr(@)"
 crall = "cr(heads(::))"  # Not fully tested
+
 at = "@"
+# experimental
+# _t = "trunk()"
+# _ = "trunk()"
+__ = "trunk()"
 
 [revsets]
-short-prefixes = "ancestors((remote_bookmarks(main)|remote_bookmarks(master)|remote_bookmarks(develop)|tags())..,2)"
-log-graph-prioritize = "@|present(main)" # present(ilya)| ??
+# Uncomment when VisualJJ updates
+# short-prefixes = "ancestors((remote_bookmarks(glob:*main*)|remote_bookmarks(glob:*master*)|remote_bookmarks(glob:*develop*)|tags())..,2)"
+
+# log-graph-prioritize = "@|trunk()" # "trunk()"
 # immutable-heads = "immutable-heads"
 # log="openl"
 # log = "openlog"
@@ -517,7 +549,17 @@ concat(
  "diff removed token" = { bg = "#330000", underline = false }
  "diff added token" = { bg = "#002200", underline = false }
 
+[gg.ui]
+recent-workspaces = ["/Users/ilyagr/dev/jj", "/Users/ilyagr/work/ersc_workspaces/negotiation", "/Users/ilyagr/work/ersc", "/Users/ilyagr/work/ersc_workspaces/op-diff-log", "/Users/ilyagr/dev/usage", "/Users/ilyagr/work/ersc_workspaces/bm-list", "/Users/ilyagr/dev/tmux", "/Users/ilyagr/work/ersc_workspaces/make-ts-checked"]
+
 # [[--scope]]
 # --when.commands = ["file show"]
 # [--scope.ui]
 # pager = ["bat", "-p"]
+
+[x.jj-work.command]
+pwd = ["pwd"]
+env = ["bash", "-c", "pwd; env | grep JJ_WORK"]
+# tmux = ["tmux", "new-window"]
+tmux = ["bash", "-c", """tmux new-window -n "$(basename "$(pwd)")" """]
+code = ["code", "--new-window", "."]
