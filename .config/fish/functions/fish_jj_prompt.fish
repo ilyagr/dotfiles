@@ -23,8 +23,16 @@ function fish_jj_prompt
     # ⌚
     # printf "∘"
 
-    # Info for parent commit(s)
-    jj log --no-graph --ignore-working-copy --no-pager --color=always -T "shell_prompt_id(\"\")" -r @-
-    printf "→"
-    jj log --no-graph --ignore-working-copy --no-pager --color=always -T "shell_prompt_id(\"$diff_stats\")" -r @
+    # Info for parent commit(s) and working copy in a single invocation
+    jj log --no-graph --ignore-working-copy --no-pager --color=always --reversed \
+        -T (printf 'if(!current_working_copy, shell_prompt_id(""), "→" ++ shell_prompt_id("%s"))' "$diff_stats") \
+        -r '@- | @'
 end
+
+# Old approach using two separate jj invocations:
+# function fish_jj_prompt_old
+#     # Info for parent commit(s)
+#     jj log --no-graph --ignore-working-copy --no-pager --color=always -T "shell_prompt_id(\"\")" -r @-
+#     printf "→"
+#     jj log --no-graph --ignore-working-copy --no-pager --color=always -T "shell_prompt_id(\"$diff_stats\")" -r @
+# end

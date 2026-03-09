@@ -519,11 +519,9 @@ concat(
   label("separator", "<"),
   separate(label("separator", "|"),
     concat(
-      label(if(divergent, "divergent"),
-        change_id.shortest()
-      ),
+      change_id.shortest(),
       if(divergent,
-         label("divergent", "⌥") ++ commit_id.shortest(),
+         label("divergent", format_change_offset(self) ++ "⌥") ++ commit_id.shortest(),
       ),
     ),
     concat(
