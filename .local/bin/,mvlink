@@ -14,8 +14,9 @@
 #
 # The symlink left behind uses an ABSOLUTE target by default, so it keeps
 # resolving no matter what your CWD is or how deep SRC was nested.  Pass -r for
-# a RELATIVE target instead, which survives relocating SRC and DEST together
-# (e.g. moving the whole tree) but breaks if only one of them later moves.
+# a RELATIVE target instead (survives moving SRC and DEST together, e.g. the
+# whole tree).  -r asks GNU `ln -r` to compute the relative path; on a stock
+# macOS without GNU coreutils, -r exits with an error — everything else works.
 set -eu
 
 prog=${0##*/}
@@ -29,40 +30,12 @@ Moves each SRC to the destination, then creates a symlink at the old SRC
 location pointing to the new file.
 
   -f  force: overwrite an existing destination / replace SRC
-  -r  make the symlink target relative instead of absolute
+  -r  relative symlink target instead of absolute (needs GNU ln / coreutils)
   -p  create missing destination directories (like mkdir -p)
 
 Other leading options (e.g. -v) are forwarded to mv.  Refuses to overwrite an
 existing destination unless -f is given.
 EOF
-}
-
-# Print the path of $1 (target) relative to directory $2 (the link's location).
-# Both arguments must be absolute and canonical (as produced by `pwd -P`).
-relpath() {
-    _t=$1
-    _b=$2
-    _up=""
-    while [ "$_b" != "/" ]; do
-        case $_t/ in
-            "$_b"/*) break ;;
-        esac
-        _up="../$_up"
-        _b=${_b%/*}
-        [ -n "$_b" ] || _b="/"
-    done
-    if [ "$_b" = "/" ]; then
-        _rest=${_t#/}
-    else
-        _rest=${_t#"$_b"/}
-    fi
-    if [ -z "$_rest" ]; then
-        _up=${_up%/}
-        [ -n "$_up" ] || _up="."
-        printf '%s\n' "$_up"
-    else
-        printf '%s\n' "$_up$_rest"
-    fi
 }
 
 force=0
@@ -87,6 +60,19 @@ done
 if [ $# -lt 2 ]; then
     usage
     exit 1
+fi
+
+# -r offloads the relative-path calculation to GNU `ln -r`; BSD/macOS ln can't
+# do it.  Check once, before touching anything, and fail with a clear message.
+if [ "$relative" -eq 1 ]; then
+    case $(ln --version 2>/dev/null || true) in
+        *coreutils*) ;;
+        *)
+            echo "$prog: -r needs GNU ln (coreutils); the active 'ln' can't make relative links." >&2
+            echo "$prog: install coreutils, or omit -r for an absolute link." >&2
+            exit 3
+            ;;
+    esac
 fi
 
 # Last operand is the destination; everything before it is a source.
@@ -155,8 +141,7 @@ while [ "$i" -lt "$nsrc" ]; do
     # shellcheck disable=SC2086
     mv $mvopts -- "$src" "$target"
 
-    # Resolve the moved file to a clean absolute path (dir canonical, basename
-    # appended) for use as the link target.
+    # Resolve the moved file to a clean absolute path for the link target.
     case $target in
         */*) tdir=${target%/*}; [ -z "$tdir" ] && tdir=/ ;;
         *)   tdir=. ;;
@@ -164,24 +149,12 @@ while [ "$i" -lt "$nsrc" ]; do
     tdir=$(CDPATH= cd -- "$tdir" && pwd -P)
     target_abs="${tdir%/}/${target##*/}"
 
-    if [ "$relative" -eq 1 ]; then
-        # Canonical absolute directory that will hold the symlink.  SRC itself
-        # is gone now, but its parent directory remains.
-        case $src in
-            */*) sdir=${src%/*}; [ -z "$sdir" ] && sdir=/ ;;
-            *)   sdir=. ;;
-        esac
-        sdir=$(CDPATH= cd -- "$sdir" && pwd -P)
-        linktarget=$(relpath "$target_abs" "$sdir")
-    else
-        linktarget=$target_abs
-    fi
+    # -s always; +r has GNU ln rewrite the target relative to SRC's dir; +f
+    # replaces an existing SRC.  (Relative mode was gated by the check above.)
+    lnopts=s
+    [ "$relative" -eq 1 ] && lnopts=sr
+    [ "$force" -eq 1 ] && lnopts="${lnopts}f"
+    ln "-$lnopts" -- "$target_abs" "$src"
 
-    if [ "$force" -eq 1 ]; then
-        ln -sf -- "$linktarget" "$src"
-    else
-        ln -s -- "$linktarget" "$src"
-    fi
-
-    printf '%s: %s -> %s\n' "$prog" "$src" "$linktarget" >&2
+    printf '%s: %s -> %s\n' "$prog" "$src" "$target_abs" >&2
 done
