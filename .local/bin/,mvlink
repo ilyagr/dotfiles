@@ -1,0 +1,187 @@
+#!/bin/sh
+# ,mvlink — move a file, then leave a symlink at its old location pointing to
+#           the new one.  Essentially `mv SRC DEST && ln -s DEST SRC`, done
+#           safely and with a correct link target.
+#
+# Usage:
+#   ,mvlink [-f] [-r] [-p] [mv-options...] SRC DEST     # rename form
+#   ,mvlink [-f] [-r] [-p] [mv-options...] SRC... DIR   # move into a directory
+#
+# By default it refuses to overwrite an existing destination.  Pass -f to
+# force: mv is allowed to clobber and any existing SRC is replaced by the link.
+# Pass -p to create missing destination directories first (like `mkdir -p`).
+# Any *other* leading option (e.g. -v) is forwarded verbatim to `mv`.
+#
+# The symlink left behind uses an ABSOLUTE target by default, so it keeps
+# resolving no matter what your CWD is or how deep SRC was nested.  Pass -r for
+# a RELATIVE target instead, which survives relocating SRC and DEST together
+# (e.g. moving the whole tree) but breaks if only one of them later moves.
+set -eu
+
+prog=${0##*/}
+
+usage() {
+    cat >&2 <<EOF
+Usage: $prog [-f] [-r] [-p] [mv-options...] SRC DEST
+       $prog [-f] [-r] [-p] [mv-options...] SRC... DIR
+
+Moves each SRC to the destination, then creates a symlink at the old SRC
+location pointing to the new file.
+
+  -f  force: overwrite an existing destination / replace SRC
+  -r  make the symlink target relative instead of absolute
+  -p  create missing destination directories (like mkdir -p)
+
+Other leading options (e.g. -v) are forwarded to mv.  Refuses to overwrite an
+existing destination unless -f is given.
+EOF
+}
+
+# Print the path of $1 (target) relative to directory $2 (the link's location).
+# Both arguments must be absolute and canonical (as produced by `pwd -P`).
+relpath() {
+    _t=$1
+    _b=$2
+    _up=""
+    while [ "$_b" != "/" ]; do
+        case $_t/ in
+            "$_b"/*) break ;;
+        esac
+        _up="../$_up"
+        _b=${_b%/*}
+        [ -n "$_b" ] || _b="/"
+    done
+    if [ "$_b" = "/" ]; then
+        _rest=${_t#/}
+    else
+        _rest=${_t#"$_b"/}
+    fi
+    if [ -z "$_rest" ]; then
+        _up=${_up%/}
+        [ -n "$_up" ] || _up="."
+        printf '%s\n' "$_up"
+    else
+        printf '%s\n' "$_up$_rest"
+    fi
+}
+
+force=0
+relative=0
+createdirs=0
+mvopts=""
+
+# Parse leading options.  -h/-f/-r/-p are ours; anything else starting with '-'
+# is forwarded to mv.  '--' ends option parsing.
+while [ $# -gt 0 ]; do
+    case $1 in
+        -h | --help) usage; exit 0 ;;
+        -f | --force) force=1; shift ;;
+        -r | --relative) relative=1; shift ;;
+        -p | --parents) createdirs=1; shift ;;
+        --) shift; break ;;
+        -*) mvopts="$mvopts $1"; shift ;;
+        *) break ;;
+    esac
+done
+
+if [ $# -lt 2 ]; then
+    usage
+    exit 1
+fi
+
+# Last operand is the destination; everything before it is a source.
+eval "dest=\${$#}"
+nsrc=$(($# - 1))
+
+# Treat dest as a directory if it exists as one, was written with a trailing /,
+# or -p was given with multiple sources (only a directory makes sense then).
+dest_is_dir=0
+if [ -d "$dest" ]; then
+    dest_is_dir=1
+else
+    case $dest in */) dest_is_dir=1 ;; esac
+    if [ "$createdirs" -eq 1 ] && [ "$nsrc" -gt 1 ]; then
+        dest_is_dir=1
+    fi
+fi
+
+if [ "$nsrc" -gt 1 ] && [ "$dest_is_dir" -eq 0 ]; then
+    echo "$prog: target '$dest' is not a directory (required for multiple sources)" >&2
+    exit 1
+fi
+
+# Create missing destination directories up front, if asked.
+if [ "$createdirs" -eq 1 ]; then
+    if [ "$dest_is_dir" -eq 1 ]; then
+        mkdir -p -- "$dest"
+    else
+        case $dest in
+            */*) ddir=${dest%/*}; [ -z "$ddir" ] && ddir=/ ;;
+            *)   ddir=. ;;
+        esac
+        mkdir -p -- "$ddir"
+    fi
+fi
+
+if [ "$force" -eq 1 ]; then
+    mvopts="$mvopts -f"
+fi
+
+i=0
+while [ "$i" -lt "$nsrc" ]; do
+    src=$1
+    shift
+    i=$((i + 1))
+
+    if [ ! -e "$src" ] && [ ! -L "$src" ]; then
+        echo "$prog: '$src' does not exist" >&2
+        exit 1
+    fi
+
+    if [ "$dest_is_dir" -eq 1 ]; then
+        srcbase=${src%/}       # tolerate a trailing slash on SRC
+        srcbase=${srcbase##*/}
+        target="${dest%/}/$srcbase"
+    else
+        target=$dest
+    fi
+
+    if [ "$force" -eq 0 ] && { [ -e "$target" ] || [ -L "$target" ]; }; then
+        echo "$prog: '$target' already exists (use -f to overwrite)" >&2
+        exit 2
+    fi
+
+    # Move first.  Word-splitting of $mvopts is intentional (forwarded flags).
+    # shellcheck disable=SC2086
+    mv $mvopts -- "$src" "$target"
+
+    # Resolve the moved file to a clean absolute path (dir canonical, basename
+    # appended) for use as the link target.
+    case $target in
+        */*) tdir=${target%/*}; [ -z "$tdir" ] && tdir=/ ;;
+        *)   tdir=. ;;
+    esac
+    tdir=$(CDPATH= cd -- "$tdir" && pwd -P)
+    target_abs="${tdir%/}/${target##*/}"
+
+    if [ "$relative" -eq 1 ]; then
+        # Canonical absolute directory that will hold the symlink.  SRC itself
+        # is gone now, but its parent directory remains.
+        case $src in
+            */*) sdir=${src%/*}; [ -z "$sdir" ] && sdir=/ ;;
+            *)   sdir=. ;;
+        esac
+        sdir=$(CDPATH= cd -- "$sdir" && pwd -P)
+        linktarget=$(relpath "$target_abs" "$sdir")
+    else
+        linktarget=$target_abs
+    fi
+
+    if [ "$force" -eq 1 ]; then
+        ln -sf -- "$linktarget" "$src"
+    else
+        ln -s -- "$linktarget" "$src"
+    fi
+
+    printf '%s: %s -> %s\n' "$prog" "$src" "$linktarget" >&2
+done
