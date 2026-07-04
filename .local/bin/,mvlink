@@ -1,58 +1,73 @@
 #!/bin/sh
-# ,mvlink — move a file, then leave a symlink at its old location pointing to
-#           the new one.  Essentially `mv SRC DEST && ln -s DEST SRC`, done
-#           safely and with a correct link target.
-#
-# Usage:
-#   ,mvlink [-f] [-r] [-p] [mv-options...] SRC DEST     # rename form
-#   ,mvlink [-f] [-r] [-p] [mv-options...] SRC... DIR   # move into a directory
-#
-# By default it refuses to overwrite an existing destination.  Pass -f to
-# force: mv is allowed to clobber and any existing SRC is replaced by the link.
-# Pass -p to create missing destination directories first (like `mkdir -p`).
-# Any *other* leading option (e.g. -v) is forwarded verbatim to `mv`.
-#
-# The symlink left behind uses an ABSOLUTE target by default, so it keeps
-# resolving no matter what your CWD is or how deep SRC was nested.  Pass -r for
-# a RELATIVE target instead (survives moving SRC and DEST together, e.g. the
-# whole tree).  -r asks GNU `ln -r` to compute the relative path; on a stock
-# macOS without GNU coreutils, -r exits with an error — everything else works.
+# ,mvlink — `mv SRC DEST && ln -s DEST SRC`, done safely: checks everything
+# before moving, refuses non-atomic cross-filesystem moves (-C to allow), and
+# leaves an absolute link target (-r for relative).  Details: -h.
 set -eu
 
 prog=${0##*/}
 
 usage() {
     cat >&2 <<EOF
-Usage: $prog [-f] [-r] [-p] [mv-options...] SRC DEST
-       $prog [-f] [-r] [-p] [mv-options...] SRC... DIR
+Usage: $prog [-f] [-v] [-r] [-p] [-C] SRC DEST
+       $prog [-f] [-v] [-r] [-p] [-C] SRC... DIR
 
 Moves each SRC to the destination, then creates a symlink at the old SRC
 location pointing to the new file.
 
   -f  force: overwrite an existing destination / replace SRC
-  -r  relative symlink target instead of absolute (needs GNU ln / coreutils)
+  -v  verbose: pass -v to mv and ln
+  -r  relative symlink target instead of absolute, so the link survives
+      moving SRC and DEST together (needs GNU ln / coreutils)
   -p  create missing destination directories (like mkdir -p)
+  -C  allow a cross-filesystem move (non-atomic: a failure partway can leave
+      DEST half-copied; if that happens, finish up with rsync -av and rm)
 
-Other leading options (e.g. -v) are forwarded to mv.  Refuses to overwrite an
-existing destination unless -f is given.
+All sources are checked before the first move, so a refusal changes nothing.
 EOF
 }
 
-force=0
-relative=0
-createdirs=0
-mvopts=""
+# Filesystem device id of PATH, or of its nearest existing ancestor (so it also
+# works for a not-yet-created destination).  Tries GNU stat, then BSD stat.
+fsdev() {
+    _p=$1
+    while [ ! -e "$_p" ]; do
+        case $_p in
+            */*) _p=${_p%/*}; [ -n "$_p" ] || _p=/ ;;
+            *)   _p=. ;;
+        esac
+    done
+    stat -c '%d' "$_p" 2>/dev/null || stat -f '%d' "$_p"
+}
 
-# Parse leading options.  -h/-f/-r/-p are ours; anything else starting with '-'
-# is forwarded to mv.  '--' ends option parsing.
+# Set $target for a SRC: DEST itself, or DEST/basename(SRC) when moving into
+# a directory.
+set_target() {
+    if [ -n "$dest_is_dir" ]; then
+        target=${dest%/}/${1##*/}
+    else
+        target=$dest
+    fi
+}
+
+force=
+verbose=
+relative=
+createdirs=
+crossfs_ok=
+
+# Unknown flags are refused rather than forwarded to mv: flags like -n/-i/-u
+# can make mv quietly skip the move, after which the ln step would replace a
+# still-unmoved SRC with a symlink and lose it.
 while [ $# -gt 0 ]; do
     case $1 in
         -h | --help) usage; exit 0 ;;
         -f | --force) force=1; shift ;;
+        -v | --verbose) verbose=1; shift ;;
         -r | --relative) relative=1; shift ;;
         -p | --parents) createdirs=1; shift ;;
+        -C | --cross-fs) crossfs_ok=1; shift ;;
         --) shift; break ;;
-        -*) mvopts="$mvopts $1"; shift ;;
+        -?*) echo "$prog: unknown option '$1' (see -h)" >&2; exit 1 ;;
         *) break ;;
     esac
 done
@@ -62,9 +77,16 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-# -r offloads the relative-path calculation to GNU `ln -r`; BSD/macOS ln can't
-# do it.  Check once, before touching anything, and fail with a clear message.
-if [ "$relative" -eq 1 ]; then
+# Computing link targets needs realpath(1) — POSIX only since 2024 and absent
+# from older stock macOS.  Without this gate it would fail between mv and ln,
+# leaving a moved file with no symlink.
+command -v realpath >/dev/null || {
+    echo "$prog: 'realpath' not found on PATH; install coreutils (or use a newer macOS)." >&2
+    exit 3
+}
+
+# BSD/macOS ln can't compute relative link targets; -r needs GNU ln.
+if [ -n "$relative" ]; then
     case $(ln --version 2>/dev/null || true) in
         *coreutils*) ;;
         *)
@@ -75,86 +97,94 @@ if [ "$relative" -eq 1 ]; then
     esac
 fi
 
-# Last operand is the destination; everything before it is a source.
-eval "dest=\${$#}"
+# The last operand is the destination; everything before it is a source.
+for dest do :; done
 nsrc=$(($# - 1))
 
-# Treat dest as a directory if it exists as one, was written with a trailing /,
-# or -p was given with multiple sources (only a directory makes sense then).
-dest_is_dir=0
+# A directory dest: exists as one, written with a trailing '/', or implied by
+# -p with multiple sources.
+dest_is_dir=
 if [ -d "$dest" ]; then
     dest_is_dir=1
 else
     case $dest in */) dest_is_dir=1 ;; esac
-    if [ "$createdirs" -eq 1 ] && [ "$nsrc" -gt 1 ]; then
+    if [ -n "$createdirs" ] && [ "$nsrc" -gt 1 ]; then
         dest_is_dir=1
     fi
 fi
 
-if [ "$nsrc" -gt 1 ] && [ "$dest_is_dir" -eq 0 ]; then
+if [ "$nsrc" -gt 1 ] && [ -z "$dest_is_dir" ]; then
     echo "$prog: target '$dest' is not a directory (required for multiple sources)" >&2
     exit 1
 fi
 
-# Create missing destination directories up front, if asked.
-if [ "$createdirs" -eq 1 ]; then
-    if [ "$dest_is_dir" -eq 1 ]; then
-        mkdir -p -- "$dest"
-    else
-        case $dest in
-            */*) ddir=${dest%/*}; [ -z "$ddir" ] && ddir=/ ;;
-            *)   ddir=. ;;
-        esac
-        mkdir -p -- "$ddir"
-    fi
-fi
-
-if [ "$force" -eq 1 ]; then
-    mvopts="$mvopts -f"
-fi
-
-i=0
-while [ "$i" -lt "$nsrc" ]; do
-    src=$1
-    shift
+# First pass: validate every SRC before anything is moved or created.
+i=1
+while [ "$i" -le "$nsrc" ]; do
+    eval "src=\${$i}"
     i=$((i + 1))
+    # A trailing slash on SRC (tab completion adds them to dirs) would make
+    # the ln step fail after the move; strip it here and in the second pass.
+    while [ "${src%/}" != "$src" ]; do src=${src%/}; done
 
     if [ ! -e "$src" ] && [ ! -L "$src" ]; then
         echo "$prog: '$src' does not exist" >&2
         exit 1
     fi
 
-    if [ "$dest_is_dir" -eq 1 ]; then
-        srcbase=${src%/}       # tolerate a trailing slash on SRC
-        srcbase=${srcbase##*/}
-        target="${dest%/}/$srcbase"
-    else
-        target=$dest
-    fi
-
-    if [ "$force" -eq 0 ] && { [ -e "$target" ] || [ -L "$target" ]; }; then
+    set_target "$src"
+    if [ -z "$force" ] && { [ -e "$target" ] || [ -L "$target" ]; }; then
         echo "$prog: '$target' already exists (use -f to overwrite)" >&2
         exit 2
     fi
 
-    # Move first.  Word-splitting of $mvopts is intentional (forwarded flags).
-    # shellcheck disable=SC2086
-    mv $mvopts -- "$src" "$target"
+    # Only a same-filesystem move is atomic (rename(2)); a cross-fs mv copies
+    # then deletes, and can half-finish on any error.
+    if [ -z "$crossfs_ok" ] && [ "$(fsdev "$src")" != "$(fsdev "$target")" ]; then
+        echo "$prog: '$src' and '$target' are on different filesystems." >&2
+        echo "$prog: a cross-filesystem move isn't atomic; a failure partway would" >&2
+        echo "$prog: leave things half-moved.  Pass -C to allow it, or copy-then-symlink yourself." >&2
+        exit 4
+    fi
+done
 
-    # Resolve the moved file to a clean absolute path for the link target.
-    case $target in
-        */*) tdir=${target%/*}; [ -z "$tdir" ] && tdir=/ ;;
-        *)   tdir=. ;;
-    esac
-    tdir=$(CDPATH= cd -- "$tdir" && pwd -P)
+# -p dirs are created only after validation; a new dir is always on the same
+# filesystem as its nearest existing ancestor, so the cross-fs answers hold.
+if [ -n "$createdirs" ]; then
+    if [ -n "$dest_is_dir" ]; then
+        mkdir -p -- "$dest"
+    else
+        case $dest in
+            */*) mkdir -p -- "${dest%/*}/" ;;
+        esac
+    fi
+fi
+
+# Second pass: move and link.
+i=1
+while [ "$i" -le "$nsrc" ]; do
+    eval "src=\${$i}"
+    i=$((i + 1))
+    while [ "${src%/}" != "$src" ]; do src=${src%/}; done
+    set_target "$src"
+
+    # Re-check just before mv: catches two SRCs sharing a basename (each
+    # validated against a target that didn't exist yet) and races since then.
+    if [ -z "$force" ] && { [ -e "$target" ] || [ -L "$target" ]; }; then
+        echo "$prog: '$target' already exists (use -f to overwrite)" >&2
+        exit 2
+    fi
+
+    mv ${force:+"-f"} ${verbose:+"-v"} -- "$src" "$target"
+
+    # Absolute link target: canonicalize the parent dir, keep the leaf as-is
+    # (a moved symlink must be pointed at, not resolved through).
+    tdir=$(realpath -- "$(dirname -- "$target")")
     target_abs="${tdir%/}/${target##*/}"
 
-    # -s always; +r has GNU ln rewrite the target relative to SRC's dir; +f
-    # replaces an existing SRC.  (Relative mode was gated by the check above.)
     lnopts=s
-    [ "$relative" -eq 1 ] && lnopts=sr
-    [ "$force" -eq 1 ] && lnopts="${lnopts}f"
+    [ -n "$relative" ] && lnopts="${lnopts}r"
+    [ -n "$force" ] && lnopts="${lnopts}f"
+    [ -n "$verbose" ] && lnopts="${lnopts}v"
     ln "-$lnopts" -- "$target_abs" "$src"
-
-    printf '%s: %s -> %s\n' "$prog" "$src" "$target_abs" >&2
 done

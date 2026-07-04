@@ -1,0 +1,42 @@
+#!/bin/sh
+# ,mkcachedir DIR [COMMENT] — create DIR (if needed) and drop a CACHEDIR.TAG in
+# it, marking it as cache so backup tools (borg, restic, tar --exclude-caches,
+# bacula, …) skip it.  Spec: https://bford.info/cachedir/
+set -eu
+
+prog=${0##*/}
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    echo "usage: $prog DIR [COMMENT]" >&2
+    exit 1
+fi
+
+dir=$1
+comment=${2:-"Cache directory (manually created tag)"}
+tag=$dir/CACHEDIR.TAG
+sig='Signature: 8a477f597d28d172789f06886806bc55'
+
+mkdir -p -- "$dir"
+
+# An existing tag only counts if it starts with the signature: backup tools
+# silently ignore an empty or hand-made file, so treat that as an error.
+if [ -e "$tag" ]; then
+    first=
+    IFS= read -r first < "$tag" || true
+    case $first in
+        "$sig"*)
+            echo "$prog: $tag already exists, leaving it untouched" >&2
+            exit 0
+            ;;
+    esac
+    echo "$prog: $tag exists but lacks the CACHEDIR.TAG signature; remove or fix it" >&2
+    exit 1
+fi
+
+# The signature must be the first 43 bytes of the file, verbatim and unindented.
+{
+    printf '%s\n' "$sig"
+    printf '# %s\n' "$comment"
+    printf '# See https://bford.info/cachedir/\n'
+} > "$tag"
+
+echo "$prog: created $tag" >&2
